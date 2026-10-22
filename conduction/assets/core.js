@@ -13,7 +13,7 @@
 
   /* ---------------- theme ---------------- */
   const root = document.documentElement;
-  const savedTheme = H.store.get('hc-theme', null);
+  const savedTheme = H.store.get('co-theme', null);
   if (savedTheme) root.setAttribute('data-theme', savedTheme);
   H.isDark = () => {
     const t = root.getAttribute('data-theme');
@@ -25,11 +25,13 @@
   H.onTheme = (fn) => themeListeners.push(fn);
   const fireTheme = () => themeListeners.forEach((f) => { try { f(); } catch (e) { console.error(e); } });
   if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', fireTheme);
+  window.addEventListener('co-theme', fireTheme);
   H.toggleTheme = () => {
     const next = H.isDark() ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
-    H.store.set('hc-theme', next);
+    H.store.set('co-theme', next);
     fireTheme();
+    try { window.dispatchEvent(new Event('co-theme')); } catch (e) {}
   };
 
   /* ---------------- colour maps ---------------- */
