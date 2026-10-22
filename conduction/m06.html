@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M06 Integral Transform Methods</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Finite Fourier and Hankel transforms turn PDEs into ODEs, one eigenmode at a time.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-module="m06">
+<header class="topbar wrap"><div class="in">
+<a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><b>Advanced Heat Conduction</b></a><a class="navbtn sitehome" href="../" title="Back to the main Cryogenics Online site">← Cryogenics Online</a>
+<span class="sp"></span>
+<div class="modmenu"><button class="navbtn" type="button" aria-expanded="false"><span>☰</span><span class="lbl">Modules</span></button>
+<div class="modmenu-panel"><a href="m01.html" class=""><span>M01</span><span>Foundations of Heat Conduction</span></a><a href="m02.html" class=""><span>M02</span><span>Sturm–Liouville Theory &amp; Fourier Expansions</span></a><a href="m03.html" class=""><span>M03</span><span>Steady Multidimensional Conduction</span></a><a href="m04.html" class=""><span>M04</span><span>Transient Conduction by Separation of Variables</span></a><a href="m05.html" class=""><span>M05</span><span>Semi-infinite &amp; Infinite Domains</span></a><a href="m06.html" class="on"><span>M06</span><span>Integral Transform Methods</span></a><a href="m07.html" class=""><span>M07</span><span>Duhamel’s Theorem &amp; Green’s Functions</span></a><a href="m08.html" class=""><span>M08</span><span>Conduction with Phase Change</span></a><a href="m09.html" class=""><span>M09</span><span>Local &amp; Moving Heat Sources</span></a><a href="m10.html" class=""><span>M10</span><span>Approximate &amp; Integral Methods</span></a><a href="m11.html" class=""><span>M11</span><span>Porous Media &amp; Anisotropic Solids</span></a><a href="m12.html" class=""><span>M12</span><span>Numerical Methods for Conduction</span></a><a href="cheatsheet.html"><span>REF</span><span>Formula sheet</span></a></div></div>
+<button class="iconbtn" type="button" data-theme-toggle aria-label="Toggle light or dark theme">◐</button>
+</div></header>
+<section class="mhero wrap"><div class="in">
+<div><div class="eyebrow">Module 06 · Week 6 · Lectures 29–34</div><h1>Integral Transform Methods</h1><p class="lede">Finite Fourier and Hankel transforms turn PDEs into ODEs, one eigenmode at a time.</p>
+<div class="lec-chips"><a href="#l29">L29 Transform idea</a><a href="#l30">L30 Transient, finite domain</a><a href="#l32">L32 Steady, finite domain</a><a href="#l33">L33 Infinite domains</a><a href="#l34">L34 Hankel transforms</a></div></div>
+<canvas class="mhero-canvas" data-hero="modes" aria-label="Live heat diffusion animation"></canvas>
+</div></section>
+<div class="page wrap">
+<nav class="rail" aria-label="Lectures in this module"><div class="eyebrow">In this module</div><a href="#l29">L29 · Transform idea</a><a href="#l30">L30 · Transient, finite domain</a><a href="#l32">L32 · Steady, finite domain</a><a href="#l33">L33 · Infinite domains</a><a href="#l34">L34 · Hankel transforms</a>
+<div class="prog"><div class="eyebrow" style="margin:0">Your progress</div><button class="btn" type="button" data-mark-done>Mark module complete</button></div></nav>
+<article>
+<section class="lec" id="l29" data-lec="29" data-title="Transform idea">
+<div class="lec-head"><span class="lec-num">Lecture 29</span><h2>Introduction to integral transforms</h2></div>
+<p>Separation of variables needs homogeneous boundary conditions and a homogeneous PDE. Superposition can patch some cases, but time-dependent boundary temperatures and time-varying sources make it awkward. The <strong>integral transform technique</strong> handles them all in one systematic sweep.</p>
+<p>An integral transform maps a function to a new variable through a kernel: \(\bar T(\lambda) = \int_a^bK(\lambda,x)\,T(x)\,dx\). The Laplace transform (Module 5) uses \(K = e^{-st}\) to remove time. Here we remove <em>space</em>, using the normalised eigenfunctions of the problem's own Sturm–Liouville operator as the kernel:</p>
+<div class="eq box"><span class="eq-tag">Finite integral transform pair</span>$$\bar T_n(t) = \int_R K_n(\mathbf r)\,T(\mathbf r,t)\,dv\quad(\text{transform}),\qquad T(\mathbf r,t) = \sum_{n=1}^\infty K_n(\mathbf r)\,\bar T_n(t)\quad(\text{inversion}),\qquad K_n = \frac{\psi_n}{\sqrt{N_n}}$$</div>
+<p>Apply the transform to \(\frac{1}{\alpha}\partial_tT = \nabla^2T + \dot q/k\). Green's second identity moves the Laplacian onto the kernel, which is an eigenfunction (\(\nabla^2K_n = -\lambda_n^2K_n\)). The boundary integrals that appear contain exactly the prescribed boundary data, whatever it is:</p>
+<div class="eq">$$\frac{d\bar T_n}{dt} + \alpha\lambda_n^2\bar T_n = \alpha\left[\frac{\bar q_n(t)}{k} + \underbrace{\oint_S\left(K_n\frac{\partial T}{\partial n} - T\frac{\partial K_n}{\partial n}\right)dS}_{\text{known from the BCs}}\right]\equiv A_n(t),\qquad \bar T_n(0) = \bar F_n$$</div>
+<p>Each mode is a first-order linear ODE with solution \(\bar T_n(t) = e^{-\alpha\lambda_n^2t}\left[\bar F_n + \int_0^te^{\alpha\lambda_n^2t'}A_n(t')dt'\right]\). Invert by summing. That is the whole method.</p>
+<div class="callout key"><div class="t">Recipe</div>
+<ol style="margin:0">
+<li>Write the homogeneous version of the problem and find its eigenfunctions. This gives the kernel \(K_n\) (from tables for slabs, cylinders and spheres with any combination of Dirichlet, Neumann and Robin ends).</li>
+<li>Transform the PDE, initial condition and boundary conditions to get one ODE per mode.</li>
+<li>Solve each ODE.</li>
+<li>Invert with the series.</li></ol></div>
+<h4>Kernels for the slab \(0\le x\le L\)</h4>
+<div class="tw"><table class="t"><tr><th>At \(x=0\)</th><th>At \(x=L\)</th><th>\(K_n(x)\)</th><th>Eigenvalues</th></tr>
+<tr><td>\(T = 0\)</td><td>\(T = 0\)</td><td>\(\sqrt{2/L}\sin\lambda_nx\)</td><td>\(\lambda_n = n\pi/L\)</td></tr>
+<tr><td>\(T_x = 0\)</td><td>\(T = 0\)</td><td>\(\sqrt{2/L}\cos\lambda_nx\)</td><td>\(\lambda_n = (2n-1)\pi/2L\)</td></tr>
+<tr><td>\(T_x = 0\)</td><td>\(T_x = 0\)</td><td>\(\sqrt{2/L}\cos\lambda_nx\); \(K_0 = 1/\sqrt L\)</td><td>\(\lambda_n = n\pi/L,\ n\ge0\)</td></tr>
+<tr><td>\(T_x = 0\)</td><td>\(kT_x + hT = 0\)</td><td>\(\sqrt{\frac{2(\lambda_n^2 + H^2)}{L(\lambda_n^2 + H^2) + H}}\cos\lambda_nx\)</td><td>\(\lambda_n\tan\lambda_nL = H = h/k\)</td></tr></table></div>
+</section>
+
+<section class="lec" id="l30" data-lec="30" data-title="Transient, finite domain">
+<div class="lec-head"><span class="lec-num">Lectures 30–31</span><h2>Transient conduction in a finite domain</h2></div>
+<p><strong>Example.</strong> A slab \(0\le x\le L\) starts at \(F(x)\). Its face \(x = 0\) is insulated and \(x = L\) is held at \(f(t)\). A uniform source \(\dot q(t)\) may also act. The kernel is \(K_n = \sqrt{2/L}\cos\lambda_nx\) with \(\lambda_n = (2n-1)\pi/2L\). Transforming term by term:</p>
+<div class="eq">$$\int_0^LK_n\frac{\partial^2T}{\partial x^2}dx = -\lambda_n^2\bar T_n - K_n'(L)\,f(t),\qquad K_n'(L) = -\sqrt{\tfrac{2}{L}}\,\lambda_n(-1)^{n+1}$$</div>
+<div class="eq box"><span class="eq-tag">Mode equation</span>$$\frac{d\bar T_n}{dt} + \alpha\lambda_n^2\bar T_n = \alpha\sqrt{\frac{2}{L}}(-1)^{n+1}\left[\lambda_nf(t) + \frac{\dot q(t)}{k\lambda_n}\right],\qquad \bar T_n(0) = \sqrt{\frac{2}{L}}\int_0^LF(x)\cos\lambda_nx\,dx$$</div>
+<p>The simulation below integrates these ODEs exactly in time and shows all three spaces at once: the physical temperature, the transform-space amplitudes \(\bar T_n(t)\), and the reconstructed field.</p>
+<div id="sim-transform"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>In transform space, a PDE becomes a bank of independent RC circuits. Mode \(n\) has time constant \(1/\alpha\lambda_n^2\) and is driven by its own share of the forcing. A slowly oscillating surface temperature drives the low modes, which can follow it. The high modes respond weakly and with a phase lag. This is the modal version of the damped thermal wave in Module 5.</p>
+<p>Notice the small ripple at \(x = L\) when \(f(t)\ne0\). Every kernel vanishes at \(x = L\), so the series must reproduce a non-zero wall value from functions that are zero there. Convergence is slow at that point, though correct everywhere inside. The standard fix is to subtract a simple function that carries the boundary value (a "filter" or quasi-steady solution) and transform only the remainder.</p></div>
+</section>
+
+<section class="lec" id="l32" data-lec="32" data-title="Steady, finite domain">
+<div class="lec-head"><span class="lec-num">Lecture 32</span><h2>Steady conduction by repeated transforms</h2></div>
+<p>For steady multi-dimensional problems, apply a transform in each direction that has homogeneous conditions. Each application removes one second derivative. Transform in every direction and the PDE becomes an <em>algebraic</em> equation.</p>
+<p><strong>Example.</strong> A rectangle \(0\lt x\lt L\), \(0\lt y\lt W\) with all four edges at \(T = 0\) and a source \(\dot q(x,y)\). With sine kernels in both directions, \(K_m(x)K_n(y)\):</p>
+<div class="eq">$$-(\beta_m^2 + \gamma_n^2)\,\bar T_{mn} + \frac{\bar q_{mn}}{k} = 0\quad\Rightarrow\quad T(x,y) = \frac{4}{LW}\sum_{m,n}\frac{\bar q_{mn}\sin\beta_mx\sin\gamma_ny}{k(\beta_m^2 + \gamma_n^2)},\quad \beta_m = \frac{m\pi}{L},\ \gamma_n = \frac{n\pi}{W}$$</div>
+<p>Applied to the Module 3 plate with a hot edge \(T(x,W) = f(x)\), one transform in \(x\) leaves an ODE in \(y\), \(\bar T_m'' - \beta_m^2\bar T_m = 0\), with \(\bar T_m(W) = \bar f_m\). Its solution \(\bar f_m\sinh\beta_my/\sinh\beta_mW\) reproduces the separation-of-variables result exactly. The transform is the more general machine.</p>
+<div id="sim-fft2d"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>The factor \(1/(\beta_m^2 + \gamma_n^2)\) is a spatial low-pass filter. A source pattern's fine detail (large \(m, n\)) contributes little to the temperature, which is why the temperature field is always smoother than the heat source that drives it. Drag the source in the simulation. The temperature peak is rounded even for a point-like source, and it shrinks as the source approaches a cold wall.</p></div>
+</section>
+
+<section class="lec" id="l33" data-lec="33" data-title="Infinite domains">
+<div class="lec-head"><span class="lec-num">Lecture 33</span><h2>Transforms on semi-infinite and infinite domains</h2></div>
+<p>On an unbounded interval the eigenvalue spectrum is continuous and the sum becomes an integral. The kernels are the (co)sine and exponential Fourier transforms:</p>
+<div class="eq">$$\bar T(\lambda,t) = \int_{-\infty}^{\infty}e^{i\lambda x}T\,dx,\qquad T = \frac{1}{2\pi}\int_{-\infty}^\infty e^{-i\lambda x}\bar T\,d\lambda;\qquad \frac{d\bar T}{dt} + \alpha\lambda^2\bar T = 0$$</div>
+<p>For an infinite medium with initial temperature \(F(x)\), the result is the convolution of \(F\) with the Gaussian heat kernel:</p>
+<div class="eq box"><span class="eq-tag">Infinite medium</span>$$T(x,t) = \frac{1}{\sqrt{4\pi\alpha t}}\int_{-\infty}^{\infty}F(x')\exp\!\left[-\frac{(x - x')^2}{4\alpha t}\right]dx'$$</div>
+<p>For a semi-infinite medium, the sine transform (for \(T = 0\) at \(x=0\)) or cosine transform (insulated) gives the same kernel plus a mirror image. Module 7 calls this the <em>method of images</em>.</p>
+</section>
+
+<section class="lec" id="l34" data-lec="34" data-title="Hankel transforms">
+<div class="lec-head"><span class="lec-num">Lecture 34</span><h2>Hankel transforms: cylindrical coordinates</h2></div>
+<p>For an unbounded radial coordinate the kernel is \(J_\nu(\lambda r)\), with weight \(r\):</p>
+<div class="eq box"><span class="eq-tag">Hankel transform of order ν</span>$$\bar T(\lambda) = \int_0^\infty rJ_\nu(\lambda r)\,T(r)\,dr,\qquad T(r) = \int_0^\infty\lambda J_\nu(\lambda r)\,\bar T(\lambda)\,d\lambda,\qquad \mathcal H\!\left\{\frac{1}{r}\frac{d}{dr}\!\left(r\frac{dT}{dr}\right) - \frac{\nu^2}{r^2}T\right\} = -\lambda^2\bar T$$</div>
+<p><strong>Example.</strong> An infinite medium whose cylindrical core \(r\lt b\) starts at \(T_0\) while the rest is at 0. With \(\int_0^b rJ_0(\lambda r)dr = bJ_1(\lambda b)/\lambda\),</p>
+<div class="eq">$$\frac{T(r,t)}{T_0} = b\int_0^\infty e^{-\alpha\lambda^2t}J_1(\lambda b)\,J_0(\lambda r)\,d\lambda,\qquad \frac{T(0,t)}{T_0} = 1 - e^{-b^2/4\alpha t}$$</div>
+<p>Combined with a finite or semi-infinite transform in \(z\) and a Fourier series in \(\phi\), the same approach solves \(T(r,\phi,z)\) problems, such as a heated disk on the surface of a thick body.</p>
+<div id="sim-hankel"></div>
+<div class="callout phys"><div class="t">Physical interpretation: dimension sets the decay rate</div>
+<p>At long times the core's heat \(Q\) spreads over a region of size \(\sqrt{\alpha t}\) in \(d\) dimensions, so the centre temperature falls like \(Q/(\alpha t)^{d/2}\). That is \(t^{-1/2}\) for a planar slab, \(t^{-1}\) for a cylinder and \(t^{-3/2}\) for a sphere. The log–log plot in the simulation shows the three slopes. A hot fuel pellet (3D) cools much faster than a hot rod (2D) of the same radius, and a hot sheet (1D) slowest of all.</p></div>
+<div class="code" data-file="integral_transform_slab.py"><pre data-lang="python">import numpy as np
+import matplotlib.pyplot as plt
+
+# Slab 0&lt;x&lt;L: insulated at 0, T(L,t) = f(t), uniform source q(t), T(x,0) = F(x)
+L, alpha, k = 1.0, 1.0, 1.0
+N = 60
+n = np.arange(1, N+1); lam = (2*n-1)*np.pi/(2*L); s = (-1.0)**(n+1)
+x = np.linspace(0, L, 301)
+K = np.sqrt(2/L)*np.cos(np.outer(lam, x))           # kernels, shape (N, nx)
+
+F = lambda x: 1 - x**2                              # initial profile (satisfies BCs)
+Fbar = np.trapz(K*F(x), x, axis=1)                  # transformed initial condition
+f = lambda t: 0.5*np.sin(2*np.pi*t)                 # oscillating wall temperature
+q = lambda t: 2.0                                   # uniform generation
+
+def A(t):   # forcing in each mode equation
+    return alpha*np.sqrt(2/L)*s*(lam*f(t) + q(t)/(k*lam))
+
+# exact exponential integrator over small steps (piecewise-constant forcing)
+dt, Tb, t = 1e-3, Fbar.copy(), 0.0
+snap = {}
+for step in range(1, 2001):
+    E = np.exp(-alpha*lam**2*dt)
+    Tb = Tb*E + A(t + dt/2)*(1 - E)/(alpha*lam**2)
+    t += dt
+    if step in (50, 250, 1000, 2000): snap[round(t, 3)] = K.T @ Tb
+
+for tt, T in snap.items(): plt.plot(x, T, label=f't = {tt}')
+plt.xlabel('x / L'); plt.ylabel('T'); plt.legend(); plt.title('Finite Fourier (cosine) transform solution')
+print("T(0) at t=2:", snap[2.0][0])</pre><pre data-lang="js">// Double finite sine transform: steady temperature from a square source in a cold square
+const N = 40, Lx = 1, Ly = 1, x0 = 0.3, y0 = 0.6, w = 0.1;
+// q̄_mn = ∫∫ q sin(mπx) sin(nπy) over the source square (q = 1 inside)
+const qm = m =&gt; (Math.cos(m*Math.PI*(x0-w/2)) - Math.cos(m*Math.PI*(x0+w/2)))/(m*Math.PI);
+const qn = n =&gt; (Math.cos(n*Math.PI*(y0-w/2)) - Math.cos(n*Math.PI*(y0+w/2)))/(n*Math.PI);
+function T(x, y) {
+  let s = 0;
+  for (let m = 1; m &lt;= N; m++) for (let n = 1; n &lt;= N; n++)
+    s += 4*qm(m)*qn(n)*Math.sin(m*Math.PI*x)*Math.sin(n*Math.PI*y)/((m*m + n*n)*Math.PI*Math.PI);
+  return s;
+}
+const xs = M.linspace(0, 1, 120);
+plot(xs, [xs.map(x =&gt; T(x, y0)), xs.map(x =&gt; T(x, 0.3))], {xlabel:'x', ylabel:'T k/q', labels:['through source (y = 0.6)', 'y = 0.3']});
+print("peak T k/q ≈", T(x0, y0));</pre></div>
+<div class="quiz" data-title="Module 6 check"><script type="application/json">[{"q":"The kernel of a finite integral transform is…","o":["Always e^{−st}","The normalised eigenfunction of the problem's homogeneous Sturm–Liouville operator","A Gaussian","Chosen arbitrarily"],"a":1,"w":"Using the problem's own eigenfunctions turns ∇² into multiplication by −λₙ² and pulls boundary data into the forcing."},
+{"q":"Why can integral transforms handle a time-varying boundary temperature directly, unlike plain SOV?","o":["They ignore boundaries","Green's identity moves the boundary data into a known forcing term of each mode ODE","They assume steady state","They use numerical integration"],"a":1,"w":"∫Kₙ∇²T dv produces −λₙ²T̄ₙ plus a surface integral containing the prescribed T or ∂T/∂n."},
+{"q":"Applying finite transforms in both x and y to a steady 2D problem with a source produces…","o":["A PDE","An ODE","An algebraic equation per (m, n)","An integral equation"],"a":2,"w":"T̄ₘₙ = q̄ₘₙ / k(βₘ² + γₙ²)."},
+{"q":"Long-time centre temperature of a hot cylindrical core in an infinite medium decays like…","o":["t^{−1/2}","t^{−1}","t^{−3/2}","e^{−t}"],"a":1,"w":"Heat spreads over an area ∝ αt in 2D: T ∝ 1/(αt). Indeed 1 − e^{−b²/4αt} ≈ b²/4αt."},
+{"q":"The series solution converges slowly at x = L when T(L, t) = f(t) ≠ 0 because…","o":["The ODE is stiff","Every kernel vanishes at x = L","α is too small","Of round-off"],"a":1,"w":"Representing a non-zero wall value with functions that are all zero there gives non-uniform convergence; subtract a function carrying f(t) to fix it."}]</script></div>
+</section>
+
+
+<nav class="pager"><a href="m05.html"><small>← Module 05</small><b>Semi-infinite &amp; Infinite Domains</b></a><a class="nx" href="m07.html"><small>Module 07 →</small><b>Duhamel’s Theorem &amp; Green’s Functions</b></a></nav>
+</article>
+</div>
+<footer class="site wrap"><div class="in">
+<div><b>Advanced Heat Conduction</b> · a Cryogenics Online course<br>Course author: <b>Prashanth S R</b></div>
+<div>Contact: <span class="copyable">prashanthsravikumar@gmail.com</span></div>
+</div></footer>
+
+<script>
+/* ===== Transform pipeline: physical ↔ modal ===== */
+(function(){
+  const S=H.sim('#sim-transform',{title:'Three views of one solution',tag:'Physical space · transform space · inversion',
+    canvases:[{id:'p'},{id:'b'}],
+    controls:[{type:'select',id:'F',label:'Initial temperature F(x)',options:[['zero','Zero'],['para','1 − x²'],['spot','Hot spot near x = 0.4'],['one','Uniform 1 (incompatible with BC)']],value:'para'},
+      {type:'select',id:'f',label:'Wall temperature f(t) at x = L',options:[['0','Zero'],['sin','0.5 sin(2πt/P)'],['ramp','Ramp to 1 then hold'],['step','Step to 1 at t = 0.3']],value:'sin'},
+      {id:'P',label:'Oscillation period P (×L²/α)',min:0.05,max:3,step:0.01,value:1,fmt:v=>v.toFixed(2)},
+      {id:'q',label:'Uniform source q̇L²/kΔT',min:0,max:10,step:0.1,value:2,fmt:v=>v.toFixed(1)},
+      {id:'N',label:'Modes N',min:1,max:80,step:1,value:30},
+      {type:'buttons',items:[{id:'r',label:'Restart'}]}],
+    readouts:[['t','Time αt/L²'],['T0','T at insulated face'],['tau1','Mode-1 time constant'],['tauN','Mode-N time constant']],
+    note:'Top: the reconstructed T(x, t) (orange) with the wall value marked. Bottom: transform-space amplitudes T̄ₙ(t), each obeying its own ODE. Blue bars are the forcing Aₙ(t) seen by each mode.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.42,xlabel:'x / L (insulated → wall)',ylabel:'T',xmin:0,xmax:1,ymin:-0.8,ymax:1.6}), pb=new H.Plot(S.c.b,{aspect:0.3,xlabel:'mode n',ylabel:'T̄ₙ',xmin:0,xmax:31});
+  const NM=80, n=[...Array(NM).keys()].map(i=>i+1), lam=n.map(k=>(2*k-1)*Math.PI/2), sg=n.map(k=>k%2?1:-1), r2=Math.SQRT2, xq=M.linspace(0,1,801);
+  const Fs={zero:x=>0,para:x=>1-x*x,spot:x=>Math.exp(-1*((x-0.4)/0.08)**2),one:x=>1};
+  let Tb=new Float64Array(NM), t=0;
+  const fw=tt=>{ const P=S.v.P; switch(S.v.f){case 'sin':return 0.5*Math.sin(2*Math.PI*tt/P); case 'ramp':return Math.min(1,tt/0.5); case 'step':return tt>0.3?1:0; default:return 0;} };
+  const Af=(k,tt)=>r2*sg[k]*(lam[k]*fw(tt)+S.v.q/lam[k]);
+  function reset(){ t=0; const F=Fs[S.v.F]; for(let k=0;k<NM;k++) Tb[k]=M.trapz(xq.map(x=>r2*Math.cos(lam[k]*x)*F(x)),xq); }
+  reset(); S.btn.r.addEventListener('click',()=>{reset();draw();});
+  S.on(v=>{ draw(); });
+  ['F'].forEach(id=>S.el[id].addEventListener('change',()=>{reset();draw();}));
+  function step(dt){ const h=dt*0.25, sub=10, d=h/sub; for(let s=0;s<sub;s++){ for(let k=0;k<NM;k++){ const a=lam[k]*lam[k], E=Math.exp(-a*d); Tb[k]=Tb[k]*E+Af(k,t+d/2)*(1-E)/a; } t+=d; } draw(); }
+  function draw(){
+    const N=S.v.N, xs=M.linspace(0,1,300), T=xs.map(x=>{ let s=0; for(let k=0;k<N;k++) s+=r2*Math.cos(lam[k]*x)*Tb[k]; return s; });
+    pp.draw([{x:xs,y:T,color:'hot',width:3,fill:true,fillTo:0}],{marks:[{x:1,y:fw(t),color:'cold',r:6,label:'f(t)',align:'right'}],hlines:[{y:0,color:'muted',dash:[2,3]}]});
+    const nn=n.slice(0,N); pb.o.xmax=N+1;
+    const amp=nn.map((k,i)=>Tb[i]), frc=nn.map((k,i)=>Af(i,t)/(lam[i]*lam[i]));
+    pb.draw([{x:nn,y:frc,color:'cold',points:true,r:2.5},{x:nn,y:amp,color:'hot',points:true,r:4}],{hlines:[{y:0,color:'muted',dash:[]}],draw:(ctx,px,py)=>{ ctx.strokeStyle=H.css('--hot'); ctx.lineWidth=3; nn.forEach((k,i)=>{ ctx.beginPath(); ctx.moveTo(px(k),py(0)); ctx.lineTo(px(k),py(amp[i])); ctx.stroke(); }); }});
+    S.out('t',t.toFixed(3)); S.out('T0',T[0].toFixed(4)); S.out('tau1',(1/(lam[0]**2)).toFixed(3)+' L²/α'); S.out('tauN',(1/(lam[N-1]**2)).toExponential(2)+' L²/α');
+  }
+  draw(); const A=H.anim(S.c.p,step); S.playBtn(A);
+})();
+
+/* ===== Steady 2D with a source by double sine transform ===== */
+(function(){
+  const S=H.sim('#sim-fft2d',{title:'Algebraic solution: source in a cold rectangle',tag:'Double finite Fourier transform · drag the source',
+    canvases:[{id:'f',cbar:['0','','max']},{id:'s'}],
+    controls:[{id:'M',label:'Modes per direction',min:1,max:60,step:1,value:30},{id:'w',label:'Source size',min:0.02,max:0.4,step:0.01,value:0.08,fmt:v=>v.toFixed(2)},{id:'ar',label:'Aspect W / L',min:0.3,max:1,step:0.05,value:0.6,fmt:v=>v.toFixed(2)}],
+    readouts:[['pk','Peak T·k/(q̇L²)'],['mode','Largest |q̄ₘₙ/(β²+γ²)| mode']],
+    note:'Bottom: the transform-space map |T̄ₘₙ| for m, n up to the chosen number of modes (log colour). Most of the energy sits in the lowest few modes, which is why the temperature is so smooth.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.6,flipY:true}); let src={x:0.32,y:0.55}, drag=false;
+  function draw(){
+    const Mm=S.v.M, w=S.v.w, ar=S.v.ar; fld.o.aspect=ar;
+    const qm=[],qn=[]; for(let m=1;m<=Mm;m++){ qm.push((Math.cos(m*Math.PI*Math.max(0,src.x-w/2))-Math.cos(m*Math.PI*Math.min(1,src.x+w/2)))/(m*Math.PI)); qn.push((Math.cos(m*Math.PI*Math.max(0,src.y-w/ar/2))-Math.cos(m*Math.PI*Math.min(1,src.y+w/ar/2)))/(m*Math.PI)*ar); }
+    const C=new Float64Array(Mm*Mm); let best=0,bi=0,bj=0;
+    for(let i=0;i<Mm;i++)for(let j=0;j<Mm;j++){ const b2=((i+1)*Math.PI)**2, g2=((j+1)*Math.PI/ar)**2; C[i*Mm+j]=4/ar*qm[i]*qn[j]/(b2+g2); if(Math.abs(C[i*Mm+j])>best){best=Math.abs(C[i*Mm+j]);bi=i;bj=j;} }
+    const nx=150, ny=Math.round(150*ar), d=new Float32Array(nx*ny), sx=[],sy=[];
+    for(let i=0;i<nx;i++){ const x=(i+0.5)/nx; sx.push(Array.from({length:Mm},(_,m)=>Math.sin((m+1)*Math.PI*x))); }
+    for(let j=0;j<ny;j++){ const y=(j+0.5)/ny; sy.push(Array.from({length:Mm},(_,n)=>Math.sin((n+1)*Math.PI*y))); }
+    let mx=0; for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){ let s=0; const X=sx[i], Y=sy[j]; for(let a=0;a<Mm;a++){ const xa=X[a]; if(Math.abs(xa)<1e-9) continue; let r=0; for(let b=0;b<Mm;b++) r+=C[a*Mm+b]*Y[b]; s+=xa*r; } d[j*nx+i]=s; if(s>mx) mx=s; }
+    fld.draw(d,nx,ny,0,mx||1,{contours:[0.1,0.2,0.3,0.5,0.7,0.9].map(v=>v*mx),overlay:(ctx,b)=>{ ctx.strokeStyle='#7b98ff'; ctx.lineWidth=2; ctx.strokeRect(b.l+(src.x-w/2)*b.w,b.t+(1-src.y-w/ar/2)*b.h,w*b.w,w/ar*b.h); }});
+    // transform-space map
+    const {ctx,w:W,h}=H.fit(S.c.s,0.22); ctx.fillStyle=H.css('--surface'); ctx.fillRect(0,0,W,h);
+    const cs=Math.min((h-16)/Mm,(W*0.5)/Mm), x0=W/2-cs*Mm/2; const lmax=Math.log10(best);
+    for(let i=0;i<Mm;i++)for(let j=0;j<Mm;j++){ const v=Math.abs(C[i*Mm+j]); const tq=Math.max(0,1+(Math.log10(v+1e-30)-lmax)/5); ctx.fillStyle=H.heat(tq); ctx.fillRect(x0+i*cs,8+(Mm-1-j)*cs,Math.ceil(cs),Math.ceil(cs)); }
+    H.label(ctx,'m →',x0+cs*Mm+8,h-12,{size:10,color:H.css('--muted')}); H.label(ctx,'n ↑',x0-8,10,{align:'right',size:10,color:H.css('--muted')}); H.label(ctx,'|T̄ₘₙ| (log, 5 decades)',x0-8,h/2,{align:'right',size:10,color:H.css('--muted')});
+    S.out('pk',mx.toFixed(5)); S.out('mode','m = '+(bi+1)+', n = '+(bj+1));
+  }
+  const pos=e=>{const r=S.c.f.getBoundingClientRect(); return {x:M.clamp((e.clientX-r.left)/r.width,0.02,0.98), y:M.clamp(1-(e.clientY-r.top)/r.height,0.02,0.98)};};
+  S.c.f.addEventListener('pointerdown',e=>{drag=true; src=pos(e); S.c.f.setPointerCapture(e.pointerId); draw();});
+  S.c.f.addEventListener('pointermove',e=>{ if(drag){ src=pos(e); draw(); } });
+  S.c.f.addEventListener('pointerup',()=>drag=false);
+  S.on(draw); draw();
+})();
+
+/* ===== Hot core in infinite medium: 1D / 2D / 3D ===== */
+(function(){
+  const S=H.sim('#sim-hankel',{title:'A hot core cooling in an infinite medium',tag:'Fourier (1D) · Hankel (2D) · spherical (3D)',
+    canvases:[{id:'f',cbar:['0','','T₀']},{id:'p'},{id:'c'}],
+    controls:[{type:'select',id:'g',label:'Geometry of the hot core',options:[['1','Slab |x| < b (planar)'],['2','Cylinder r < b (Hankel)'],['3','Sphere r < b']],value:'2'},
+      {id:'Fo',label:'Fo = αt/b²',min:0.001,max:20,value:0.1,log:true,fmt:v=>v.toFixed(3)}],
+    readouts:[['c','Centre T/T₀'],['slope','Late-time log–log slope'],['r50','Radius where T = 0.1 T₀']],
+    note:'Top: cross-section (the slab case shows a strip). Middle: radial profile. Bottom: centre temperature against Fo for all three geometries on log–log axes. Late-time slopes approach −½, −1 and −³⁄₂.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.4}), pp=new H.Plot(S.c.p,{aspect:0.32,xlabel:'r / b',ylabel:'T/T₀',xmin:0,xmax:5,ymin:0,ymax:1.05}), pc=new H.Plot(S.c.c,{aspect:0.32,xlabel:'Fo',ylabel:'T_centre/T₀',logx:true,logy:true,xmin:1e-3,xmax:100,ymin:1e-3,ymax:1.5});
+  const sq=Math.sqrt;
+  function T1(r,Fo){ const s=2*sq(Fo); return 0.5*(M.erf((1-r)/s)+M.erf((1+r)/s)); }
+  function T3(r,Fo){ const s=2*sq(Fo); if(r<1e-6) return M.erf(1/s)-2/sq(Math.PI)*(1/s)*Math.exp(-1/(s*s)); return 0.5*(M.erf((1-r)/s)+M.erf((1+r)/s))-sq(Fo)/(r*sq(Math.PI))*(Math.exp(-1*(1-r)**2/(4*Fo))-Math.exp(-1*(1+r)**2/(4*Fo))); }
+  // Hankel: T = ∫ e^{-λ²Fo} J1(λ) J0(λ r) dλ   (b = 1); quadrature on λ ∈ [0, Λ]
+  const Lq=M.linspace(0,1,2),_c={};
+  function T2(r,Fo){ const Lam=Math.min(200,8/sq(Fo)+10), n=Math.max(400,Math.ceil(Lam*12)), h=Lam/n; let s=0; for(let i=1;i<=n;i++){ const l=i*h, w=(i===n?0.5:1); s+=w*Math.exp(-l*l*Fo)*besJ1(l)*besJ0(l*r); } return s*h; }
+  // fast rational Bessel approximations (Numerical Recipes) for the quadrature
+  function besJ0(x){ const ax=Math.abs(x); if(ax<8){ const y=x*x; return (57568490574.0+y*(-13362590354.0+y*(651619640.7+y*(-11214424.18+y*(77392.33017+y*(-184.9052456))))))/(57568490411.0+y*(1029532985.0+y*(9494680.718+y*(59272.64853+y*(267.8532712+y))))); } const z=8/ax, y=z*z, xx=ax-0.785398164; return Math.sqrt(0.636619772/ax)*(Math.cos(xx)*(1+y*(-0.1098628627e-2+y*(0.2734510407e-4+y*(-0.2073370639e-5+y*0.2093887211e-6))))-z*Math.sin(xx)*(-0.1562499995e-1+y*(0.1430488765e-3+y*(-0.6911147651e-5+y*(0.7621095161e-6-y*0.934935152e-7))))); }
+  function besJ1(x){ const ax=Math.abs(x); if(ax<8){ const y=x*x; return x*(72362614232.0+y*(-7895059235.0+y*(242396853.1+y*(-2972611.439+y*(15704.48260+y*(-30.16036606))))))/(144725228442.0+y*(2300535178.0+y*(18583304.74+y*(99447.43394+y*(376.9991397+y))))); } const z=8/ax, y=z*z, xx=ax-2.356194491; const a=Math.sqrt(0.636619772/ax)*(Math.cos(xx)*(1+y*(0.183105e-2+y*(-0.3516396496e-4+y*(0.2457520174e-5+y*(-0.240337019e-6)))))-z*Math.sin(xx)*(0.04687499995+y*(-0.2002690873e-3+y*(0.8449199096e-5+y*(-0.88228987e-6+y*0.105787412e-6))))); return x<0?-a:a; }
+  const Tg=(g,r,Fo)=>g==='1'?T1(r,Fo):g==='2'?(r<1e-9?1-Math.exp(-1/(4*Fo)):T2(r,Fo)):T3(r,Fo);
+  function draw(){
+    const g=S.v.g, Fo=S.v.Fo, rs=M.linspace(0,5,120), prof=rs.map(r=>Tg(g,r,Fo));
+    const nx=200, ny=80, d=new Float32Array(nx*ny), Rmax=5;
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){ const x=((i+0.5)/nx*2-1)*Rmax, y=((j+0.5)/ny*2-1)*Rmax*0.4; const r=g==='1'?Math.abs(x):Math.hypot(x,y); const k=Math.min(119,Math.round(r/5*119)); d[j*nx+i]=r>5?0:prof[k]; }
+    fld.draw(d,nx,ny,0,1,{contours:[0.1,0.3,0.5,0.7,0.9]});
+    pp.draw([{x:rs,y:rs.map(r=>r<1?1:0),color:'muted',dash:[3,3],label:'initial'},{x:rs,y:prof,color:'hot',width:3,fill:true,label:'Fo = '+Fo.toFixed(3)}]);
+    const fs=[]; for(let e=-3;e<=2;e+=0.05) fs.push(10**e);
+    const c1=fs.map(f=>T1(0,f)), c2=fs.map(f=>1-Math.exp(-1/(4*f))), c3=fs.map(f=>T3(0,f));
+    pc.draw([{x:fs,y:c1,label:'slab (1D)',width:g==='1'?3:1.5},{x:fs,y:c2,label:'cylinder (2D)',width:g==='2'?3:1.5},{x:fs,y:c3,label:'sphere (3D)',width:g==='3'?3:1.5}],{vlines:[{x:Fo,color:'hot'}]});
+    S.out('c',Tg(g,0,Fo).toFixed(4));
+    const f1=50,f2=100, sl=Math.log(Tg(g,0,f2)/Tg(g,0,f1))/Math.log(f2/f1); S.out('slope',sl.toFixed(3));
+    let r10='—'; for(let i=rs.length-1;i>=0;i--) if(prof[i]>=0.1){ r10=rs[i].toFixed(2)+' b'; break; } S.out('r50',r10);
+  }
+  S.on(draw); draw();
+  const A=H.anim(S.c.p,dt=>{ let f=S.v.Fo*(1+dt*0.8); if(f>20) f=0.001; S.set_Fo(f); draw(); }); A.pause(); S.playBtn(A);
+})();
+</script>
+
+</body></html>

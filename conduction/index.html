@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Advanced Heat Conduction</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A complete, interactive graduate course on heat conduction: twelve modules of theory, live simulations, physical interpretation and runnable code.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-module="index">
+<header class="topbar wrap"><div class="in">
+<a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><b>Advanced Heat Conduction</b></a><a class="navbtn sitehome" href="../" title="Back to the main Cryogenics Online site">← Cryogenics Online</a>
+<span class="sp"></span>
+<div class="modmenu"><button class="navbtn" type="button" aria-expanded="false"><span>☰</span><span class="lbl">Modules</span></button>
+<div class="modmenu-panel"><a href="m01.html" class=""><span>M01</span><span>Foundations of Heat Conduction</span></a><a href="m02.html" class=""><span>M02</span><span>Sturm–Liouville Theory &amp; Fourier Expansions</span></a><a href="m03.html" class=""><span>M03</span><span>Steady Multidimensional Conduction</span></a><a href="m04.html" class=""><span>M04</span><span>Transient Conduction by Separation of Variables</span></a><a href="m05.html" class=""><span>M05</span><span>Semi-infinite &amp; Infinite Domains</span></a><a href="m06.html" class=""><span>M06</span><span>Integral Transform Methods</span></a><a href="m07.html" class=""><span>M07</span><span>Duhamel’s Theorem &amp; Green’s Functions</span></a><a href="m08.html" class=""><span>M08</span><span>Conduction with Phase Change</span></a><a href="m09.html" class=""><span>M09</span><span>Local &amp; Moving Heat Sources</span></a><a href="m10.html" class=""><span>M10</span><span>Approximate &amp; Integral Methods</span></a><a href="m11.html" class=""><span>M11</span><span>Porous Media &amp; Anisotropic Solids</span></a><a href="m12.html" class=""><span>M12</span><span>Numerical Methods for Conduction</span></a><a href="cheatsheet.html"><span>REF</span><span>Formula sheet</span></a></div></div>
+<button class="iconbtn" type="button" data-theme-toggle aria-label="Toggle light or dark theme">◐</button>
+</div></header>
+<section class="home-hero">
+<canvas id="home-canvas" aria-label="Live heat diffusion: drag across to add heat"></canvas>
+<div class="home-hero-in wrap">
+<div class="eyebrow light">A graduate course in twelve modules · 65 lectures</div>
+<h1 class="home-title">Advanced<br>Heat Conduction</h1>
+<p class="home-lede">From Fourier's law to Green's functions, phase change, porous media and finite differences. Every idea comes with the mathematics, the physical meaning, a live simulation you can push, and code you can run.</p>
+<div class="home-cta"><a class="btn pri big" href="m01.html">Start with Module 1</a><a class="btn big ghost" href="#modules">Browse modules</a><a class="btn big ghost" href="cheatsheet.html">Formula sheet</a></div>
+<p class="home-hint mono">The background is a live heat-conduction solver. Drag across it to add heat.</p>
+</div>
+</section>
+
+<section class="wrap home-sec">
+<div class="home-grid4">
+<div class="feat"><div class="feat-n mono">∂T/∂t = α∇²T</div><h3>Rigorous theory</h3><p>Derivations at graduate depth: Sturm–Liouville theory, separation of variables, integral transforms, Duhamel and Green's functions, Stefan problems.</p></div>
+<div class="feat"><div class="feat-n mono">Bi · Fo · Ste · Pe</div><h3>Physical meaning</h3><p>Each result is followed by what it means physically, what the dimensionless groups compare, and where it shows up in real engineering.</p></div>
+<div class="feat"><div class="feat-n mono">45+ simulations</div><h3>Live simulations</h3><p>Quench a sphere, freeze a lake, move a welding arc, paint boundaries on a 2D grid, and watch explicit schemes go unstable as you drag a slider.</p></div>
+<div class="feat"><div class="feat-n mono">Python · JS · MATLAB</div><h3>Runnable code</h3><p>Editable snippets that run in the page, checked against the worked examples. Copy them straight into Jupyter or MATLAB for your own problems.</p></div>
+</div>
+</section>
+
+<section class="wrap home-sec" id="modules">
+<div class="home-sechead"><div><div class="eyebrow">Syllabus</div><h2>Twelve modules, one week each</h2></div><p class="muted mono" style="font-size:.8rem">Completed: <b data-progress-count>0</b> / 12</p></div>
+<div class="mcards"><a class="mcard" href="m01.html" style="--h:0.000"><span class="mcard-n">01</span><span class="mcard-b"><b>Foundations of Heat Conduction</b><span>Fourier’s law, the heat equation, boundary conditions, Kirchhoff transformation and fins: the vocabulary of every problem that follows.</span></span><span class="mcard-done done-badge" data-done-for="m01" hidden>✓ done</span></a><a class="mcard" href="m02.html" style="--h:0.091"><span class="mcard-n">02</span><span class="mcard-b"><b>Sturm–Liouville Theory &amp; Fourier Expansions</b><span>Why sines, Bessel functions and Legendre polynomials appear in every conduction solution, and how to expand anything in them.</span></span><span class="mcard-done done-badge" data-done-for="m02" hidden>✓ done</span></a><a class="mcard" href="m03.html" style="--h:0.182"><span class="mcard-n">03</span><span class="mcard-b"><b>Steady Multidimensional Conduction</b><span>Separation of variables in rectangular, cylindrical and spherical bodies, with superposition for non-homogeneous problems.</span></span><span class="mcard-done done-badge" data-done-for="m03" hidden>✓ done</span></a><a class="mcard" href="m04.html" style="--h:0.273"><span class="mcard-n">04</span><span class="mcard-b"><b>Transient Conduction by Separation of Variables</b><span>Lumped capacity, the Biot and Fourier numbers, exact series for slabs, cylinders and spheres, and Heisler charts built live.</span></span><span class="mcard-done done-badge" data-done-for="m04" hidden>✓ done</span></a><a class="mcard" href="m05.html" style="--h:0.364"><span class="mcard-n">05</span><span class="mcard-b"><b>Semi-infinite &amp; Infinite Domains</b><span>Fourier integrals, the error function, similarity variables and Laplace transforms: heat that never feels the far wall.</span></span><span class="mcard-done done-badge" data-done-for="m05" hidden>✓ done</span></a><a class="mcard" href="m06.html" style="--h:0.455"><span class="mcard-n">06</span><span class="mcard-b"><b>Integral Transform Methods</b><span>Finite Fourier and Hankel transforms turn PDEs into ODEs, one eigenmode at a time.</span></span><span class="mcard-done done-badge" data-done-for="m06" hidden>✓ done</span></a><a class="mcard" href="m07.html" style="--h:0.545"><span class="mcard-n">07</span><span class="mcard-b"><b>Duhamel’s Theorem &amp; Green’s Functions</b><span>Building responses to arbitrary time-varying boundaries and sources from a single elementary solution.</span></span><span class="mcard-done done-badge" data-done-for="m07" hidden>✓ done</span></a><a class="mcard" href="m08.html" style="--h:0.636"><span class="mcard-n">08</span><span class="mcard-b"><b>Conduction with Phase Change</b><span>Moving interfaces, the Stefan condition, Neumann’s exact solution and quasi-steady estimates for melting and freezing.</span></span><span class="mcard-done done-badge" data-done-for="m08" hidden>✓ done</span></a><a class="mcard" href="m09.html" style="--h:0.727"><span class="mcard-n">09</span><span class="mcard-b"><b>Local &amp; Moving Heat Sources</b><span>Dirac deltas as plane, line and point sources, from fuel pins to the moving arc of a weld.</span></span><span class="mcard-done done-badge" data-done-for="m09" hidden>✓ done</span></a><a class="mcard" href="m10.html" style="--h:0.818"><span class="mcard-n">10</span><span class="mcard-b"><b>Approximate &amp; Integral Methods</b><span>The heat-balance integral, variable properties, phase change and weighted residuals: good answers with little algebra.</span></span><span class="mcard-done done-badge" data-done-for="m10" hidden>✓ done</span></a><a class="mcard" href="m11.html" style="--h:0.909"><span class="mcard-n">11</span><span class="mcard-b"><b>Porous Media &amp; Anisotropic Solids</b><span>Representative volumes, effective conductivity, transpiration cooling, bio-heat, and conductivity tensors with principal axes.</span></span><span class="mcard-done done-badge" data-done-for="m11" hidden>✓ done</span></a><a class="mcard" href="m12.html" style="--h:1.000"><span class="mcard-n">12</span><span class="mcard-b"><b>Numerical Methods for Conduction</b><span>Finite differences in 1D, 2D and time, stability, iterative solvers, and production tools in Python and MATLAB.</span></span><span class="mcard-done done-badge" data-done-for="m12" hidden>✓ done</span></a></div>
+</section>
+
+<section class="wrap home-sec">
+<div class="home-split">
+<div>
+<div class="eyebrow">How to use this course</div>
+<h2>Read, then break things</h2>
+<p>Each module follows its lectures in order. Read the derivation, then open the simulation beside it and try to break the result. Push a Biot number to infinity, set the Stefan number to zero, run an explicit scheme at Fo = 0.6. When a limit behaves the way the physical-interpretation box says it should, you understand the result. When it doesn't, you have found the edge of a model's validity, which is even more useful.</p>
+<p>Code blocks have three tabs. <b>JavaScript</b> runs instantly in the page. <b>Python</b> (NumPy/SciPy/Matplotlib) runs in-browser on the hosted site, or can be copied into Jupyter. <b>MATLAB</b> versions are given where the original workflow uses pdepe, bvp4c or the PDE Toolbox.</p>
+<h4>Prerequisites</h4>
+<p>Undergraduate heat transfer, ordinary differential equations, and some vector calculus. Fourier series are developed from scratch in Module 2.</p>
+</div>
+<div class="callout cryo" style="align-self:start"><div class="t">Why a cryogenics site teaches conduction</div>
+<p>Almost every cryogenic design problem is a conduction problem at heart. Heat leaks through supports, current leads and multilayer insulation. Cool-down transients of cold masses take days. Ice and solid-hydrogen fronts move. Contact resistance at bolted joints, and conductivities that change tenfold between 300 K and 4 K, decide what works. Look for the green <em>Cryogenic angle</em> boxes throughout.</p></div>
+</div>
+</section>
+
+
+<footer class="site wrap"><div class="in">
+<div><b>Advanced Heat Conduction</b> · a Cryogenics Online course<br>Course author: <b>Prashanth S R</b></div>
+<div>Contact: <span class="copyable">prashanthsravikumar@gmail.com</span></div>
+</div></footer>
+
+<script>
+(function(){
+  const c=document.getElementById('home-canvas'); if(!c) return;
+  const nx=200, ny=90; let T=new Float32Array(nx*ny), T2=new Float32Array(nx*ny), t=0;
+  const fld=new H.Field(c,{aspect:0.45,bg:false});
+  // wordless fin array on the right + heated base
+  const fixed=new Int8Array(nx*ny);
+  for(let j=0;j<ny;j++){ for(let i=0;i<4;i++) fixed[j*nx+i]=1; }
+  let mouse=null; const rect=()=>c.getBoundingClientRect();
+  c.addEventListener('pointermove',e=>{ const r=rect(); mouse=[(e.clientX-r.left)/r.width*nx,(e.clientY-r.top)/r.height*ny]; });
+  c.addEventListener('pointerleave',()=>mouse=null);
+  function fitAspect(){ const w=c.clientWidth||1200, h=c.parentElement.clientHeight||560; fld.o.aspect=Math.max(0.35,Math.min(1.4,h/w)); }
+  function step(){
+    t++; fitAspect();
+    for(let j=0;j<ny;j++){ T[j*nx]=0.55+0.45*Math.sin(j/ny*Math.PI*3+t*0.01); }
+    const cx=nx*0.72+nx*0.12*Math.cos(t*0.004), cy=ny*0.5+ny*0.3*Math.sin(t*0.006);
+    for(let j=-3;j<=3;j++)for(let i=-3;i<=3;i++){ const ii=Math.round(cx+i), jj=Math.round(cy+j); if(ii>0&&jj>=0&&ii<nx&&jj<ny&&i*i+j*j<=9) T[jj*nx+ii]=Math.max(T[jj*nx+ii],1); }
+    if(mouse){ for(let j=-4;j<=4;j++)for(let i=-4;i<=4;i++){ const ii=Math.round(mouse[0]+i), jj=Math.round(mouse[1]+j); if(ii>0&&jj>=0&&ii<nx&&jj<ny&&i*i+j*j<=16) T[jj*nx+ii]=1.1; } }
+    for(let s=0;s<3;s++){ for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){ const k=j*nx+i; if(fixed[k]){T2[k]=T[k];continue;} const L=i>0?T[k-1]:T[k], R=i<nx-1?T[k+1]:T[k], U=j>0?T[k-nx]:T[k], D=j<ny-1?T[k+nx]:T[k]; T2[k]=(T[k]+0.24*(L+R+U+D-4*T[k]))*0.9985; } const tmp=T; T=T2; T2=tmp; }
+    fld.draw(T,nx,ny,0,1.05,{contours:[0.15,0.3,0.45,0.6,0.75,0.9],contourColor:'rgba(255,255,255,0.18)'});
+  }
+  H.anim(c,step,{forceStart:false});
+})();
+</script>
+
+</body></html>

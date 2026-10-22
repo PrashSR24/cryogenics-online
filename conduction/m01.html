@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M01 Foundations of Heat Conduction</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Fourier’s law, the heat equation, boundary conditions, Kirchhoff transformation and fins: the vocabulary of every problem that follows.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-module="m01">
+<header class="topbar wrap"><div class="in">
+<a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><b>Advanced Heat Conduction</b></a><a class="navbtn sitehome" href="../" title="Back to the main Cryogenics Online site">← Cryogenics Online</a>
+<span class="sp"></span>
+<div class="modmenu"><button class="navbtn" type="button" aria-expanded="false"><span>☰</span><span class="lbl">Modules</span></button>
+<div class="modmenu-panel"><a href="m01.html" class="on"><span>M01</span><span>Foundations of Heat Conduction</span></a><a href="m02.html" class=""><span>M02</span><span>Sturm–Liouville Theory &amp; Fourier Expansions</span></a><a href="m03.html" class=""><span>M03</span><span>Steady Multidimensional Conduction</span></a><a href="m04.html" class=""><span>M04</span><span>Transient Conduction by Separation of Variables</span></a><a href="m05.html" class=""><span>M05</span><span>Semi-infinite &amp; Infinite Domains</span></a><a href="m06.html" class=""><span>M06</span><span>Integral Transform Methods</span></a><a href="m07.html" class=""><span>M07</span><span>Duhamel’s Theorem &amp; Green’s Functions</span></a><a href="m08.html" class=""><span>M08</span><span>Conduction with Phase Change</span></a><a href="m09.html" class=""><span>M09</span><span>Local &amp; Moving Heat Sources</span></a><a href="m10.html" class=""><span>M10</span><span>Approximate &amp; Integral Methods</span></a><a href="m11.html" class=""><span>M11</span><span>Porous Media &amp; Anisotropic Solids</span></a><a href="m12.html" class=""><span>M12</span><span>Numerical Methods for Conduction</span></a><a href="cheatsheet.html"><span>REF</span><span>Formula sheet</span></a></div></div>
+<button class="iconbtn" type="button" data-theme-toggle aria-label="Toggle light or dark theme">◐</button>
+</div></header>
+<section class="mhero wrap"><div class="in">
+<div><div class="eyebrow">Module 01 · Week 1 · Lectures 1–6</div><h1>Foundations of Heat Conduction</h1><p class="lede">Fourier’s law, the heat equation, boundary conditions, Kirchhoff transformation and fins: the vocabulary of every problem that follows.</p>
+<div class="lec-chips"><a href="#l1">L1 What conduction is</a><a href="#l2">L2 Fourier’s law</a><a href="#l3">L3 The heat equation</a><a href="#l4">L4 Initial &amp; boundary conditions</a><a href="#l5">L5 1D steady &amp; Kirchhoff</a><a href="#l6">L6 Dimensionless groups &amp; fins</a></div></div>
+<canvas class="mhero-canvas" data-hero="fin" aria-label="Live heat diffusion animation"></canvas>
+</div></section>
+<div class="page wrap">
+<nav class="rail" aria-label="Lectures in this module"><div class="eyebrow">In this module</div><a href="#l1">L1 · What conduction is</a><a href="#l2">L2 · Fourier’s law</a><a href="#l3">L3 · The heat equation</a><a href="#l4">L4 · Initial &amp; boundary conditions</a><a href="#l5">L5 · 1D steady &amp; Kirchhoff</a><a href="#l6">L6 · Dimensionless groups &amp; fins</a>
+<div class="prog"><div class="eyebrow" style="margin:0">Your progress</div><button class="btn" type="button" data-mark-done>Mark module complete</button></div></nav>
+<article>
+<section class="lec" id="l1" data-lec="1" data-title="What conduction is">
+<div class="lec-head"><span class="lec-num">Lecture 1</span><h2>Heat transfer, thermodynamics, and the continuum</h2></div>
+<p>Thermodynamics tells you <em>how much</em> energy a system exchanges as it moves between equilibrium states. It says nothing about <em>how fast</em>. A cup of coffee and a block of ice will reach the same final state whether you wait a minute or a year; thermodynamics cannot distinguish the two. Heat transfer is the science of the rate, and the rate is set by a temperature difference acting through a mechanism.</p>
+<p>There are three mechanisms. <strong>Conduction</strong> moves energy through a stationary medium by molecular collisions, lattice vibrations (phonons) and, in metals, free electrons. <strong>Radiation</strong> moves it as electromagnetic waves and needs no medium at all. <strong>Convection</strong> is conduction plus the bulk motion of a fluid that carries internal energy with it. Strictly there are only two modes, diffusion and radiation, because convection is diffusion inside a moving deformable medium. We keep the three-way split because the mathematics differ so much.</p>
+<div class="grid2">
+<div class="eq box"><span class="eq-tag">Conduction (Fourier)</span>$$\mathbf q'' = -k\,\nabla T$$</div>
+<div class="eq box"><span class="eq-tag">Convection (Newton)</span>$$q'' = h\,(T_s - T_\infty)$$</div>
+<div class="eq box"><span class="eq-tag">Radiation (Stefan–Boltzmann)</span>$$q''_b = \sigma T^4,\ \ \sigma = 5.67\times10^{-8}\ \mathrm{W\,m^{-2}K^{-4}}$$</div>
+<div class="eq box"><span class="eq-tag">Energy conservation</span>$$\frac{dE}{dt} = \dot Q - \dot W$$</div>
+</div>
+<p>These split into <em>general laws</em> that hold for every material (conservation of mass, momentum, energy; the second law) and <em>constitutive relations</em> that describe how a particular material behaves (Fourier, Newton, Stefan–Boltzmann). Every conduction problem in this course is one general law (energy conservation) combined with one constitutive law (Fourier).</p>
+
+<h3>From molecules to a continuum</h3>
+<p>Below is a gas trapped between a hot wall and a cold wall. Each particle that touches a wall leaves with a speed drawn from that wall's temperature. Particles collide with each other and share energy. Watch the measured local temperature (bars) in each slab of the box.</p>
+<div id="sim-molecules"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>Equal numbers of molecules cross the midplane in each direction, so no net mass moves. Molecules arriving from the hot side carry more kinetic energy than those arriving from the cold side, so energy moves anyway. That is conduction.</p>
+<p>Turn the collision rate down. When molecules rarely collide (a large Knudsen number, \(\mathrm{Kn} = \lambda_{\text{mfp}}/L\)), the profile goes flat in the middle and jumps at each wall. The gas no longer has a well-defined local temperature gradient, and Fourier's law fails. The continuum hypothesis needs the mean free path to be much smaller than the length scales of interest. As a rule of thumb that means more than about \(10^{12}\) molecules per mm³.</p></div>
+<div class="callout cryo"><div class="t">Cryogenic angle</div>
+<p>This is why the vacuum jacket of a dewar insulates. Pump the annulus down until the mean free path exceeds the gap width and gas conduction stops depending on gap size. It becomes proportional to pressure and collapses. Multilayer insulation then deals with the radiation that remains.</p></div>
+<h4>Where conduction problems come from</h4>
+<table class="t"><tr><th>Field</th><th>Question</th><th>Where it appears in this course</th></tr>
+<tr><td>Electronics</td><td>How many fins, of what size and material, keep a chip below its limit?</td><td>Module 1 fins, Module 12 numerics</td></tr>
+<tr><td>Nuclear</td><td>If coolant pumps fail, how long until the fuel melts?</td><td>Module 4 transients, Module 9 heat sources</td></tr>
+<tr><td>Glaciology</td><td>Where will a melting glacier front be in 20 years?</td><td>Module 8 phase change</td></tr>
+<tr><td>Aerospace</td><td>How thick must an ablating re-entry shield be at ~1600 °C?</td><td>Modules 8 and 10</td></tr>
+<tr><td>Medicine</td><td>How far does the frozen zone spread around a liquid-nitrogen cryoprobe?</td><td>Modules 8 and 11 (bio-heat)</td></tr>
+<tr><td>Manufacturing</td><td>How does the solid–liquid front move in a casting?</td><td>Module 8</td></tr>
+<tr><td>Food processing</td><td>How fast can a conveyor carry chocolate through a chilled room?</td><td>Module 4</td></tr></table>
+</section>
+
+<section class="lec" id="l2" data-lec="2" data-title="Fourier’s law">
+<div class="lec-head"><span class="lec-num">Lecture 2</span><h2>Temperature fields, gradients and Fourier’s law</h2></div>
+<p>The temperature field \(T(\mathbf r,t)\) assigns a temperature to every point at every instant. Join the points of equal temperature and you get <strong>isothermal surfaces</strong>. Two isotherms never intersect, because a point cannot hold two temperatures. Heat cannot flow along an isotherm, because there is no temperature difference along it to drive it.</p>
+<p>The gradient \(\nabla T = \hat{\mathbf i}\,\partial_x T + \hat{\mathbf j}\,\partial_y T + \hat{\mathbf k}\,\partial_z T\) is a vector normal to the isotherm, pointing toward increasing temperature. The proof takes one line: on an isotherm \(dT = \nabla T\cdot d\mathbf r = 0\) for every tangent \(d\mathbf r\), so \(\nabla T\) is perpendicular to every tangent.</p>
+<p>Fourier observed that, at steady state, heat flow through a slab is proportional to area and temperature difference and inversely proportional to thickness: \(q = kA\,(T_1-T_2)/L\). Shrinking the slab to a differential layer gives the local, vector law:</p>
+<div class="eq box"><span class="eq-tag">Fourier’s law (isotropic)</span>$$\mathbf q'' = -k\,\nabla T,\qquad q''_n = -k\,\frac{\partial T}{\partial n},\qquad q''_s = \mathbf q''\cdot\hat{\mathbf s} = -k\,\frac{\partial T}{\partial s}$$</div>
+<p>The minus sign enforces the second law: heat flows down the gradient. The component of flux through any surface with unit normal \(\hat{\mathbf s}\), isothermal or not, is the projection \(\mathbf q''\cdot\hat{\mathbf s}\). In the three standard coordinate systems the gradient reads:</p>
+<div class="eq">$$\begin{aligned}
+\text{Cartesian: } & \mathbf q'' = -k\left(\hat{\mathbf i}\,\partial_x T + \hat{\mathbf j}\,\partial_y T + \hat{\mathbf k}\,\partial_z T\right)\\
+\text{Cylindrical: } & \mathbf q'' = -k\left(\hat{\mathbf e}_r\,\partial_r T + \hat{\mathbf e}_\phi\,\tfrac{1}{r}\partial_\phi T + \hat{\mathbf e}_z\,\partial_z T\right)\\
+\text{Spherical: } & \mathbf q'' = -k\left(\hat{\mathbf e}_r\,\partial_r T + \hat{\mathbf e}_\theta\,\tfrac{1}{r}\partial_\theta T + \hat{\mathbf e}_\phi\,\tfrac{1}{r\sin\theta}\partial_\phi T\right)
+\end{aligned}$$</div>
+<div id="sim-isotherm"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>In an isotropic solid, the heat-flux arrow (orange) is always perpendicular to the isotherm, exactly antiparallel to \(\nabla T\) (blue). Switch on anisotropy. Wood, graphite, composite laminates and MLI blankets conduct far better along one axis than across it. The flux now leans toward the high-conductivity direction and crosses isotherms at an angle. Fourier's law becomes \(q''_i = -\sum_j k_{ij}\,\partial T/\partial x_j\), with a conductivity <em>tensor</em>. Module 11 develops this fully.</p></div>
+<h4>Thermal conductivity</h4>
+<p>\(k\) is a thermophysical property in W/(m·K). A medium is <em>homogeneous</em> if \(k\) does not vary with position and <em>isotropic</em> if it does not vary with direction. Porous solids such as cork and glass wool are heterogeneous, and fibrous solids such as wood are anisotropic. Order-of-magnitude values span five decades:</p>
+<div class="tw"><table class="t"><tr><th>Material class</th><th>k, W/(m·K) near 300 K</th><th>Dominant carrier</th></tr>
+<tr><td>Gases (air, N₂)</td><td>0.01 – 0.03 (He ≈ 0.15)</td><td>Molecular collisions</td></tr>
+<tr><td>Insulation (foams, aerogel, fibre)</td><td>0.015 – 0.05</td><td>Trapped gas + tortuous solid paths</td></tr>
+<tr><td>Liquids (water ≈ 0.6, LN₂ ≈ 0.14)</td><td>0.1 – 0.7</td><td>Molecular</td></tr>
+<tr><td>Non-metallic solids (glass, ceramics)</td><td>1 – 40</td><td>Phonons</td></tr>
+<tr><td>Metal alloys (stainless steel ≈ 15)</td><td>10 – 120</td><td>Electrons + phonons</td></tr>
+<tr><td>Pure metals (Al ≈ 237, Cu ≈ 400)</td><td>50 – 430</td><td>Free electrons</td></tr>
+<tr><td>Diamond, graphene (in-plane)</td><td>1000 – 5000</td><td>Phonons</td></tr></table></div>
+<div class="callout cryo"><div class="t">Cryogenic angle</div>
+<p>Below about 100 K, \(k\) stops being a constant. High-purity copper peaks near 10–20 K at several thousand W/(m·K), while stainless steel falls steadily toward zero. Cryostat supports are therefore made of stainless steel or G-10, thermal straps of OFHC copper, and every conductive heat-leak calculation uses \(\int k\,dT\) rather than \(k\,\Delta T\). That integral is exactly the Kirchhoff transform of Lecture 5.</p></div>
+<div class="code" data-file="fourier_law_check.py"><pre data-lang="python"># Worked problem: T(x) = 120 - 400 x^2 (°C), 0 &lt;= x &lt;= 0.25 m, k = 40 W/(m K)
+import numpy as np
+k, L = 40.0, 0.25
+T  = lambda x: 120 - 400*x**2
+dT = lambda x: -800*x          # dT/dx
+q  = lambda x: -k*dT(x)        # Fourier's law, W/m^2
+
+print(f"q''(0)    = {q(0):8.1f} W/m^2   (adiabatic face: zero slope)")
+print(f"q''(L)    = {q(L):8.1f} W/m^2")
+# What does the curvature tell us? Steady 1D: k T'' + q_gen = 0
+q_gen = -k*(-800)
+print(f"implied uniform heat generation = {q_gen:.0f} W/m^3")
+print(f"check energy balance: q_gen*L = {q_gen*L:.0f} W/m^2  == q''(L)")</pre><pre data-lang="js">// Same worked problem, live. Edit k or the profile and press Run.
+const k = 40, L = 0.25;
+const T  = x =&gt; 120 - 400*x*x;
+const q  = x =&gt; -k * (-800*x);
+print("q''(0) =", q(0), "W/m^2");
+print("q''(L) =", q(L), "W/m^2");
+print("implied q_gen =", 800*k, "W/m^3");
+const xs = M.linspace(0, L, 60);
+plot(xs, [xs.map(T)], {xlabel:'x (m)', ylabel:'T (°C)', labels:['T(x)']});
+plot(xs, [xs.map(q)], {xlabel:'x (m)', ylabel:"q'' (W/m²)", labels:["q''(x)"]});</pre></div>
+<p>The curvature is what makes this example worth working. A parabolic steady profile means \(d^2T/dx^2\neq 0\), so the flux changes with position and something between the faces must be generating heat. Reading a profile backwards like this is the habit to build: slope is flux, and curvature is a source or storage.</p>
+</section>
+
+<section class="lec" id="l3" data-lec="3" data-title="The heat equation">
+<div class="lec-head"><span class="lec-num">Lecture 3</span><h2>Deriving the general heat conduction equation</h2></div>
+<p>Take an arbitrary control volume \(V\) with surface \(A\) and outward normal \(\hat{\mathbf n}\) inside a stationary solid with volumetric generation \(\dot q(\mathbf r,t)\) in W/m³. Energy conservation reads: rate of storage equals the net inflow through the surface plus the generation.</p>
+<div class="eq">$$\int_V \rho c\,\frac{\partial T}{\partial t}\,dV = -\oint_A \mathbf q''\cdot\hat{\mathbf n}\,dA + \int_V \dot q\,dV$$</div>
+<p>The divergence theorem, \(\oint_A \mathbf F\cdot\hat{\mathbf n}\,dA = \int_V \nabla\cdot\mathbf F\,dV\), turns the surface integral into a volume integral:</p>
+<div class="eq">$$\int_V\left[\rho c\,\frac{\partial T}{\partial t} + \nabla\cdot\mathbf q'' - \dot q\right]dV = 0$$</div>
+<p>This holds for <em>every</em> sub-volume, so the integrand itself must vanish. Substituting Fourier's law gives the general heat conduction equation:</p>
+<div class="eq box"><span class="eq-tag">General heat conduction equation</span>$$\rho c\,\frac{\partial T}{\partial t} = \nabla\cdot\left(k\,\nabla T\right) + \dot q = k\nabla^2 T + \nabla k\cdot\nabla T + \dot q$$</div>
+<p>If \(k\) depends on temperature, \(\nabla k = (dk/dT)\nabla T\) and the term \((dk/dT)|\nabla T|^2\) makes the equation <strong>nonlinear</strong>. With constant properties it becomes linear, and four classical special cases follow:</p>
+<div class="tw"><table class="t"><tr><th>Assumptions</th><th>Equation</th><th>Name</th></tr>
+<tr><td>Constant \(k,\rho,c\)</td><td>\(\dfrac{1}{\alpha}\dfrac{\partial T}{\partial t} = \nabla^2T + \dfrac{\dot q}{k}\)</td><td>Fourier–Biot</td></tr>
+<tr><td>… and no generation</td><td>\(\dfrac{1}{\alpha}\dfrac{\partial T}{\partial t} = \nabla^2T\)</td><td>Diffusion equation</td></tr>
+<tr><td>Steady, constant \(k\)</td><td>\(\nabla^2T + \dot q/k = 0\)</td><td>Poisson</td></tr>
+<tr><td>Steady, no generation</td><td>\(\nabla^2T = 0\)</td><td>Laplace</td></tr></table></div>
+<div class="callout phys"><div class="t">Physical interpretation: thermal diffusivity</div>
+<p>\(\alpha = k/\rho c\) in m²/s is the ratio of how well a material <em>conducts</em> heat to how much heat it must <em>absorb</em> to warm up. A large \(\alpha\) means a temperature disturbance spreads quickly, because little energy is soaked up along the way. Copper (\(\alpha\approx 1.1\times10^{-4}\)) responds about 800 times faster than water (\(1.4\times10^{-7}\)). The distance a disturbance travels in time \(t\) scales as \(\sqrt{\alpha t}\). That square root runs through every transient result in Modules 4 to 10.</p>
+<p>The Laplace equation contains no properties at all. In a steady, source-free, constant-\(k\) body, the temperature field depends only on geometry and boundary values. Copper and glass blocks with the same boundary temperatures have identical temperature fields, though very different heat flows.</p></div>
+<h4>The Laplacian in three coordinate systems</h4>
+<div class="eq">$$\begin{aligned}
+\nabla^2T &= \frac{\partial^2T}{\partial x^2}+\frac{\partial^2T}{\partial y^2}+\frac{\partial^2T}{\partial z^2}\\
+\nabla^2T &= \frac{1}{r}\frac{\partial}{\partial r}\!\left(r\frac{\partial T}{\partial r}\right)+\frac{1}{r^2}\frac{\partial^2T}{\partial \phi^2}+\frac{\partial^2T}{\partial z^2}\\
+\nabla^2T &= \frac{1}{r^2}\frac{\partial}{\partial r}\!\left(r^2\frac{\partial T}{\partial r}\right)+\frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\!\left(\sin\theta\frac{\partial T}{\partial \theta}\right)+\frac{1}{r^2\sin^2\theta}\frac{\partial^2T}{\partial \phi^2}
+\end{aligned}$$</div>
+<p>The \(1/r\) and \(1/r^2\) factors carry the geometry. In a cylinder or sphere, heat flowing outward spreads over a growing area, so the gradient must fall even without any loss along the way.</p>
+<h4>Moving solids</h4>
+<p>If the solid itself moves with velocity \(\mathbf V\) (extrusion, rolling, a conveyor), it carries enthalpy flux \(\rho c T\mathbf V\) in addition to conduction. The storage term becomes the substantial derivative, the rate of change seen by an observer riding with the material:</p>
+<div class="eq">$$\rho c\,\frac{DT}{Dt} = \rho c\left(\frac{\partial T}{\partial t} + \mathbf V\cdot\nabla T\right) = \nabla\cdot(k\nabla T) + \dot q$$</div>
+<p>This is the starting point for the moving weld source of Module 9 and for the cryogenic twin-screw extrusion of solid hydrogen pellets.</p>
+</section>
+
+<section class="lec" id="l4" data-lec="4" data-title="Initial & boundary conditions">
+<div class="lec-head"><span class="lec-num">Lecture 4</span><h2>Initial and boundary conditions</h2></div>
+<p>The heat equation is first order in time and second order in each space coordinate. A 3D transient problem therefore needs seven conditions: one initial condition and two boundary conditions per coordinate. The heat equation has infinitely many solutions; the conditions pick out the one that is physically realised. Every boundary condition is an energy balance on a surface of zero thickness, which can store nothing.</p>
+<div class="eq box"><span class="eq-tag">General surface energy balance</span>$$-k\frac{\partial T}{\partial n}\bigg|_s = h\,(T_s - T_{\infty,1}) + \varepsilon\sigma\,(T_s^4 - T_{\infty,2}^4)$$</div>
+<div class="tw"><table class="t">
+<tr><th>Kind</th><th>Mathematical form</th><th>Physical realisation</th></tr>
+<tr><td>1st (Dirichlet)</td><td>\(T|_s = T_s(\mathbf r_s,t)\)</td><td>Surface in contact with a melting solid or boiling liquid (ice bath, LN₂ pool)</td></tr>
+<tr><td>2nd (Neumann)</td><td>\(-k\,\partial T/\partial n|_s = q''_s\)</td><td>Thin-film electric heater; laser flux; \(q''_s=0\) is perfect insulation or a symmetry plane</td></tr>
+<tr><td>3rd (Robin)</td><td>\(-k\,\partial T/\partial n|_s = h(T_s - T_\infty)\)</td><td>Convection to a fluid</td></tr>
+<tr><td>Interface</td><td>\(-k_1\partial_n T_1 = -k_2\partial_n T_2 = h_c(T_1-T_2)\)</td><td>Imperfect contact with contact conductance \(h_c\); \(h_c\to\infty\) gives \(T_1 = T_2\)</td></tr>
+<tr><td>Sliding interface</td><td>\(q''_1 + \mu p V - q''_2 = 0\)</td><td>Frictional heating between brake pad and disc</td></tr>
+<tr><td>Nonlinear</td><td>radiation \(\propto T^4\); free convection \(h\propto \Delta T^{1/4}\); Stefan condition</td><td>Furnaces, natural cooling, melting fronts</td></tr>
+<tr><td>Finiteness</td><td>\(T(0,t)\) finite</td><td>Removes \(\ln r\), \(Y_0\), \(1/r\) terms at the axis or centre</td></tr></table></div>
+<p>A condition is <strong>homogeneous</strong> if every term contains \(T\) or its derivative. Examples are \(T=0\), \(\partial T/\partial n = 0\), and \(k\,\partial T/\partial n + hT=0\). Separation of variables (Modules 3 and 4) needs homogeneous conditions in the eigen-directions, so a large part of the craft is shifting the temperature datum until they become homogeneous.</p>
+<div id="sim-bc"></div>
+<div class="callout phys"><div class="t">Physical interpretation: the Robin tangent</div>
+<p>Rearrange the convection condition as \(-\partial T/\partial x|_L = (T_L - T_\infty)/(k/h)\). The tangent to the profile at the wall, extended outward, hits \(T_\infty\) at a distance \(k/h\) beyond the surface. The fluid behaves like an extra slab of solid of thickness \(k/h\) whose far face is held at \(T_\infty\). As \(h\to\infty\) the virtual slab vanishes and the condition becomes Dirichlet. As \(h\to0\) the slab becomes infinitely thick, the tangent goes flat, and the condition becomes adiabatic. Watch the dashed line in the simulation.</p></div>
+</section>
+
+<section class="lec" id="l5" data-lec="5" data-title="1D steady & Kirchhoff">
+<div class="lec-head"><span class="lec-num">Lecture 5</span><h2>One-dimensional steady conduction and the Kirchhoff transformation</h2></div>
+<h4>Example: stop the heat leak from the warm side</h4>
+<p>A slab of thickness \(L\) separates a warm fluid \((T_i, h_i)\) at \(x=0\) from a cold one \((T_o, h_o)\) at \(x=L\). How much uniform internal heating \(\dot q\) makes the warm-side loss exactly zero? The required profile has \(T(0)=T_i\) and \(dT/dx|_0 = 0\). Integrating \(T'' = -\dot q/k\) twice and applying the convective condition at \(x=L\) gives:</p>
+<div class="eq">$$\frac{T(x)-T_o}{\dot q L^2/k} = \frac{1}{2}\left(1-\frac{x^2}{L^2}\right) + \frac{k}{h_oL},\qquad \dot q_{\text{req}} = \frac{T_i - T_o}{L^2/(2k) + L/h_o}$$</div>
+<p>All of that heat leaves through the cold face, \(q''_L = \dot q L\). This is the logic of guard heaters, which keep a sensitive sample in a heat-flux meter from leaking sideways.</p>
+<h4>Example: heat-generating cylinder (fuel rod, wire)</h4>
+<div class="eq">$$\frac{1}{r}\frac{d}{dr}\!\left(r\frac{dT}{dr}\right) + \frac{\dot q}{k} = 0,\quad \frac{dT}{dr}\Big|_0=0,\quad -k\frac{dT}{dr}\Big|_{r_0} = h(T-T_\infty)\ \Rightarrow\ T(r) = T_\infty + \frac{\dot q r_0^2}{4k}\left[1-\frac{r^2}{r_0^2} + \frac{2k}{hr_0}\right]$$</div>
+<h3>The Kirchhoff transformation</h3>
+<p>When \(k=k(T)\), the steady equation \(\nabla\cdot(k(T)\nabla T)+\dot q = 0\) is nonlinear. Define a new temperature that absorbs the nonlinearity:</p>
+<div class="eq box"><span class="eq-tag">Kirchhoff transform</span>$$\theta = \frac{1}{k_R}\int_{T_R}^{T} k(T')\,dT'\quad\Rightarrow\quad \nabla\theta = \frac{k(T)}{k_R}\nabla T\quad\Rightarrow\quad \nabla^2\theta + \frac{\dot q}{k_R} = 0$$</div>
+<p>The PDE is now linear. Dirichlet conditions transform exactly, \(T=T_s\Rightarrow\theta=\theta(T_s)\), and so do prescribed-flux conditions, \(-k\,\partial T/\partial n = -k_R\,\partial\theta/\partial n\). Convective conditions stay nonlinear because they contain \(T\) itself. Solve for \(\theta\), then invert the integral to recover \(T\).</p>
+<div id="sim-kirchhoff"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>For a slab with \(k = k_0(1+\beta T)\), \(\theta\) is linear in \(x\), but \(T\) bows. It bows toward the side where \(k\) is lower, because the same flux needs a steeper gradient there. Integrate \(k\,dT\) across the slab and you get a striking result: <strong>the exact heat flux equals the constant-\(k\) formula evaluated with \(k\) at the arithmetic-mean temperature</strong>. This holds exactly for linear \(k(T)\) and is very close for gentle nonlinearity. It is why handbook tables quote "mean conductivity".</p></div>
+<h4>Worked example: the fuel-rod limit</h4>
+<p>A fuel rod of radius \(r_0=1\) cm has \(k(T) = 3200/T\) W/(m·K) with \(T\) in °C. Its surface is held at 573 °C, and the centreline must not exceed 2773 °C. With \(\theta\) referenced to the wall, the transformed solution is \(\int_{T_w}^{T}k\,dT' = \tfrac{\dot q r_0^2}{4}(1 - r^2/r_0^2)\). At the axis:</p>
+<div class="eq">$$\dot q_{\max} = \frac{4}{r_0^2}\int_{T_w}^{T_c}\frac{3200}{T}\,dT = \frac{4\times3200}{(0.01)^2}\ln\frac{2773}{573} = 2.02\times10^{8}\ \mathrm{W/m^3},\qquad q''_s = \frac{\dot q r_0}{2} = 1.01\times10^{6}\ \mathrm{W/m^2}$$</div>
+<div class="code" data-file="kirchhoff_fuel_rod.py"><pre data-lang="python">import numpy as np
+from scipy.integrate import quad
+from scipy.optimize import brentq
+
+r0, Tw, Tc_max = 0.01, 573.0, 2773.0
+k = lambda T: 3200.0/T                       # W/(m K), T in °C
+
+# Kirchhoff: ∫_{Tw}^{Tc} k dT = q r0^2 / 4
+K = quad(k, Tw, Tc_max)[0]
+q_max = 4*K/r0**2
+print(f"∫k dT = {K:.1f} W/m   -&gt;   q_max = {q_max:.3e} W/m^3")
+print(f"surface heat flux = {q_max*r0/2:.3e} W/m^2")
+
+# What if we had assumed constant k = k(Tw)?
+kw = k(Tw)
+print(f"constant-k estimate: q = {4*kw*(Tc_max-Tw)/r0**2:.3e} W/m^3  (unsafe by a factor "
+      f"{4*kw*(Tc_max-Tw)/r0**2/q_max:.2f})")
+
+# Recover T(r) by inverting the Kirchhoff integral at each radius
+r = np.linspace(0, r0, 6)
+for ri in r:
+    target = q_max*(r0**2 - ri**2)/4
+    T = brentq(lambda T: quad(k, Tw, T)[0] - target, Tw, Tc_max + 1)
+    print(f"r = {ri*1e3:4.1f} mm   T = {T:7.1f} °C")</pre><pre data-lang="js">// Live version: change q (W/m^3) and see the centreline temperature.
+const r0 = 0.01, Tw = 573, q = 2.02e8;
+// ∫ 3200/T dT = 3200 ln(T/Tw)  -&gt;  T(r) = Tw exp( q (r0²-r²) / (4·3200) )
+const r = M.linspace(0, r0, 50);
+const Tvar = r.map(x =&gt; Tw*Math.exp(q*(r0*r0 - x*x)/(4*3200)));
+const kw = 3200/Tw;
+const Tconst = r.map(x =&gt; Tw + q*(r0*r0 - x*x)/(4*kw));
+print("centreline, variable k:", Tvar[0].toFixed(0), "°C");
+print("centreline, k = k(Tw):", Tconst[0].toFixed(0), "°C");
+plot(r.map(x=&gt;x*1e3), [Tvar, Tconst], {xlabel:'r (mm)', ylabel:'T (°C)', labels:['k = 3200/T (exact)','k = k(Tw)']});</pre></div>
+</section>
+
+<section class="lec" id="l6" data-lec="6" data-title="Dimensionless groups & fins">
+<div class="lec-head"><span class="lec-num">Lecture 6</span><h2>Dimensionless analysis and extended surfaces</h2></div>
+<p>Scale lengths by \(L\), temperature by \(\theta = (T-T_\infty)/(T_0-T_\infty)\) and time by \(L^2/\alpha\). The heat equation with a convective boundary collapses to</p>
+<div class="eq">$$\frac{\partial\theta}{\partial\tau} = \nabla_\xi^2\theta + \Phi,\qquad \frac{\partial\theta}{\partial N} + \mathrm{Bi}\,\theta = 0,\qquad \tau = \frac{\alpha t}{L^2}\ (\text{Fourier}),\quad \mathrm{Bi} = \frac{hL}{k}\ (\text{Biot}),\quad \Phi = \frac{\dot q L^2}{k(T_0-T_\infty)}$$</div>
+<p>Instead of varying \(k, \rho, c, h, L, t\) separately, you vary two or three groups, and one chart covers every material.</p>
+<ul>
+<li><strong>Fourier number</strong> \(\tau = \alpha t/L^2 = \dfrac{kL^2/L}{\rho c L^3/t}\): the rate heat is conducted across \(L\) divided by the rate it is stored in \(L^3\). A large \(\tau\) means the disturbance has penetrated the whole body.</li>
+<li><strong>Biot number</strong> \(\mathrm{Bi} = \dfrac{L/kA}{1/hA}\): internal conduction resistance divided by external surface resistance. It looks like the Nusselt number, but uses the <em>solid's</em> \(k\).</li>
+</ul>
+<div id="sim-biot"></div>
+<h3>Fins</h3>
+<p>To increase \(q = hA(T_s-T_\infty)\) when \(h\) and \(\Delta T\) are fixed, you increase \(A\) by adding fins. Fins are thin enough that temperature varies only along their length, so they are one-dimensional. An energy balance on a slice \(dx\) with cross-section \(A_c(x)\) and perimeter \(P(x)\) gives:</p>
+<div class="eq box"><span class="eq-tag">General fin equation</span>$$\frac{d}{dx}\!\left(A_c\frac{dT}{dx}\right) - \frac{hP}{k}(T-T_\infty) = 0\quad\xrightarrow{A_c,\,P\ \text{const}}\quad \frac{d^2\theta}{dx^2} - m^2\theta = 0,\quad m^2 = \frac{hP}{kA_c}$$</div>
+<div class="tw"><table class="t"><tr><th>Tip condition</th><th>\(\theta/\theta_b\)</th><th>Fin heat rate \(q_f\)</th></tr>
+<tr><td>Infinitely long</td><td>\(e^{-mx}\)</td><td>\(M\), where \(M = \sqrt{hPkA_c}\,\theta_b\)</td></tr>
+<tr><td>Adiabatic tip</td><td>\(\dfrac{\cosh m(L-x)}{\cosh mL}\)</td><td>\(M\tanh mL\)</td></tr>
+<tr><td>Convective tip</td><td>\(\dfrac{\cosh m(L-x) + \frac{h}{mk}\sinh m(L-x)}{\cosh mL + \frac{h}{mk}\sinh mL}\)</td><td>\(M\,\dfrac{\sinh mL + \frac{h}{mk}\cosh mL}{\cosh mL + \frac{h}{mk}\sinh mL}\)</td></tr>
+<tr><td>Prescribed tip \(\theta_L\)</td><td>\(\dfrac{(\theta_L/\theta_b)\sinh mx + \sinh m(L-x)}{\sinh mL}\)</td><td>\(M\,\dfrac{\cosh mL - \theta_L/\theta_b}{\sinh mL}\)</td></tr></table></div>
+<p>Two figures of merit: <strong>efficiency</strong> \(\eta_f = q_f/(hA_f\theta_b)\), actual over ideal with the whole fin at base temperature, and <strong>effectiveness</strong> \(\varepsilon_f = q_f/(hA_c\theta_b)\), with the fin over without it. A fin is rarely worthwhile unless \(\varepsilon_f \gtrsim 2\).</p>
+<div id="sim-fin"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>\(1/m\) is the fin's natural decay length, the distance over which the excess temperature falls by \(e\). Beyond \(mL\approx 2.5\), \(\tanh mL > 0.987\): the far end of the fin is almost at fluid temperature and does nothing except add mass and cost. That is why real heat-sink fins are short and closely spaced. Raising \(k\) (aluminium to copper) or thickening the fin lowers \(m\), so the fin "reaches" further.</p>
+<p>A fin <em>reduces</em> heat transfer when \(\varepsilon_f\lt 1\). This happens if \(\mathrm{Bi} = h(A_c/P)/k > 1\), for instance a stainless-steel fin in boiling water. The fin's conduction resistance then outweighs the extra area.</p></div>
+<div class="callout real"><div class="t">In the real world</div>
+<p>Motor housings, transformer tanks, finned-tube exchangers, CPU heat sinks and air-cooled engine cylinders all use fins. In cryogenics the fin equation runs in reverse. Current leads and thermometer wires are "fins" that draw heat <em>into</em> the cold stage, and long, thin, low-\(k\) wires are chosen precisely so that \(mL\) is large and the parasitic heat leak \(\approx\sqrt{hPkA_c}\,\theta_b\) stays small.</p></div>
+<div class="code" data-file="pin_fin.py"><pre data-lang="python">import numpy as np
+from scipy.integrate import solve_bvp
+import matplotlib.pyplot as plt
+
+# Aluminium pin fin, D = 5 mm, L = 50 mm, h = 25 W/m²K, base 100 °C above ambient
+k, D, L, h, thb = 205.0, 5e-3, 50e-3, 25.0, 100.0
+P, Ac = np.pi*D, np.pi*D**2/4
+m = np.sqrt(h*P/(k*Ac)); Mf = np.sqrt(h*P*k*Ac)*thb; a = h/(m*k)
+
+x = np.linspace(0, L, 200)
+th = thb*(np.cosh(m*(L-x)) + a*np.sinh(m*(L-x)))/(np.cosh(m*L) + a*np.sinh(m*L))
+qf = Mf*(np.sinh(m*L) + a*np.cosh(m*L))/(np.cosh(m*L) + a*np.sinh(m*L))
+eta = qf/(h*(P*L + Ac)*thb); eps = qf/(h*Ac*thb)
+print(f"mL = {m*L:.3f}, q_fin = {qf:.3f} W, efficiency = {eta:.3f}, effectiveness = {eps:.1f}")
+
+# Cross-check with a general BVP solver (works for variable area or k(T) too)
+f  = lambda x, y: np.vstack([y[1], m**2*y[0]])
+bc = lambda ya, yb: np.array([ya[0]-thb, k*yb[1] + h*yb[0]])
+sol = solve_bvp(f, bc, x, np.vstack([th, np.gradient(th, x)]))
+print("max |analytic - solve_bvp| =", np.abs(sol.sol(x)[0]-th).max(), "K")
+
+plt.plot(x*1e3, th, label='analytic'); plt.plot(x*1e3, sol.sol(x)[0], '--', label='solve_bvp')
+plt.xlabel('x (mm)'); plt.ylabel('T - T∞ (K)'); plt.legend(); plt.title('Pin fin, convective tip')</pre><pre data-lang="js">// Pin fin with convective tip: edit material or geometry and Run.
+const k = 205, D = 5e-3, L = 50e-3, h = 25, thb = 100;
+const P = Math.PI*D, Ac = Math.PI*D*D/4;
+const m = Math.sqrt(h*P/(k*Ac)), Mf = Math.sqrt(h*P*k*Ac)*thb, a = h/(m*k);
+const x = M.linspace(0, L, 100);
+const th = x.map(s =&gt; thb*(Math.cosh(m*(L-s)) + a*Math.sinh(m*(L-s)))/(Math.cosh(m*L) + a*Math.sinh(m*L)));
+const qf = Mf*(Math.sinh(m*L) + a*Math.cosh(m*L))/(Math.cosh(m*L) + a*Math.sinh(m*L));
+print("mL =", m*L, " q_fin =", qf, "W");
+print("efficiency =", qf/(h*(P*L+Ac)*thb), " effectiveness =", qf/(h*Ac*thb));
+plot(x.map(s=&gt;s*1e3), th, {xlabel:'x (mm)', ylabel:'θ (K)', labels:['θ(x)']});</pre><pre data-lang="matlab">% Pin fin with convective tip, solved with bvp4c
+k=205; D=5e-3; L=50e-3; h=25; thb=100; P=pi*D; Ac=pi*D^2/4; m=sqrt(h*P/(k*Ac));
+solinit = bvpinit(linspace(0,L,50), [thb; 0]);
+sol = bvp4c(@(x,y)[y(2); m^2*y(1)], @(ya,yb)[ya(1)-thb; k*yb(2)+h*yb(1)], solinit);
+plot(sol.x*1e3, sol.y(1,:)); xlabel('x (mm)'); ylabel('\theta (K)');
+fprintf('q_fin = %.3f W\n', -k*Ac*sol.y(2,1));</pre></div>
+<div class="quiz" data-title="Module 1 check"><script type="application/json">[{"q":"A steady temperature profile in a slab is parabolic. What must be true?","o":["The slab is anisotropic","There is internal heat generation (or k varies with x)","The surfaces are insulated","Fourier's law does not apply"],"a":1,"w":"Steady 1D: d/dx(k dT/dx) + q̇ = 0. Constant k with non-zero curvature requires q̇ ≠ 0."},
+{"q":"Which statement about the Laplace equation ∇²T = 0 is correct?","o":["Its solution depends on k","Its solution depends only on geometry and boundary values","It applies to transient problems","It only holds in Cartesian coordinates"],"a":1,"w":"No property appears in ∇²T = 0. Heat flow still scales with k, but the temperature field does not."},
+{"q":"For the convective boundary condition, the tangent to T(x) at the wall passes through T∞ at what distance outside the wall?","o":["h/k","k/h","L·Bi","√(αt)"],"a":1,"w":"−dT/dx = (T_s − T∞)/(k/h): the fluid acts like an extra slab of thickness k/h."},
+{"q":"A pin fin has mL = 4. Doubling its length will increase its heat rate by roughly…","o":["100%","41%","Less than 1%","It will decrease"],"a":2,"w":"tanh(4) = 0.9993 and tanh(8) ≈ 1. The extra length sits at fluid temperature."},
+{"q":"With k = k₀(1 + βT), the exact steady heat flux through a slab equals the constant-k result using k evaluated at…","o":["The hotter face","The colder face","The arithmetic-mean temperature","The log-mean temperature"],"a":2,"w":"∫k dT over (T₂,T₁) = k₀[ΔT + β(T₁²−T₂²)/2] = k(T_mean)·ΔT exactly for linear k(T)."}]</script></div>
+</section>
+
+
+<nav class="pager"><a class="nx" href="m02.html"><small>Module 02 →</small><b>Sturm–Liouville Theory &amp; Fourier Expansions</b></a></nav>
+</article>
+</div>
+<footer class="site wrap"><div class="in">
+<div><b>Advanced Heat Conduction</b> · a Cryogenics Online course<br>Course author: <b>Prashanth S R</b></div>
+<div>Contact: <span class="copyable">prashanthsravikumar@gmail.com</span></div>
+</div></footer>
+
+<script>
+/* ===== Molecular picture of conduction ===== */
+(function(){
+  const S = H.sim('#sim-molecules', {title:'Molecules between a hot and a cold wall', tag:'Kinetic theory → continuum',
+    canvases:[{id:'box', label:'particles'}],
+    controls:[{id:'th',label:'Hot wall T (rel.)',min:1,max:4,step:0.1,value:3,fmt:v=>v.toFixed(1)},
+              {id:'tc',label:'Cold wall T (rel.)',min:0.2,max:1.5,step:0.05,value:0.6,fmt:v=>v.toFixed(2)},
+              {id:'col',label:'Collision rate (1/Kn)',min:0,max:1,step:0.01,value:0.85,fmt:v=>v<0.08?'rarefied':v.toFixed(2)},
+              {id:'n',label:'Particles',min:100,max:900,step:50,value:500}],
+    readouts:[['flux','Net energy flux →'],['kn','Regime']],
+    note:'Each bar is the mean kinetic energy (the local temperature) in one slab of the box. The dashed line is the linear profile Fourier\'s law predicts.'});
+  if(!S) return;
+  const W=1, Ht=0.5, NB=10; let P=[]; const rnd=Math.random;
+  const gauss=()=>{let u=0,v=0;while(!u)u=rnd();while(!v)v=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);};
+  const reset=()=>{P=[];const n=S.v.n;for(let i=0;i<n;i++){const x=rnd()*W,T=S.v.tc+(S.v.th-S.v.tc)*(1-x);P.push({x,y:rnd()*Ht,vx:gauss()*Math.sqrt(T),vy:gauss()*Math.sqrt(T)});}};
+  reset(); S.on(v=>{ if(P.length!==v.n) reset(); });
+  let fluxE=0, ema=0; const bins=new Float64Array(NB), cnt=new Float64Array(NB), binsA=new Float64Array(NB).fill(1);
+  const CX=24, CY=8, cells=CX*CY;
+  function step(dt){
+    const h=0.01, th=S.v.th, tc=S.v.tc; fluxE=0;
+    for(let s=0;s<6;s++){
+      for(const p of P){
+        const x0=p.x; p.x+=p.vx*h; p.y+=p.vy*h;
+        if(p.x<0){p.x=-p.x; const sp=Math.sqrt(th); p.vx=Math.sqrt(-2*Math.log(1-rnd()))*sp; p.vy=gauss()*sp;}
+        if(p.x>W){p.x=2*W-p.x; const sp=Math.sqrt(tc); p.vx=-Math.sqrt(-2*Math.log(1-rnd()))*sp; p.vy=gauss()*sp;}
+        if(p.y<0){p.y=-p.y;p.vy=-p.vy;} if(p.y>Ht){p.y=2*Ht-p.y;p.vy=-p.vy;}
+        const e=0.5*(p.vx*p.vx+p.vy*p.vy);
+        if(x0<W/2&&p.x>=W/2) fluxE+=e; else if(x0>=W/2&&p.x<W/2) fluxE-=e;
+      }
+      // DSMC-style collisions in cells
+      const pc=S.v.col; if(pc>0){
+        const grid=Array.from({length:cells},()=>[]);
+        for(const p of P){const ci=Math.min(CX-1,Math.floor(p.x/W*CX)), cj=Math.min(CY-1,Math.floor(p.y/Ht*CY)); grid[cj*CX+ci].push(p);}
+        for(const g of grid){ for(let i=g.length-1;i>0;i--){ if(rnd()>pc) continue; const j=Math.floor(rnd()*i); const a=g[i],b=g[j];
+          const cx=(a.vx+b.vx)/2, cy=(a.vy+b.vy)/2, vr=Math.hypot(a.vx-b.vx,a.vy-b.vy)/2, an=rnd()*2*Math.PI;
+          a.vx=cx+vr*Math.cos(an); a.vy=cy+vr*Math.sin(an); b.vx=cx-vr*Math.cos(an); b.vy=cy-vr*Math.sin(an);} }
+      }
+    }
+    ema = ema*0.97 + fluxE*0.03;
+    bins.fill(0);cnt.fill(0);for(const p of P){const b=Math.min(NB-1,Math.floor(p.x/W*NB)); bins[b]+=0.5*(p.vx*p.vx+p.vy*p.vy); cnt[b]++;}
+    for(let b=0;b<NB;b++){ if(cnt[b]) binsA[b]=binsA[b]*0.95+0.05*(bins[b]/cnt[b]); }
+    draw();
+  }
+  function draw(){
+    const {ctx,w,h}=H.fit(S.c.box,0.62), th=S.v.th, tc=S.v.tc;
+    ctx.fillStyle=H.css('--surface'); ctx.fillRect(0,0,w,h);
+    const bx=28, bw=w-56, top=10, bh=(h-20)*0.55, gy=top+bh+14, gh=h-gy-22;
+    // walls
+    const gr=ctx.createLinearGradient(bx-18,0,bx,0); gr.addColorStop(0,H.heat(0.95)); gr.addColorStop(1,H.heat(0.8)); ctx.fillStyle=gr; ctx.fillRect(bx-14,top,14,bh);
+    ctx.fillStyle=H.css('--cold'); ctx.fillRect(bx+bw,top,14,bh);
+    ctx.strokeStyle=H.css('--line'); ctx.strokeRect(bx,top,bw,bh);
+    ctx.setLineDash([3,5]); ctx.beginPath(); ctx.moveTo(bx+bw/2,top); ctx.lineTo(bx+bw/2,top+bh); ctx.stroke(); ctx.setLineDash([]);
+    const tmax=Math.max(th,1.5);
+    for(const p of P){ const e=0.5*(p.vx*p.vx+p.vy*p.vy); ctx.fillStyle=H.heat(Math.min(1,0.15+0.85*e/(tmax*1.4))); ctx.beginPath(); ctx.arc(bx+p.x/W*bw, top+p.y/Ht*bh, 2.3,0,7); ctx.fill(); }
+    // profile bars
+    const ymax=tmax*1.1, Y=v=>gy+gh-(v/ymax)*gh;
+    for(let b=0;b<NB;b++){ const v=binsA[b]; ctx.fillStyle=H.heat(Math.min(1,0.2+0.75*v/tmax)); const x0=bx+b/NB*bw+3; ctx.fillRect(x0,Y(v),bw/NB-6,gy+gh-Y(v)); }
+    ctx.strokeStyle=H.css('--ink'); ctx.setLineDash([5,4]); ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(bx,Y(th)); ctx.lineTo(bx+bw,Y(tc)); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth=1;
+    ctx.strokeStyle=H.css('--line'); ctx.beginPath(); ctx.moveTo(bx,gy+gh); ctx.lineTo(bx+bw,gy+gh); ctx.stroke();
+    H.label(ctx,'local T',bx,gy+4,{color:H.css('--muted'),size:10,base:'top'});
+    H.label(ctx,'HOT',bx-7,top+bh+8,{align:'center',size:9,color:H.css('--hot')});
+    H.label(ctx,'COLD',bx+bw+7,top+bh+8,{align:'center',size:9,color:H.css('--cold')});
+    S.out('flux', M.fmt(ema*100,1)+' (arb.)');
+    S.out('kn', S.v.col<0.08?'free-molecular':S.v.col<0.35?'transition':'continuum');
+  }
+  const A=H.anim(S.c.box,step); S.playBtn(A); S.headBtn('Reset',reset);
+})();
+
+/* ===== Isotherms, gradient and flux (isotropic / anisotropic) ===== */
+(function(){
+  const S=H.sim('#sim-isotherm',{title:'Isotherms, ∇T and heat flux',tag:'Drag the sources · hover to probe',
+    canvases:[{id:'f',cbar:['cold','','hot']}],
+    controls:[{type:'select',id:'mode',label:'Material',options:[['iso','Isotropic (k₁ = k₂)'],['ani','Anisotropic (k₁ = 6 k₂)']],value:'iso'},
+              {id:'ang',label:'Principal axis angle',min:0,max:180,step:1,value:30,fmt:v=>v+'°'},
+              {type:'check',id:'arrows',label:'Show flux field',value:true}],
+    readouts:[['ang','∠(q, −∇T) at probe'],['q','|q| at probe']],
+    note:'Orange arrows: heat flux q = −K∇T. Blue arrow at the probe: −∇T, which is always normal to the isotherm. In the anisotropic case the two separate.'});
+  if(!S) return;
+  const nx=150, ny=84; const data=new Float32Array(nx*ny); const fld=new H.Field(S.c.f,{aspect:ny/nx});
+  let src=[{x:0.3,y:0.5,s:1},{x:0.72,y:0.45,s:-1}], probe={x:0.5,y:0.3}, drag=-1;
+  function K(){ const r=S.v.mode==='ani'?6:1, a=S.v.ang*Math.PI/180, c=Math.cos(a), s=Math.sin(a); return [r*c*c+s*s,(r-1)*c*s,(r-1)*c*s,r*s*s+c*c]; }
+  function Tat(x,y,Kt){ const det=Kt[0]*Kt[3]-Kt[1]*Kt[2], ia=Kt[3]/det, ib=-Kt[1]/det, id=Kt[0]/det; let T=0; for(const s of src){const dx=x-s.x, dy=(y-s.y); const r2=ia*dx*dx+2*ib*dx*dy+id*dy*dy; T+= -0.5*s.s*Math.log(r2+1e-4);} return T; }
+  function grad(x,y,Kt){const e=1e-3; return [(Tat(x+e,y,Kt)-Tat(x-e,y,Kt))/(2*e),(Tat(x,y+e,Kt)-Tat(x,y-e,Kt))/(2*e)];}
+  const asp=ny/nx;
+  function draw(){
+    const Kt=K(); let mn=Infinity,mx=-Infinity;
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const v=Tat((i+.5)/nx,((j+.5)/ny)*asp,Kt); data[j*nx+i]=v;}
+    const lo=-3, hi=3; const lv=[]; for(let v=-2.75;v<=2.75;v+=0.25) lv.push(v);
+    fld.draw(data,nx,ny,lo,hi,{contours:lv,contourColor:'rgba(255,255,255,0.45)',overlay:(ctx,b)=>{
+      const X=x=>b.l+x*b.w, Y=y=>b.t+(y/asp)*b.h;
+      if(S.v.arrows){ for(let j=1;j<9;j++)for(let i=1;i<16;i++){ const x=i/16, y=(j/9)*asp; const g=grad(x,y,Kt); const q=[-(Kt[0]*g[0]+Kt[1]*g[1]),-(Kt[2]*g[0]+Kt[3]*g[1])]; const m=Math.hypot(q[0],q[1]); if(m<1e-6) continue; const L=Math.min(16,4+3*Math.log1p(m)); H.arrow(ctx,X(x),Y(y),X(x)+q[0]/m*L,Y(y)+q[1]/m*L,'rgba(255,170,90,0.85)',1.2);} }
+      // probe
+      const g=grad(probe.x,probe.y,Kt), q=[-(Kt[0]*g[0]+Kt[1]*g[1]),-(Kt[2]*g[0]+Kt[3]*g[1])], gm=Math.hypot(g[0],g[1]), qm=Math.hypot(q[0],q[1]);
+      const px=X(probe.x), py=Y(probe.y);
+      H.arrow(ctx,px,py,px-g[0]/gm*46,py-g[1]/gm*46,'#7b98ff',2.5); H.arrow(ctx,px,py,px+q[0]/qm*46,py+q[1]/qm*46,'#ff8a3d',2.5);
+      ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(px,py,4,0,7); ctx.fill();
+      const ang=Math.acos(Math.max(-1,Math.min(1,(-g[0]*q[0]-g[1]*q[1])/(gm*qm))))*180/Math.PI;
+      S.out('ang',ang.toFixed(1)+'°'); S.out('q',M.fmt(qm,2));
+      src.forEach(s=>{ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(X(s.x),Y(s.y),9,0,7); ctx.stroke(); H.label(ctx,s.s>0?'+':'−',X(s.x),Y(s.y),{align:'center',color:'#fff',size:13});});
+    }});
+  }
+  const pos=e=>{const r=S.c.f.getBoundingClientRect(); return {x:(e.clientX-r.left)/r.width, y:((e.clientY-r.top)/r.height)*asp};};
+  S.c.f.addEventListener('pointerdown',e=>{const p=pos(e); drag=-1; src.forEach((s,i)=>{if(Math.hypot(s.x-p.x,s.y-p.y)<0.05) drag=i;}); if(drag<0){probe=p; draw();} else S.c.f.setPointerCapture(e.pointerId);});
+  S.c.f.addEventListener('pointermove',e=>{const p=pos(e); if(drag>=0){src[drag].x=M.clamp(p.x,0.02,0.98); src[drag].y=M.clamp(p.y,0.02,asp-0.02);} else if(e.pointerType==='mouse') probe=p; draw();});
+  S.c.f.addEventListener('pointerup',()=>drag=-1);
+  S.on(draw); draw();
+})();
+
+/* ===== Boundary conditions laboratory ===== */
+(function(){
+  const S=H.sim('#sim-bc',{title:'Boundary condition laboratory',tag:'Transient slab → steady state',
+    canvases:[{id:'p'}],
+    controls:[{type:'select',id:'bc',label:'Condition at x = L',options:[['d','1st kind: T = T∞'],['n','2nd kind: prescribed flux'],['r','3rd kind: convection (Biot)'],['rad','Nonlinear: radiation']],value:'r'},
+      {id:'bi',label:'Bi = hL/k',min:0.05,max:50,value:2,log:true,fmt:v=>v.toFixed(2)},
+      {id:'qn',label:'Prescribed flux q″L/kΔT (out +)',min:-1,max:2,step:0.05,value:0.6,fmt:v=>v.toFixed(2)},
+      {id:'nr',label:'Radiation εσT₀³L/k',min:0.1,max:10,value:2,log:true,fmt:v=>v.toFixed(2)},
+      {type:'buttons',items:[{id:'rs',label:'Restart transient'}]}],
+    readouts:[['ts','Wall temperature θ(L)'],['q','Wall flux q″L/kΔT'],['tau','Fourier number τ']],
+    note:'Left face held at θ = 1, ambient θ∞ = 0.3, initial θ = 0.3. The dashed tangent at x = L shows the slope the boundary condition imposes.'});
+  if(!S) return;
+  const N=81, dx=1/(N-1); let T=new Float64Array(N), tau=0; const Tinf=0.3;
+  const reset=()=>{T.fill(Tinf); T[0]=1; tau=0;}; reset(); S.btn.rs.addEventListener('click',reset); S.on(reset);
+  const pl=new H.Plot(S.c.p,{aspect:0.5,xlabel:'x / L',ylabel:'θ',xmin:0,xmax:1.6,ymin:0,ymax:1.15});
+  function rhsWall(){ // returns flux out (dimensionless) given current T[N-1]
+    const Tw=T[N-1], v=S.v; if(v.bc==='r') return v.bi*(Tw-Tinf); if(v.bc==='n') return v.qn; if(v.bc==='rad') return v.nr*(Tw**4-Tinf**4); return null; }
+  function step(){
+    const dt=0.4*dx*dx, sub=40;
+    for(let s=0;s<sub;s++){ const Tn=T.slice(); for(let i=1;i<N-1;i++) Tn[i]=T[i]+dt/(dx*dx)*(T[i+1]-2*T[i]+T[i-1]);
+      const f=rhsWall(); if(f===null) Tn[N-1]=Tinf; else Tn[N-1]=T[N-1]+2*dt/(dx*dx)*(T[N-2]-T[N-1]-dx*f);
+      Tn[0]=1; T=Tn; tau+=dt; }
+    draw();
+  }
+  function draw(){
+    const xs=M.linspace(0,1,N), f=rhsWall(), Tw=T[N-1], slope=f===null?(T[N-1]-T[N-2])/dx:-f;
+    const tx=[1,1.6], ty=[Tw,Tw+slope*0.6];
+    const extra={hlines:[{y:Tinf,label:'θ∞ (fluid)',color:'cold'}],bands:[{x0:1,x1:1.6,color:'cold',alpha:0.07}],vlines:[{x:1,color:'muted',dash:[2,2]}],marks:[]};
+    if(S.v.bc==='r'){ extra.vlines.push({x:1+1/S.v.bi,label:'k/h',color:'hot'}); extra.marks.push({x:Math.min(1.6,1+1/S.v.bi),y:Tinf,color:'hot'}); }
+    pl.draw([{x:xs,y:Array.from(T),color:'hot',width:3,fill:true,fillTo:0},{x:tx,y:ty,color:'ink',dash:[6,4],width:1.5}],extra);
+    S.out('ts',Tw.toFixed(3)); S.out('q',(f===null?-(T[N-1]-T[N-2])/dx:f).toFixed(3)); S.out('tau',tau.toFixed(2));
+  }
+  const A=H.anim(S.c.p,step); S.playBtn(A);
+})();
+
+/* ===== Kirchhoff: slab with k = k0(1+βT) and fuel rod ===== */
+(function(){
+  const S=H.sim('#sim-kirchhoff',{title:'Variable conductivity via Kirchhoff transform',tag:'Nonlinear → linear',
+    canvases:[{id:'a'},{id:'b'}],
+    controls:[{id:'beta',label:'β in k = k₀(1+βθ)',min:-0.9,max:4,step:0.05,value:2,fmt:v=>v.toFixed(2)},
+              {id:'q',label:'Fuel rod q̇ (×10⁸ W/m³)',min:0.2,max:2.6,step:0.02,value:2.02,fmt:v=>v.toFixed(2)}],
+    readouts:[['flux','Slab flux / constant-k flux'],['mean','k(θ_mean)/k₀'],['tc','Rod centreline (exact)'],['tc0','Rod centreline (k = k_w)']],
+    note:'Top: slab with faces at θ = 1 and θ = 0. Kirchhoff variable (dashed) is always linear. Bottom: fuel rod, r₀ = 1 cm, surface 573 °C, k = 3200/T.'});
+  if(!S) return;
+  const pa=new H.Plot(S.c.a,{aspect:0.42,xlabel:'x / L',ylabel:'θ',xmin:0,xmax:1,ymin:0,ymax:1.05});
+  const pb=new H.Plot(S.c.b,{aspect:0.42,xlabel:'r (mm)',ylabel:'T (°C)',xmin:0,xmax:10});
+  function draw(){
+    const b=S.v.beta, x=M.linspace(0,1,101), th1=1+b/2; // θk(T=1)
+    const T=x.map(s=>{const thk=th1*(1-s); return Math.abs(b)<1e-6?thk:(-1+Math.sqrt(1+2*b*thk))/b;});
+    pa.o.ymax=Math.max(1.05,th1*1.03);
+    pa.draw([{x,y:x.map(s=>1-s),color:'muted',dash:[3,3],label:'β = 0'},{x,y:T,color:'hot',width:3,label:'θ(x), β = '+b.toFixed(2)},{x,y:x.map(s=>th1*(1-s)),color:'cold',dash:[6,4],label:'Kirchhoff θ_k (linear)'}]);
+    S.out('flux',th1.toFixed(3)+' ×'); S.out('mean',(1+b*0.5).toFixed(3));
+    const r0=0.01, Tw=573, q=S.v.q*1e8, r=M.linspace(0,r0,80);
+    const Te=r.map(s=>Tw*Math.exp(q*(r0*r0-s*s)/(4*3200))), kw=3200/Tw, Tc=r.map(s=>Tw+q*(r0*r0-s*s)/(4*kw));
+    pb.o.ymin=500; pb.o.ymax=Math.max(3200, Tc[0]*1.05);
+    pb.draw([{x:r.map(s=>s*1e3),y:Te,color:'hot',width:3,label:'k = 3200/T (Kirchhoff)'},{x:r.map(s=>s*1e3),y:Tc,color:'cold',dash:[6,4],label:'k = k(T_w) constant'}],{hlines:[{y:2773,label:'limit 2773 °C',color:'warn'}]});
+    S.out('tc',Te[0].toFixed(0)+' °C'); S.out('tc0',Tc[0].toFixed(0)+' °C');
+  }
+  S.on(draw); draw();
+})();
+
+/* ===== Biot number across a wall ===== */
+(function(){
+  const S=H.sim('#sim-biot',{title:'Where does the temperature drop?',tag:'Biot number',
+    canvases:[{id:'p'}],controls:[{id:'bi',label:'Bi = hL/k',min:0.01,max:100,value:1,log:true,fmt:v=>v<0.1?v.toFixed(3):v.toFixed(2)}],
+    readouts:[['in','Drop inside the solid'],['sf','Drop across fluid films']],
+    note:'A wall of thickness 2L between fluids at θ = 1 and θ = 0 with equal h on both sides. Shaded zones are the fluid boundary layers.'});
+  if(!S) return;
+  const pl=new H.Plot(S.c.p,{aspect:0.42,xlabel:'position',ylabel:'θ',xmin:-1.6,xmax:1.6,ymin:0,ymax:1});
+  function draw(){
+    const bi=S.v.bi, fi=bi/(1+bi), fs=(1-fi)/2, Ts1=1-fs, Ts2=fs;
+    pl.draw([{x:[-1.6,-1],y:[1,Ts1],color:'cold',width:2},{x:[-1,1],y:[Ts1,Ts2],color:'hot',width:3.5},{x:[1,1.6],y:[Ts2,0],color:'cold',width:2}],
+      {bands:[{x0:-1,x1:1,color:'hot',alpha:0.1},{x0:-1.6,x1:-1,color:'cold',alpha:0.06},{x0:1,x1:1.6,color:'cold',alpha:0.06}],vlines:[{x:-1,label:'solid',color:'muted'},{x:1,color:'muted'}]});
+    S.out('in',(fi*100).toFixed(1)+' %'); S.out('sf',((1-fi)*100).toFixed(1)+' %');
+  }
+  S.on(draw); draw();
+})();
+
+/* ===== Fin designer ===== */
+(function(){
+  const mats={al:['Aluminium',205],cu:['Copper',400],st:['Carbon steel',50],ss:['Stainless steel',15],ti:['Titanium',22]};
+  const S=H.sim('#sim-fin',{title:'Pin-fin designer',tag:'Extended surfaces',
+    canvases:[{id:'fin',cbar:['T∞','','T_base']},{id:'p'},{id:'q'}],
+    controls:[{type:'select',id:'mat',label:'Material',options:Object.entries(mats).map(([k,v])=>[k,v[0]+' (k = '+v[1]+')']),value:'al'},
+      {type:'select',id:'tip',label:'Tip condition',options:[['conv','Convective tip'],['adi','Adiabatic tip'],['inf','Infinitely long']],value:'conv'},
+      {id:'D',label:'Diameter D (mm)',min:1,max:20,step:0.5,value:5},
+      {id:'L',label:'Length L (mm)',min:5,max:200,step:1,value:50},
+      {id:'h',label:'h (W/m²K)',min:5,max:2000,value:25,log:true,fmt:v=>v.toFixed(0)}],
+    readouts:[['mL','mL'],['q','Fin heat rate (θ_b = 100 K)'],['eta','Efficiency η_f'],['eps','Effectiveness ε_f'],['bi','Bi = h(D/4)/k']],
+    note:'Top: the fin in false colour with heat leaving its surface. Middle: θ/θ_b along the fin. Bottom: fin heat rate against length for this diameter; the knee sits near mL ≈ 2.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.36,xlabel:'x / L',ylabel:'θ / θ_b',xmin:0,xmax:1,ymin:0,ymax:1.02});
+  const pq=new H.Plot(S.c.q,{aspect:0.36,xlabel:'L (mm)',ylabel:'q_fin (W)',xmin:0});
+  const thb=100; let parts=[];
+  function calc(Lm){ const v=S.v, k=mats[v.mat][1], D=v.D/1000, h=v.h, P=Math.PI*D, Ac=Math.PI*D*D/4, m=Math.sqrt(h*P/(k*Ac)), Mf=Math.sqrt(h*P*k*Ac)*thb, a=h/(m*k);
+    let q; if(v.tip==='inf') q=Mf; else if(v.tip==='adi') q=Mf*Math.tanh(m*Lm); else q=Mf*(Math.sinh(m*Lm)+a*Math.cosh(m*Lm))/(Math.cosh(m*Lm)+a*Math.sinh(m*Lm));
+    return {k,D,h,P,Ac,m,Mf,a,q}; }
+  function prof(s,c,Lm){ const {m,a}=c, v=S.v; if(v.tip==='inf') return Math.exp(-m*s*Lm); if(v.tip==='adi') return Math.cosh(m*Lm*(1-s))/Math.cosh(m*Lm); return (Math.cosh(m*Lm*(1-s))+a*Math.sinh(m*Lm*(1-s)))/(Math.cosh(m*Lm)+a*Math.sinh(m*Lm)); }
+  function draw(){
+    const Lm=S.v.L/1000, c=calc(Lm), xs=M.linspace(0,1,120), th=xs.map(s=>prof(s,c,Lm));
+    pp.draw([{x:xs,y:th,color:'hot',width:3,fill:true}]);
+    const Ls=M.linspace(0.001,0.2,120), qs=Ls.map(l=>calc(l).q);
+    pq.draw([{x:Ls.map(l=>l*1e3),y:qs,color:'cold',width:2.5}],{marks:[{x:S.v.L,y:c.q,color:'hot',label:M.fmt(c.q,3)+' W'}],vlines:[{x:2/c.m*1e3,label:'mL = 2',color:'muted'}]});
+    const Af=c.P*Lm+(S.v.tip==='conv'?c.Ac:0);
+    S.out('mL',(c.m*Lm).toFixed(3)); S.out('q',M.fmt(c.q,3)+' W'); S.out('eta',(c.q/(c.h*Af*thb)).toFixed(3)); S.out('eps',(c.q/(c.h*c.Ac*thb)).toFixed(1)); S.out('bi',(c.h*c.D/4/c.k).toExponential(2));
+    window.__finTh=th;
+  }
+  function anim(){
+    const {ctx,w,h}=H.fit(S.c.fin,0.18), th=window.__finTh||[]; ctx.fillStyle=H.css('--surface'); ctx.fillRect(0,0,w,h);
+    const x0=40, fw=w-70, fh=Math.max(8,Math.min(h*0.5,S.v.D*3)), y0=h/2-fh/2;
+    ctx.fillStyle=H.heat(0.92); ctx.fillRect(4,6,x0-4,h-12); H.label(ctx,'base',22,h-10,{align:'center',size:9,color:'#000'});
+    for(let i=0;i<th.length;i++){ ctx.fillStyle=H.heat(0.05+0.87*th[i]); ctx.fillRect(x0+i/th.length*fw,y0,fw/th.length+1,fh); }
+    if(Math.random()<0.6) parts.push({s:0,side:Math.random()<0.5?-1:1,off:0,out:false});
+    ctx.fillStyle=H.css('--hot');
+    parts=parts.filter(p=>{ const i=Math.min(th.length-1,Math.floor(p.s*th.length)), loc=th[i]||0;
+      if(!p.out){ p.s+=0.006+0.01*loc; if(Math.random()<0.02*loc*(S.v.h/25)**0.5) p.out=true; if(p.s>1){ if(S.v.tip==='adi') return false; p.out=true; } }
+      else p.off+=1.2;
+      const X=x0+Math.min(1,p.s)*fw, Y=p.out?(h/2+p.side*(fh/2+p.off)):(h/2+p.side*fh*0.25);
+      ctx.globalAlpha=p.out?Math.max(0,1-p.off/30):0.9; ctx.beginPath(); ctx.arc(X,Y,1.8,0,7); ctx.fill(); ctx.globalAlpha=1;
+      return p.off<30; });
+  }
+  S.on(draw); draw(); const A=H.anim(S.c.fin,anim); S.playBtn(A);
+})();
+</script>
+
+</body></html>

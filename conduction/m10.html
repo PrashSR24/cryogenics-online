@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M10 Approximate &amp; Integral Methods</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="The heat-balance integral, variable properties, phase change and weighted residuals: good answers with little algebra.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-module="m10">
+<header class="topbar wrap"><div class="in">
+<a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><b>Advanced Heat Conduction</b></a><a class="navbtn sitehome" href="../" title="Back to the main Cryogenics Online site">← Cryogenics Online</a>
+<span class="sp"></span>
+<div class="modmenu"><button class="navbtn" type="button" aria-expanded="false"><span>☰</span><span class="lbl">Modules</span></button>
+<div class="modmenu-panel"><a href="m01.html" class=""><span>M01</span><span>Foundations of Heat Conduction</span></a><a href="m02.html" class=""><span>M02</span><span>Sturm–Liouville Theory &amp; Fourier Expansions</span></a><a href="m03.html" class=""><span>M03</span><span>Steady Multidimensional Conduction</span></a><a href="m04.html" class=""><span>M04</span><span>Transient Conduction by Separation of Variables</span></a><a href="m05.html" class=""><span>M05</span><span>Semi-infinite &amp; Infinite Domains</span></a><a href="m06.html" class=""><span>M06</span><span>Integral Transform Methods</span></a><a href="m07.html" class=""><span>M07</span><span>Duhamel’s Theorem &amp; Green’s Functions</span></a><a href="m08.html" class=""><span>M08</span><span>Conduction with Phase Change</span></a><a href="m09.html" class=""><span>M09</span><span>Local &amp; Moving Heat Sources</span></a><a href="m10.html" class="on"><span>M10</span><span>Approximate &amp; Integral Methods</span></a><a href="m11.html" class=""><span>M11</span><span>Porous Media &amp; Anisotropic Solids</span></a><a href="m12.html" class=""><span>M12</span><span>Numerical Methods for Conduction</span></a><a href="cheatsheet.html"><span>REF</span><span>Formula sheet</span></a></div></div>
+<button class="iconbtn" type="button" data-theme-toggle aria-label="Toggle light or dark theme">◐</button>
+</div></header>
+<section class="mhero wrap"><div class="in">
+<div><div class="eyebrow">Module 10 · Week 10 · Lectures 50–54</div><h1>Approximate &amp; Integral Methods</h1><p class="lede">The heat-balance integral, variable properties, phase change and weighted residuals: good answers with little algebra.</p>
+<div class="lec-chips"><a href="#l50">L50 Integral method idea</a><a href="#l51">L51 Semi-infinite medium</a><a href="#l52">L52 Variable properties</a><a href="#l53">L53 Phase change</a><a href="#l54">L54 Finite regions &amp; residuals</a></div></div>
+<canvas class="mhero-canvas" data-hero="semi" aria-label="Live heat diffusion animation"></canvas>
+</div></section>
+<div class="page wrap">
+<nav class="rail" aria-label="Lectures in this module"><div class="eyebrow">In this module</div><a href="#l50">L50 · Integral method idea</a><a href="#l51">L51 · Semi-infinite medium</a><a href="#l52">L52 · Variable properties</a><a href="#l53">L53 · Phase change</a><a href="#l54">L54 · Finite regions &amp; residuals</a>
+<div class="prog"><div class="eyebrow" style="margin:0">Your progress</div><button class="btn" type="button" data-mark-done>Mark module complete</button></div></nav>
+<article>
+<section class="lec" id="l50" data-lec="50" data-title="Integral method idea">
+<div class="lec-head"><span class="lec-num">Lecture 50</span><h2>Introduction to the integral method</h2></div>
+<p>Exact solutions are precious but fragile. A convective boundary, a variable conductivity or a moving front can make them unavailable or very hard to use. The <strong>heat-balance integral method</strong> (HBIM), introduced by Goodman in 1958, gives approximate closed-form answers that are typically within a few percent, with a page of algebra.</p>
+<p>The idea is to satisfy the heat equation only <em>on average</em> over the region where things are happening, rather than at every point. In a semi-infinite body, that region is a finite <strong>thermal layer</strong> \(0\le x\le\delta(t)\). Beyond it the body is assumed undisturbed, \(T = T_i\) and \(\partial T/\partial x = 0\).</p>
+<div class="callout key"><div class="t">The four steps</div>
+<ol style="margin:0">
+<li>Integrate the PDE over \(0\le x\le\delta(t)\), using Leibniz's rule, to get the <strong>energy integral equation</strong>: \(\frac{d}{dt}\int_0^\delta(T - T_i)\,dx = -\alpha\frac{\partial T}{\partial x}\Big|_{x=0}\).</li>
+<li>Choose a profile, usually a polynomial of degree 2 to 4 in \(x/\delta\), and fix its coefficients from the boundary conditions at \(x = 0\) and \(x = \delta\) (\(T = T_i\), \(\partial_xT = 0\), and so on).</li>
+<li>Substitute the profile to get an ODE for \(\delta(t)\). Solve it with \(\delta(0) = 0\).</li>
+<li>Put \(\delta(t)\) back into the profile to get \(T(x,t)\) and the surface flux.</li></ol></div>
+<p>The approximation lies in the choice of profile. Higher degree does <em>not</em> automatically mean higher accuracy, as the simulation below demonstrates.</p>
+</section>
+
+<section class="lec" id="l51" data-lec="51" data-title="Semi-infinite medium">
+<div class="lec-head"><span class="lec-num">Lecture 51</span><h2>Integral method for a semi-infinite medium</h2></div>
+<p>A surface temperature step \(T_s\) is applied to a body at \(T_i\), with \(\theta = (T - T_i)/(T_s - T_i)\). With the quadratic profile \(\theta = (1 - x/\delta)^2\) (it satisfies \(\theta(0) = 1\), \(\theta(\delta) = 0\), \(\theta'(\delta) = 0\)):</p>
+<div class="eq">$$\int_0^\delta\theta\,dx = \frac{\delta}{3},\quad -\frac{\partial\theta}{\partial x}\Big|_0 = \frac{2}{\delta}\quad\Rightarrow\quad\frac{1}{3}\frac{d\delta}{dt} = \frac{2\alpha}{\delta}\quad\Rightarrow\quad\delta = \sqrt{12\alpha t},\qquad q''_s = \frac{k(T_s - T_i)}{\sqrt{3\alpha t}}$$</div>
+<p>The exact flux is \(k(T_s - T_i)/\sqrt{\pi\alpha t}\). The quadratic profile is high by \(\sqrt{\pi/3} - 1 = 2.3\%\). A cubic profile \(\theta = 1 - \frac32\frac{x}{\delta} + \frac12\frac{x^3}{\delta^3}\), which adds \(\theta''(0) = 0\) from the PDE at the wall, gives \(\delta = \sqrt{8\alpha t}\) and a flux 6% <em>low</em>. For the family \(\theta = (1 - x/\delta)^n\), the method gives</p>
+<div class="eq box"><span class="eq-tag">Power-law profiles</span>$$\delta = \sqrt{2n(n+1)\alpha t},\qquad \frac{q''_{\text{HBIM}}}{q''_{\text{exact}}} = \sqrt{\frac{\pi n}{2(n+1)}},\qquad \text{exact flux when } n = \frac{2}{\pi - 2}\approx 1.75$$</div>
+<div id="sim-hbim"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>The integral method conserves energy exactly. The total heat absorbed is correct for whatever profile shape you assume. What it cannot get exactly right is how that energy is <em>distributed</em> in depth. The real erfc profile has an infinitely long tail, but the polynomial must reach zero at \(\delta\) with zero slope. So \(\delta\) is a bit larger than the "4√(αt)" visual edge, and the flux, which depends on the slope at the wall, carries most of the error. When you need wall flux, choose the profile to match the wall behaviour; when you need penetration depth, match the far behaviour.</p></div>
+</section>
+
+<section class="lec" id="l52" data-lec="52" data-title="Variable properties">
+<div class="lec-head"><span class="lec-num">Lecture 52</span><h2>Temperature-dependent properties</h2></div>
+<p>Where the method really pays off is nonlinear problems. With \(k = k(T)\) and constant \(\rho c\), apply the Kirchhoff transform \(U = \int_{T_i}^{T}k(T')dT'\). The energy integral equation becomes</p>
+<div class="eq">$$\rho c\,\frac{d}{dt}\int_0^\delta(T - T_i)\,dx = -\frac{\partial U}{\partial x}\Big|_{x=0}$$</div>
+<p>Assume the quadratic profile for \(U\), \(U = U_s(1 - x/\delta)^2\), and recover \(T\) from \(U\) pointwise. For \(k = k_0(1 + \beta\theta)\) with \(\theta\in[0,1]\), \(U/k_0\Delta T = \theta + \beta\theta^2/2\). The integral can be evaluated in closed form and gives \(\delta^2 = 12\alpha_0t\,(1 + \beta/2)\,f(\beta)\), with \(f\to1\) as \(\beta\to0\). The code at the end of this module carries out the calculation numerically and compares it with a finite-difference solution. For \(|\beta|\le1\) the agreement is within about 3% in wall flux.</p>
+<div class="callout cryo"><div class="t">Cryogenic angle</div>
+<p>Below about 50 K, the conductivity of metals and of many insulators changes by an order of magnitude over the temperature range of a single cool-down. A transient cool-down calculation that uses one value of \(k\) is badly wrong. Kirchhoff plus integral method gives a quick, physically transparent estimate of how fast a cold front propagates into a support strut or a thick-walled cold mass, before committing to a full numerical model.</p></div>
+</section>
+
+<section class="lec" id="l53" data-lec="53" data-title="Phase change">
+<div class="lec-head"><span class="lec-num">Lecture 53</span><h2>Integral method for phase change</h2></div>
+<p>Return to Stefan's single-region melting problem from Module 8: liquid in \(0\lt x\lt s(t)\) with \(\theta = (T - T_f)/(T_0 - T_f)\), the face at \(\theta = 1\), and the solid at \(T_f\). Assume a quadratic profile in \(\xi = (s - x)/s\):</p>
+<div class="eq">$$\theta = a\,\xi + b\,\xi^2,\qquad a + b = 1$$</div>
+<p>A second condition comes from differentiating \(\theta(s(t),t) = 0\) in time and using the PDE and the Stefan condition \(\dot s = -\alpha\,\mathrm{Ste}\,\theta_x(s)\). This gives \(\theta_{xx}(s) = \mathrm{Ste}\,\theta_x^2(s)\), so \(2b = \mathrm{Ste}\,a^2\):</p>
+<div class="eq">$$a = \frac{\sqrt{1 + 2\,\mathrm{Ste}} - 1}{\mathrm{Ste}},\qquad b = 1 - a$$</div>
+<p>The energy integral, with the Stefan condition used for the flux at the front, is \(\frac{d}{dt}\int_0^s\theta\,dx = -\frac{\dot s}{\mathrm{Ste}} - \alpha\theta_x(0)\). With \(\int_0^s\theta\,dx = s\,(a/2 + b/3)\) and \(-\theta_x(0) = (a + 2b)/s\):</p>
+<div class="eq box"><span class="eq-tag">HBIM melting rate</span>$$s(t) = 2\lambda_{\text{HBIM}}\sqrt{\alpha t},\qquad \lambda^2_{\text{HBIM}} = \frac{a + 2b}{2\,(a/2 + b/3 + 1/\mathrm{Ste})}$$</div>
+<p>For small Ste this reduces to \(\lambda^2\to\mathrm{Ste}/2\), the quasi-steady result. At Ste = 1 it overpredicts \(s\) by about 6%. The method extends easily to finite slabs, convective faces and cylinders, where no exact solution exists.</p>
+<div id="sim-hbimpc"></div>
+</section>
+
+<section class="lec" id="l54" data-lec="54" data-title="Finite regions & residuals">
+<div class="lec-head"><span class="lec-num">Lecture 54</span><h2>Finite regions and the method of weighted residuals</h2></div>
+<h4>Integral method in a finite slab: two stages</h4>
+<p>For a slab of thickness \(L\), insulated at \(x = L\), the thermal layer reaches the back face at \(t_1 = L^2/12\alpha\) (quadratic profile). After that, a second stage takes over, with the profile \(\theta = 1 - (1 - \theta_L(t))\left(2\frac{x}{L} - \frac{x^2}{L^2}\right)\) and the back-face temperature \(\theta_L(t)\) as the unknown. The energy integral gives \(\frac{2L}{3}\dot\theta_L = \frac{2\alpha}{L}(1 - \theta_L)\), so</p>
+<div class="eq">$$1 - \theta_L(t) = \exp\!\left[-\frac{3\alpha(t - t_1)}{L^2}\right],\qquad t\ge t_1 = \frac{L^2}{12\alpha}$$</div>
+<p>The exact one-term decay rate is \((\pi/2)^2 = 2.47\) instead of 3: close enough for estimates, and obtained in three lines. Toggle "finite slab" in the first simulation to compare.</p>
+<h4>Method of weighted residuals (MWR)</h4>
+<p>The integral method is one member of a larger family. Write an approximate solution with free coefficients, \(\tilde T = \phi_0 + \sum_{i=1}^Nc_i\phi_i\), where each trial function satisfies the boundary conditions. Substitute it into the governing equation to get a <strong>residual</strong> \(R(x; c_i)\), which would be zero for the exact solution. Then force \(N\) weighted averages of \(R\) to vanish:</p>
+<div class="eq">$$\int_0^LR(x;c)\,w_j(x)\,dx = 0,\qquad j = 1,\dots,N$$</div>
+<div class="tw"><table class="t"><tr><th>Method</th><th>Weights \(w_j\)</th><th>Character</th></tr>
+<tr><td>Collocation</td><td>\(\delta(x - x_j)\)</td><td>Residual exactly zero at chosen points; cheapest</td></tr>
+<tr><td>Subdomain</td><td>1 on the \(j\)-th sub-interval, else 0</td><td>Conservation on each piece; the heat-balance integral is the case \(N = 1\)</td></tr>
+<tr><td>Galerkin</td><td>\(\phi_j\) (the trial functions themselves)</td><td>Residual orthogonal to the trial space; the basis of the finite element method</td></tr>
+<tr><td>Least squares</td><td>\(\partial R/\partial c_j\)</td><td>Minimises \(\int R^2dx\); always symmetric positive definite</td></tr></table></div>
+<div id="sim-mwr"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>Each method asks a different question of the residual. Collocation insists on perfection at a few points. Subdomain insists on energy balance over each patch. Galerkin insists that the error has no component the trial functions could have described. For this fin problem, all four converge rapidly. Galerkin and least squares give the best heat rate for a given N, because they control the error in an integral, energy-like sense. This is why Galerkin's method, applied to piecewise polynomials, became the finite element method used in every commercial thermal solver.</p></div>
+<div class="code" data-file="integral_methods.py"><pre data-lang="python">import numpy as np
+from scipy.special import erf, erfc
+from scipy.optimize import brentq
+
+# 1) Power-law heat-balance integral vs exact surface flux
+for n in (1, 1.75, 2, 3, 4):
+    print(f"n = {n:4}: delta = sqrt({2*n*(n+1):.2f} alpha t),  q_HBIM/q_exact = {np.sqrt(np.pi*n/(2*(n+1))):.4f}")
+
+# 2) Phase change: HBIM vs Stefan exact
+for Ste in (0.1, 0.5, 1.0, 2.0):
+    a = (np.sqrt(1 + 2*Ste) - 1)/Ste; b = 1 - a
+    lam_h = np.sqrt((a + 2*b)/(2*(a/2 + b/3 + 1/Ste)))
+    lam_e = brentq(lambda l: l*np.exp(l*l)*erf(l) - Ste/np.sqrt(np.pi), 1e-9, 5)
+    print(f"Ste = {Ste:3}: lambda exact {lam_e:.4f}, HBIM {lam_h:.4f}  ({(lam_h/lam_e-1)*100:+.1f} %)")
+
+# 3) Galerkin for the fin  θ'' - m²θ = 0, θ(0)=1, θ'(1)=0 with φ_i = x^(i+1) - (i+1)x
+m, N = 2.0, 3
+xq = np.linspace(0, 1, 2001)
+phi  = [xq**(i+1) - (i+1)*xq for i in range(1, N+1)]
+d2   = [(i+1)*i*xq**(i-1) for i in range(1, N+1)]
+A = np.array([[np.trapz((d2[i] - m*m*phi[i])*phi[j], xq) for i in range(N)] for j in range(N)])
+rhs = np.array([np.trapz(m*m*1.0*phi[j], xq) for j in range(N)])       # residual of φ0 = 1 is -m²
+c = np.linalg.solve(A, rhs)
+theta = 1 + sum(ci*p for ci, p in zip(c, phi))
+exact = np.cosh(m*(1 - xq))/np.cosh(m)
+print("Galerkin coefficients:", np.round(c, 5), " max error:", np.abs(theta - exact).max())
+print("fin heat rate  -θ'(0): Galerkin", -np.gradient(theta, xq)[0], " exact", m*np.tanh(m))</pre><pre data-lang="js">// Heat-balance integral with θ = (1 - x/δ)^n against the exact erfc profile
+const n = 2, t = 1, a = 1;
+const delta = Math.sqrt(2*n*(n+1)*a*t);
+const x = M.linspace(0, 1.2*delta, 200);
+plot(x, [x.map(v =&gt; v &lt; delta ? Math.pow(1 - v/delta, n) : 0), x.map(v =&gt; M.erfc(v/(2*Math.sqrt(a*t))))],
+     {xlabel:'x / √(αt)', ylabel:'θ', labels:['HBIM n = '+n, 'exact erfc']});
+print("delta =", delta, "  flux ratio HBIM/exact =", Math.sqrt(Math.PI*n/(2*(n+1))));</pre></div>
+<div class="quiz" data-title="Module 10 check"><script type="application/json">[{"q":"The heat-balance integral method satisfies the heat equation…","o":["At every point","On average over the thermal layer (energy is conserved exactly)","Only at the surface","Not at all"],"a":1,"w":"Integrating the PDE over the layer gives an exact energy statement; the profile assumption introduces the error."},
+{"q":"With the quadratic profile, the penetration depth δ equals…","o":["√(αt)","2√(αt)","√(12αt)","4√(αt)"],"a":2,"w":"(1/3) dδ/dt = 2α/δ gives δ² = 12αt."},
+{"q":"Raising the polynomial degree in the HBIM…","o":["Always improves accuracy","Does not necessarily improve accuracy","Always worsens it","Has no effect"],"a":1,"w":"Cubic is worse than quadratic for wall flux in the step problem; the optimum power is about 1.75."},
+{"q":"In Galerkin's method the weighting functions are…","o":["Dirac deltas","The trial functions","Unity","∂R/∂cⱼ"],"a":1,"w":"Galerkin makes the residual orthogonal to the trial space, which is the basis of the finite element method."},
+{"q":"For phase change, the HBIM front rate reduces to the quasi-steady result when…","o":["Ste → ∞","Ste → 0","λ → 1","The liquid is superheated"],"a":1,"w":"For small Ste, a → 1, b → 0 and λ² → Ste/2."}]</script></div>
+</section>
+
+
+<nav class="pager"><a href="m09.html"><small>← Module 09</small><b>Local &amp; Moving Heat Sources</b></a><a class="nx" href="m11.html"><small>Module 11 →</small><b>Porous Media &amp; Anisotropic Solids</b></a></nav>
+</article>
+</div>
+<footer class="site wrap"><div class="in">
+<div><b>Advanced Heat Conduction</b> · a Cryogenics Online course<br>Course author: <b>Prashanth S R</b></div>
+<div>Contact: <span class="copyable">prashanthsravikumar@gmail.com</span></div>
+</div></footer>
+
+<script>
+/* ===== Heat-balance integral: power-law profiles ===== */
+(function(){
+  const S=H.sim('#sim-hbim',{title:'Heat-balance integral vs exact',tag:'Choose the profile, judge the error',
+    canvases:[{id:'p'},{id:'e'}],
+    controls:[{id:'n',label:'Profile exponent n in (1 − x/δ)ⁿ',min:1,max:5,step:0.05,value:2,fmt:v=>v.toFixed(2)},
+      {type:'select',id:'dom',label:'Domain',options:[['semi','Semi-infinite'],['fin','Finite slab, insulated back (two-stage)']],value:'semi'},
+      {id:'fo',label:'Time αt/L² (finite slab only)',min:0.01,max:1.5,step:0.005,value:0.3,fmt:v=>v.toFixed(3)}],
+    readouts:[['d','δ / √(αt)'],['q','Wall flux error'],['E','Energy stored error'],['tl','Back-face θ (finite)']],
+    note:'Top: θ against depth. Bottom: the wall-flux error against n. The dashed line marks the exact-flux exponent n = 2/(π − 2) ≈ 1.75. Every profile stores exactly the right total energy; only its distribution differs.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.4,xlabel:'x / √(αt)  (or x / L)',ylabel:'θ',ymin:0,ymax:1.05,xmin:0}), pe=new H.Plot(S.c.e,{aspect:0.26,xlabel:'n',ylabel:'flux error (%)',xmin:1,xmax:5});
+  function slabExact(x,fo){ let s=0; for(let k=0;k<200;k++){ const l=(2*k+1)*Math.PI/2; s+=2/l*Math.sin(l*x)*Math.exp(-l*l*fo); } return 1-s; }
+  function draw(){
+    const n=S.v.n;
+    if(S.v.dom==='semi'){
+      const d=Math.sqrt(2*n*(n+1)), xs=M.linspace(0,Math.max(d,5)*1.05,240); pp.o.xmax=xs[xs.length-1];
+      pp.draw([{x:xs,y:xs.map(x=>M.erfc(x/2)),color:'ink',dash:[6,4],width:1.8,label:'exact erfc'},{x:xs,y:xs.map(x=>x<d?Math.pow(1-x/d,n):0),color:'hot',width:3,fill:true,label:'HBIM n = '+n.toFixed(2)}],{vlines:[{x:d,color:'cold',label:'δ'}]});
+      S.out('d',d.toFixed(3)); S.out('q',((Math.sqrt(Math.PI*n/(2*(n+1)))-1)*100).toFixed(2)+' %');
+      const Eh=d/(n+1), Ee=2/Math.sqrt(Math.PI); S.out('E',((Eh/Ee-1)*100).toFixed(2)+' % (exact in the energy integral)'); S.out('tl','—');
+    } else {
+      const fo=S.v.fo, t1=1/(2*n*(n+1)), xs=M.linspace(0,1,200); pp.o.xmax=1; let hb, tl='0 (stage 1)';
+      if(fo<=t1){ const d=Math.sqrt(2*n*(n+1)*fo); hb=xs.map(x=>x<d?Math.pow(1-x/d,n):0); }
+      else { // stage 2 with profile 1 - (1-θL)·g(x), g = 1-(1-x)^n, ∫g = n/(n+1), g'(0) = n
+        const r=n*(n+1)/n; const thL=1-Math.exp(-n/(n/(n+1))*(fo-t1)); hb=xs.map(x=>1-(1-thL)*(1-Math.pow(1-x,n))); tl=thL.toFixed(4)+' (exact '+slabExact(1,fo).toFixed(4)+')'; }
+      pp.draw([{x:xs,y:xs.map(x=>slabExact(x,fo)),color:'ink',dash:[6,4],width:1.8,label:'exact series'},{x:xs,y:hb,color:'hot',width:3,fill:true,label:'HBIM'}],{vlines:[{x:1,color:'muted',label:'insulated'}]});
+      S.out('d','t₁ = '+t1.toFixed(4)+' L²/α'); S.out('q','—'); S.out('E','—'); S.out('tl',tl);
+    }
+    const ns=M.linspace(1,5,120); pe.draw([{x:ns,y:ns.map(v=>(Math.sqrt(Math.PI*v/(2*(v+1)))-1)*100),color:'cold',width:2.5}],{hlines:[{y:0,color:'muted',dash:[]}],vlines:[{x:2/(Math.PI-2),color:'good',label:'n ≈ 1.75'}],marks:[{x:n,y:(Math.sqrt(Math.PI*n/(2*(n+1)))-1)*100,color:'hot'}]});
+  }
+  S.on(draw); draw();
+})();
+
+/* ===== HBIM for phase change ===== */
+(function(){
+  const S=H.sim('#sim-hbimpc',{title:'Integral method for melting',tag:'HBIM vs Stefan’s exact λ',
+    canvases:[{id:'p'},{id:'l'}],
+    controls:[{id:'ste',label:'Stefan number',min:0.02,max:4,value:1,log:true,fmt:v=>v.toFixed(3)}],
+    readouts:[['a','a, b'],['le','λ exact'],['lh','λ HBIM'],['lq','λ quasi-steady'],['err','HBIM error in s']],
+    note:'Top: liquid temperature profile at the same instant, exact (erf) against the HBIM quadratic, in coordinates scaled by the exact front. Bottom: λ against Ste for the three models.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.36,xlabel:'x / s_exact',ylabel:'θ',xmin:0,ymin:0,ymax:1.05}), pl=new H.Plot(S.c.l,{aspect:0.3,xlabel:'Ste',ylabel:'λ',logx:true,xmin:0.02,xmax:4});
+  const lamE=St=>M.bisect(l=>l*Math.exp(l*l)*M.erf(l)-St/Math.sqrt(Math.PI),1e-9,5);
+  const ab=St=>{ const a=(Math.sqrt(1+2*St)-1)/St; return [a,1-a]; };
+  const lamH=St=>{ const [a,b]=ab(St); return Math.sqrt((a+2*b)/(2*(a/2+b/3+1/St))); };
+  function draw(){
+    const St=S.v.ste, le=lamE(St), lh=lamH(St), [a,b]=ab(St), xs=M.linspace(0,1.3,200);
+    pp.o.xmax=Math.max(1.3,lh/le*1.05);
+    pp.draw([{x:xs,y:xs.map(x=>x<1?1-M.erf(x*le)/M.erf(le):0),color:'ink',dash:[6,4],width:2,label:'exact'},{x:xs,y:xs.map(x=>{ const sr=lh/le; if(x>=sr) return 0; const xi=(sr-x)/sr; return a*xi+b*xi*xi; }),color:'hot',width:3,fill:true,label:'HBIM quadratic'}],{vlines:[{x:1,color:'muted',label:'s exact'},{x:lh/le,color:'hot',label:'s HBIM'}]});
+    const ss=[]; for(let e=Math.log10(0.02);e<=Math.log10(4);e+=0.02) ss.push(10**e);
+    pl.o.ymin=0; pl.o.ymax=Math.max(1.2,lamH(4)*1.05);
+    pl.draw([{x:ss,y:ss.map(lamE),color:'ink',width:2.5,label:'exact'},{x:ss,y:ss.map(lamH),color:'hot',width:2,dash:[6,3],label:'HBIM'},{x:ss,y:ss.map(s=>Math.sqrt(s/2)),color:'cold',width:2,dash:[2,3],label:'quasi-steady'}],{vlines:[{x:St,color:'muted'}]});
+    S.out('a',a.toFixed(4)+', '+b.toFixed(4)); S.out('le',le.toFixed(5)); S.out('lh',lh.toFixed(5)); S.out('lq',Math.sqrt(St/2).toFixed(5)); S.out('err',((lh/le-1)*100).toFixed(2)+' %');
+  }
+  S.on(draw); draw();
+})();
+
+/* ===== Method of weighted residuals: fin ===== */
+(function(){
+  const S=H.sim('#sim-mwr',{title:'Weighted residuals on the fin equation',tag:'Collocation · subdomain · Galerkin · least squares',
+    canvases:[{id:'p'},{id:'r'}],
+    controls:[{type:'select',id:'meth',label:'Method',options:[['col','Collocation'],['sub','Subdomain'],['gal','Galerkin'],['ls','Least squares']],value:'gal'},
+      {id:'N',label:'Number of trial functions N',min:1,max:6,step:1,value:2},{id:'m',label:'Fin parameter mL',min:0.2,max:5,step:0.05,value:2,fmt:v=>v.toFixed(2)}],
+    readouts:[['c','Coefficients cᵢ'],['err','Max |θ̃ − θ|'],['q','Heat rate −θ̃′(0)'],['qe','Exact m tanh m'],['qerr','Heat-rate error']],
+    note:'Problem: θ″ − m²θ = 0, θ(0) = 1, θ′(1) = 0 (adiabatic-tip fin). Trial functions φᵢ = x^(i+1) − (i+1)x satisfy both boundary conditions, so only the residual needs controlling.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.36,xlabel:'x / L',ylabel:'θ',xmin:0,xmax:1}), pr=new H.Plot(S.c.r,{aspect:0.26,xlabel:'x / L',ylabel:'residual R(x)',xmin:0,xmax:1});
+  const xq=M.linspace(0,1,801);
+  function solve(meth,N,m){
+    const phi=i=>x=>Math.pow(x,i+1)-(i+1)*x, d2=i=>x=>(i+1)*i*Math.pow(x,i-1), Rphi=i=>x=>d2(i)(x)-m*m*phi(i)(x); // residual of each trial function
+    const R0=x=>-m*m; // residual of φ0 = 1
+    const W=[]; for(let j=1;j<=N;j++){ if(meth==='gal') W.push(phi(j)); else if(meth==='ls') W.push(Rphi(j)); else W.push(null); }
+    const A=[],b=[];
+    for(let j=1;j<=N;j++){ const row=[]; let rhs;
+      if(meth==='col'){ const xj=j/(N+1)*1.0; for(let i=1;i<=N;i++) row.push(Rphi(i)(xj)); rhs=-R0(xj); }
+      else if(meth==='sub'){ const a0=(j-1)/N, a1=j/N, xs=xq.filter(x=>x>=a0-1e-12&&x<=a1+1e-12); for(let i=1;i<=N;i++) row.push(M.trapz(xs.map(Rphi(i)),xs)); rhs=-M.trapz(xs.map(R0),xs); }
+      else { const w=W[j-1], wv=xq.map(w); for(let i=1;i<=N;i++){ const f=Rphi(i); row.push(M.trapz(xq.map((x,k)=>f(x)*wv[k]),xq)); } rhs=-M.trapz(xq.map((x,k)=>R0(x)*wv[k]),xq); }
+      A.push(row); b.push(rhs); }
+    // Gaussian elimination
+    const n=N; for(let i=0;i<n;i++){ let p=i; for(let r=i+1;r<n;r++) if(Math.abs(A[r][i])>Math.abs(A[p][i])) p=r; [A[i],A[p]]=[A[p],A[i]]; [b[i],b[p]]=[b[p],b[i]]; for(let r=i+1;r<n;r++){ const f=A[r][i]/A[i][i]; for(let c=i;c<n;c++) A[r][c]-=f*A[i][c]; b[r]-=f*b[i]; } }
+    const c=new Array(n).fill(0); for(let i=n-1;i>=0;i--){ let s=b[i]; for(let k=i+1;k<n;k++) s-=A[i][k]*c[k]; c[i]=s/A[i][i]; }
+    const th=x=>1+c.reduce((s,ci,i)=>s+ci*phi(i+1)(x),0), res=x=>R0(x)+c.reduce((s,ci,i)=>s+ci*Rphi(i+1)(x),0), dth0=c.reduce((s,ci,i)=>s+ci*(-(i+2)),0);
+    return {c,th,res,dth0};
+  }
+  function draw(){
+    const m=S.v.m, N=S.v.N, {c,th,res,dth0}=solve(S.v.meth,N,m), xs=M.linspace(0,1,200), ex=x=>Math.cosh(m*(1-x))/Math.cosh(m);
+    pp.draw([{x:xs,y:xs.map(ex),color:'ink',dash:[6,4],width:2,label:'exact cosh m(1−x)/cosh m'},{x:xs,y:xs.map(th),color:'hot',width:3,label:'MWR, N = '+N}]);
+    const pts=S.v.meth==='col'?Array.from({length:N},(_,j)=>(j+1)/(N+1)):[];
+    pr.draw([{x:xs,y:xs.map(res),color:'cold',width:2.2,fill:true,fillTo:0}],{hlines:[{y:0,color:'muted',dash:[]}],marks:pts.map(x=>({x,y:0,color:'hot',label:''})),bands:S.v.meth==='sub'?Array.from({length:N},(_,j)=>({x0:j/N,x1:(j+1)/N,color:j%2?'cold':'hot',alpha:0.06})):[]});
+    let err=0; xs.forEach(x=>err=Math.max(err,Math.abs(th(x)-ex(x))));
+    S.out('c',c.map(v=>v.toFixed(4)).join(', ')); S.out('err',err.toExponential(2)); S.out('q',(-dth0).toFixed(5)); S.out('qe',(m*Math.tanh(m)).toFixed(5)); S.out('qerr',((-dth0/(m*Math.tanh(m))-1)*100).toFixed(3)+' %');
+  }
+  S.on(draw); draw();
+})();
+</script>
+
+</body></html>

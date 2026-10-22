@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conduction Formula Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Every key result of the course on one page.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-module="cheatsheet">
+<header class="topbar wrap"><div class="in">
+<a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><b>Advanced Heat Conduction</b></a><a class="navbtn sitehome" href="../" title="Back to the main Cryogenics Online site">← Cryogenics Online</a>
+<span class="sp"></span>
+<div class="modmenu"><button class="navbtn" type="button" aria-expanded="false"><span>☰</span><span class="lbl">Modules</span></button>
+<div class="modmenu-panel"><a href="m01.html" class=""><span>M01</span><span>Foundations of Heat Conduction</span></a><a href="m02.html" class=""><span>M02</span><span>Sturm–Liouville Theory &amp; Fourier Expansions</span></a><a href="m03.html" class=""><span>M03</span><span>Steady Multidimensional Conduction</span></a><a href="m04.html" class=""><span>M04</span><span>Transient Conduction by Separation of Variables</span></a><a href="m05.html" class=""><span>M05</span><span>Semi-infinite &amp; Infinite Domains</span></a><a href="m06.html" class=""><span>M06</span><span>Integral Transform Methods</span></a><a href="m07.html" class=""><span>M07</span><span>Duhamel’s Theorem &amp; Green’s Functions</span></a><a href="m08.html" class=""><span>M08</span><span>Conduction with Phase Change</span></a><a href="m09.html" class=""><span>M09</span><span>Local &amp; Moving Heat Sources</span></a><a href="m10.html" class=""><span>M10</span><span>Approximate &amp; Integral Methods</span></a><a href="m11.html" class=""><span>M11</span><span>Porous Media &amp; Anisotropic Solids</span></a><a href="m12.html" class=""><span>M12</span><span>Numerical Methods for Conduction</span></a><a href="cheatsheet.html"><span>REF</span><span>Formula sheet</span></a></div></div>
+<button class="iconbtn" type="button" data-theme-toggle aria-label="Toggle light or dark theme">◐</button>
+</div></header>
+<main class="cs wrap">
+<div class="eyebrow">Reference</div>
+<h1>Conduction formula sheet</h1>
+<p class="muted" style="max-width:70ch">The key results of all twelve modules on one page. Each card links back to the lecture where the result is derived, explained and simulated.</p>
+<div class="cs-grid">
+<div class="cs-card"><h3>Laws &amp; the heat equation</h3>
+<div class="eq">$$\mathbf q'' = -k\nabla T,\qquad q''_i = -k_{ij}\partial_jT$$</div>
+<div class="eq">$$\rho c\,\partial_tT = \nabla\cdot(k\nabla T) + \dot q,\qquad \alpha = k/\rho c$$</div>
+<div class="eq">$$-k\,\partial_nT = h(T - T_\infty) + \varepsilon\sigma(T^4 - T_{sur}^4)$$</div>
+<a href="m01.html#l3">Module 1 →</a></div>
+<div class="cs-card"><h3>Dimensionless groups</h3>
+<div class="eq">$$\mathrm{Bi} = \frac{hL}{k},\quad \mathrm{Fo} = \frac{\alpha t}{L^2},\quad \mathrm{Ste} = \frac{c\Delta T}{L_f},\quad \mathrm{Pe} = \frac{uL}{2\alpha}$$</div>
+<div class="eq">$$\text{lumped if } \mathrm{Bi} = hV/(kA_s)\lt 0.1:\ \ \theta/\theta_i = e^{-\mathrm{Bi\,Fo}}$$</div>
+<a href="m04.html#l19">Modules 1 &amp; 4 →</a></div>
+<div class="cs-card"><h3>Kirchhoff &amp; fins</h3>
+<div class="eq">$$\theta = \frac{1}{k_R}\int_{T_R}^Tk\,dT'\ \Rightarrow\ \nabla^2\theta + \dot q/k_R = 0$$</div>
+<div class="eq">$$m^2 = \frac{hP}{kA_c},\quad q_f = \sqrt{hPkA_c}\,\theta_b\tanh mL\ \ (\text{adiabatic tip})$$</div>
+<a href="m01.html#l5">Module 1 →</a></div>
+<div class="cs-card"><h3>Sturm–Liouville &amp; expansions</h3>
+<div class="eq">$$(py')' + (q + \lambda w)y = 0,\quad \int_a^b\phi_m\phi_nw\,dx = N_n\delta_{mn}$$</div>
+<div class="eq">$$A_n = \frac{1}{N_n}\int_a^bf\phi_nw\,dx;\quad J_0:\ w = r;\quad P_n:\ N_n = \tfrac{2}{2n+1}$$</div>
+<a href="m02.html#l8">Module 2 →</a></div>
+<div class="cs-card"><h3>Steady 2D plate</h3>
+<div class="eq">$$\frac{T - T_1}{T_0 - T_1} = \frac{2}{\pi}\sum_n\frac{1 - (-1)^n}{n}\sin\frac{n\pi x}{L}\frac{\sinh(n\pi y/L)}{\sinh(n\pi W/L)}$$</div>
+<div class="eq">$$T(r,\phi) = \tfrac{a_0}{2} + \sum(r/r_0)^n(a_n\cos n\phi + b_n\sin n\phi)$$</div>
+<a href="m03.html#l14">Module 3 →</a></div>
+<div class="cs-card"><h3>Transient: plate, cylinder, sphere</h3>
+<div class="eq">$$\frac{\theta}{\theta_i} = \sum C_nX_n(\gamma_n\xi)e^{-\gamma_n^2\mathrm{Fo}},\quad \gamma\tan\gamma = \mathrm{Bi};\ \ \gamma\tfrac{J_1}{J_0} = \mathrm{Bi};\ \ 1 - \gamma\cot\gamma = \mathrm{Bi}$$</div>
+<div class="eq">$$\theta_{\text{brick}} = \theta_{\text{plate},x}\,\theta_{\text{plate},y}\,\theta_{\text{plate},z}$$</div>
+<a href="m04.html#l21">Module 4 →</a></div>
+<div class="cs-card"><h3>Semi-infinite solids</h3>
+<div class="eq">$$\frac{T - T_i}{T_s - T_i} = \operatorname{erfc}\frac{x}{2\sqrt{\alpha t}},\quad q''_s = \frac{k\Delta T}{\sqrt{\pi\alpha t}}$$</div>
+<div class="eq">$$T_c = \frac{e_1T_1 + e_2T_2}{e_1 + e_2},\ e = \sqrt{k\rho c};\quad d = \sqrt{2\alpha/\omega}$$</div>
+<a href="m05.html#l25">Module 5 →</a></div>
+<div class="cs-card"><h3>Integral transforms</h3>
+<div class="eq">$$\bar T_n = \int K_nT\,dv,\quad T = \sum K_n\bar T_n,\quad \dot{\bar T}_n + \alpha\lambda_n^2\bar T_n = A_n(t)$$</div>
+<div class="eq">$$\mathcal H_\nu:\ \bar T = \int_0^\infty rJ_\nu(\lambda r)T\,dr,\ \ T = \int_0^\infty\lambda J_\nu\bar T\,d\lambda$$</div>
+<a href="m06.html#l29">Module 6 →</a></div>
+<div class="cs-card"><h3>Duhamel &amp; Green</h3>
+<div class="eq">$$T = \frac{\partial}{\partial t}\int_0^tf(\tau)\Phi(\mathbf r,t - \tau)\,d\tau$$</div>
+<div class="eq">$$G_\infty = \frac{e^{-(x-x')^2/4\alpha(t-\tau)}}{\sqrt{4\pi\alpha(t-\tau)}},\quad \text{images: } \mp\ \text{at } -x'$$</div>
+<a href="m07.html#l35">Module 7 →</a></div>
+<div class="cs-card"><h3>Phase change</h3>
+<div class="eq">$$k_s\partial_xT_s - k_\ell\partial_xT_\ell = \rho L\dot s,\quad s = 2\lambda\sqrt{\alpha t}$$</div>
+<div class="eq">$$\lambda e^{\lambda^2}\operatorname{erf}\lambda = \mathrm{Ste}/\sqrt\pi;\quad \text{quasi-steady } s = \sqrt{2\,\mathrm{Ste}\,\alpha t}$$</div>
+<a href="m08.html#l42">Module 8 →</a></div>
+<div class="cs-card"><h3>Local &amp; moving sources</h3>
+<div class="eq">$$T_{pt} = \frac{\dot q}{4\pi kr}\operatorname{erfc}\frac{r}{2\sqrt{\alpha t}},\quad T_{line}\approx\frac{\dot q'}{4\pi k}\left[\ln\frac{4\alpha t}{r^2} - \gamma\right]$$</div>
+<div class="eq">$$\text{Rosenthal: } T - T_0 = \frac{\dot q}{2\pi kR}e^{-u(\xi + R)/2\alpha}$$</div>
+<a href="m09.html#l49">Module 9 →</a></div>
+<div class="cs-card"><h3>Approximate methods</h3>
+<div class="eq">$$\frac{d}{dt}\int_0^\delta\theta\,dx = -\alpha\theta_x(0);\ \ \theta = (1 - x/\delta)^2\Rightarrow\delta = \sqrt{12\alpha t}$$</div>
+<div class="eq">$$\int R\,w_j\,dx = 0:\ \text{collocation, subdomain, Galerkin } (w_j = \phi_j),\ \text{LSQ}$$</div>
+<a href="m10.html#l51">Module 10 →</a></div>
+<div class="cs-card"><h3>Porous &amp; anisotropic</h3>
+<div class="eq">$$\frac{1}{k_\perp} = \frac{1-\phi}{k_s} + \frac{\phi}{k_f}\ \le\ k_m\ \le\ (1-\phi)k_s + \phi k_f$$</div>
+<div class="eq">$$\frac{T - T_0}{T_\infty - T_0} = \frac{\mathrm{Bi}}{\mathrm{Bi} + \beta}e^{\beta(x/L - 1)};\quad X_i = \xi_i\sqrt{\bar k/k_i}$$</div>
+<a href="m11.html#l56">Module 11 →</a></div>
+<div class="cs-card"><h3>Finite differences</h3>
+<div class="eq">$$T''_i\approx\frac{T_{i+1} - 2T_i + T_{i-1}}{\Delta x^2};\quad T_{i,j} = \tfrac14\textstyle\sum T_{nb}$$</div>
+<div class="eq">$$\text{explicit stable if } \mathrm{Fo} = \frac{\alpha\Delta t}{\Delta x^2}\le\tfrac12;\quad \omega_{opt} = \frac{2}{1 + \sin(\pi/n)}$$</div>
+<a href="m12.html#l63">Module 12 →</a></div>
+</div>
+</main>
+
+<footer class="site wrap"><div class="in">
+<div><b>Advanced Heat Conduction</b> · a Cryogenics Online course<br>Course author: <b>Prashanth S R</b></div>
+<div>Contact: <span class="copyable">prashanthsravikumar@gmail.com</span></div>
+</div></footer>
+
+</body></html>

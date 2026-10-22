@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M08 Conduction with Phase Change</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Moving interfaces, the Stefan condition, Neumann’s exact solution and quasi-steady estimates for melting and freezing.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-module="m08">
+<header class="topbar wrap"><div class="in">
+<a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><b>Advanced Heat Conduction</b></a><a class="navbtn sitehome" href="../" title="Back to the main Cryogenics Online site">← Cryogenics Online</a>
+<span class="sp"></span>
+<div class="modmenu"><button class="navbtn" type="button" aria-expanded="false"><span>☰</span><span class="lbl">Modules</span></button>
+<div class="modmenu-panel"><a href="m01.html" class=""><span>M01</span><span>Foundations of Heat Conduction</span></a><a href="m02.html" class=""><span>M02</span><span>Sturm–Liouville Theory &amp; Fourier Expansions</span></a><a href="m03.html" class=""><span>M03</span><span>Steady Multidimensional Conduction</span></a><a href="m04.html" class=""><span>M04</span><span>Transient Conduction by Separation of Variables</span></a><a href="m05.html" class=""><span>M05</span><span>Semi-infinite &amp; Infinite Domains</span></a><a href="m06.html" class=""><span>M06</span><span>Integral Transform Methods</span></a><a href="m07.html" class=""><span>M07</span><span>Duhamel’s Theorem &amp; Green’s Functions</span></a><a href="m08.html" class="on"><span>M08</span><span>Conduction with Phase Change</span></a><a href="m09.html" class=""><span>M09</span><span>Local &amp; Moving Heat Sources</span></a><a href="m10.html" class=""><span>M10</span><span>Approximate &amp; Integral Methods</span></a><a href="m11.html" class=""><span>M11</span><span>Porous Media &amp; Anisotropic Solids</span></a><a href="m12.html" class=""><span>M12</span><span>Numerical Methods for Conduction</span></a><a href="cheatsheet.html"><span>REF</span><span>Formula sheet</span></a></div></div>
+<button class="iconbtn" type="button" data-theme-toggle aria-label="Toggle light or dark theme">◐</button>
+</div></header>
+<section class="mhero wrap"><div class="in">
+<div><div class="eyebrow">Module 08 · Week 8 · Lectures 40–44</div><h1>Conduction with Phase Change</h1><p class="lede">Moving interfaces, the Stefan condition, Neumann’s exact solution and quasi-steady estimates for melting and freezing.</p>
+<div class="lec-chips"><a href="#l40">L40 Moving interfaces</a><a href="#l42">L42 Stefan’s solution</a><a href="#l43">L43 Neumann’s solution</a><a href="#l44">L44 Similarity &amp; quasi-steady</a></div></div>
+<canvas class="mhero-canvas" data-hero="melt" aria-label="Live heat diffusion animation"></canvas>
+</div></section>
+<div class="page wrap">
+<nav class="rail" aria-label="Lectures in this module"><div class="eyebrow">In this module</div><a href="#l40">L40 · Moving interfaces</a><a href="#l42">L42 · Stefan’s solution</a><a href="#l43">L43 · Neumann’s solution</a><a href="#l44">L44 · Similarity &amp; quasi-steady</a>
+<div class="prog"><div class="eyebrow" style="margin:0">Your progress</div><button class="btn" type="button" data-mark-done>Mark module complete</button></div></nav>
+<article>
+<section class="lec" id="l40" data-lec="40" data-title="Moving interfaces">
+<div class="lec-head"><span class="lec-num">Lectures 40–41</span><h2>Moving interface problems</h2></div>
+<p>Freezing lakes, casting metals, laser welding, latent-heat storage in buildings, ablation of re-entry shields, freeze-drying of food and cryosurgery all have a solid–liquid interface that moves as heat is conducted to or from it. Its location \(s(t)\) is unknown and must be found as part of the solution. That is what makes these <strong>Stefan problems</strong> nonlinear, even when every property is constant.</p>
+<p>In each phase the ordinary heat equation holds. At the interface, two conditions apply: the temperature equals the fusion temperature, and an energy balance on the moving front, which can store nothing, links the jump in conduction flux to the latent heat released or absorbed:</p>
+<div class="eq box"><span class="eq-tag">Interface conditions (solidification, solid on the left)</span>$$T_s(s,t) = T_\ell(s,t) = T_f,\qquad k_s\frac{\partial T_s}{\partial x}\bigg|_{s} - k_\ell\frac{\partial T_\ell}{\partial x}\bigg|_{s} = \rho L\frac{ds}{dt}\quad(\text{Stefan condition})$$</div>
+<p>Heat conducted away through the solid exceeds heat arriving through the liquid. The difference is the latent heat liberated as the front advances by \(ds\). In cylindrical or spherical coordinates, replace \(x\) by \(r\). If the densities differ, the liquid moves to fill the volume change, which adds an advective term. Here we assume \(\rho_s = \rho_\ell\). With \(\theta = (T - T_f)/(T_f - T_0)\), \(\xi = x/L\) and \(\tau = \alpha_st/L^2\), the problem depends on</p>
+<div class="eq">$$\mathrm{Ste} = \frac{c_s\,(T_f - T_0)}{L_f}\ \ (\text{Stefan number}),\qquad \frac{k_\ell}{k_s},\quad \frac{\alpha_\ell}{\alpha_s},\quad \text{superheat }\frac{T_i - T_f}{T_f - T_0}$$</div>
+<div class="callout phys"><div class="t">Physical interpretation: the Stefan number</div>
+<p>Ste is sensible heat over latent heat: how much energy it takes to cool the solid through the driving temperature difference, compared with the energy that must be removed to freeze it. Metals solidifying with modest undercooling, and phase-change materials (PCMs) in thermal storage that operate over a few kelvin, have small Ste. For them, the latent heat dominates and the front moves slowly compared with the speed at which the temperature field adjusts. Large Ste, such as freezing water against a very cold wall, means sensible heat matters and the front moves quickly.</p></div>
+</section>
+
+<section class="lec" id="l42" data-lec="42" data-title="Stefan’s solution">
+<div class="lec-head"><span class="lec-num">Lecture 42</span><h2>A single-region problem: Stefan’s exact solution</h2></div>
+<p>A solid initially <em>at</em> its melting temperature \(T_f\) occupies \(x>0\). At \(t = 0\) the face is raised to \(T_0>T_f\). Only the liquid has a temperature gradient; the solid stays at \(T_f\). Guided by Module 5, try \(\theta = A + B\operatorname{erf}(x/2\sqrt{\alpha t})\) in the liquid. The interface condition \(T(s) = T_f\) for all \(t\) is possible only if \(s/2\sqrt{\alpha t}\) is constant:</p>
+<div class="eq">$$s(t) = 2\lambda\sqrt{\alpha_\ell t},\qquad \frac{T - T_f}{T_0 - T_f} = 1 - \frac{\operatorname{erf}(x/2\sqrt{\alpha_\ell t})}{\operatorname{erf}\lambda}$$</div>
+<p>Inserting into the Stefan condition gives a transcendental equation for \(\lambda\):</p>
+<div class="eq box"><span class="eq-tag">Stefan’s eigenvalue equation</span>$$\lambda\,e^{\lambda^2}\operatorname{erf}\lambda = \frac{\mathrm{Ste}}{\sqrt\pi},\qquad \mathrm{Ste} = \frac{c_\ell(T_0 - T_f)}{L_f}$$</div>
+<p>For small Ste, \(\lambda\approx\sqrt{\mathrm{Ste}/2}\), so \(s\approx\sqrt{2\,\mathrm{Ste}\,\alpha t}\). This is exactly the <strong>quasi-steady</strong> result obtained by assuming a linear temperature profile across the melt at each instant and integrating \(k(T_0 - T_f)/s = \rho L\,ds/dt\).</p>
+<div id="sim-stefan"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>The front advances like \(\sqrt t\) for the same reason a diffusion front does: as the melt layer thickens, its conduction resistance grows and the heat supply to the front falls as \(1/s\). Melting the second centimetre takes three times as long as the first. The quasi-steady model works when the temperature field relaxes much faster than the front moves. That is the small-Ste limit: the quasi-steady front position is within 2% of the exact one at Ste = 0.1 and about 8% at Ste = 0.5.</p></div>
+</section>
+
+<section class="lec" id="l43" data-lec="43" data-title="Neumann’s solution">
+<div class="lec-head"><span class="lec-num">Lecture 43</span><h2>A two-region problem: Neumann’s exact solution</h2></div>
+<p>A liquid at uniform \(T_i > T_f\) fills \(x>0\). At \(t = 0\) its face is cooled to \(T_0\lt T_f\). A solid layer grows from the wall while the superheated liquid ahead of it also cools. The similarity form of Module 5 still works in both phases:</p>
+<div class="eq">$$\frac{T_s - T_0}{T_f - T_0} = \frac{\operatorname{erf}(x/2\sqrt{\alpha_st})}{\operatorname{erf}\lambda},\qquad \frac{T_\ell - T_i}{T_f - T_i} = \frac{\operatorname{erfc}(x/2\sqrt{\alpha_\ell t})}{\operatorname{erfc}(\lambda\sqrt{\alpha_s/\alpha_\ell})},\qquad s = 2\lambda\sqrt{\alpha_st}$$</div>
+<p>The Stefan condition then fixes \(\lambda\):</p>
+<div class="eq box"><span class="eq-tag">Neumann’s equation</span>$$\frac{e^{-\lambda^2}}{\operatorname{erf}\lambda} - \frac{k_\ell}{k_s}\sqrt{\frac{\alpha_s}{\alpha_\ell}}\,\frac{T_i - T_f}{T_f - T_0}\,\frac{e^{-\lambda^2\alpha_s/\alpha_\ell}}{\operatorname{erfc}\!\left(\lambda\sqrt{\alpha_s/\alpha_\ell}\right)} = \frac{\lambda\sqrt\pi}{\mathrm{Ste}},\qquad \mathrm{Ste} = \frac{c_s(T_f - T_0)}{L_f}$$</div>
+<p>With no superheat (\(T_i = T_f\)), the second term vanishes and the equation reduces to Stefan's. Superheat always slows freezing, because the front must also remove the sensible heat delivered by the liquid. The simulation overlays a finite-difference <strong>enthalpy-method</strong> solution, the workhorse numerical method for phase change, so you can check the exact solution against brute force.</p>
+<div id="sim-neumann"></div>
+<div class="callout real"><div class="t">In the real world</div>
+<p>Lake ice thickens roughly as \(\sqrt{\text{freezing degree-days}}\). This is Stefan's \(\sqrt t\) law, used by engineers to judge when ice will bear a vehicle. In continuous casting of steel, the shell thickness follows \(s = K\sqrt t\), with K of order 25–30 mm/min\(^{1/2}\), a direct descendant of Neumann's solution, and it sets the casting speed so that the shell is strong enough at the mould exit.</p></div>
+</section>
+
+<section class="lec" id="l44" data-lec="44" data-title="Similarity & quasi-steady">
+<div class="lec-head"><span class="lec-num">Lecture 44</span><h2>Similarity and quasi-steady approximations, and radial geometries</h2></div>
+<p>Exact similarity solutions exist only for semi-infinite planar domains with constant conditions. For everything else, such as finite slabs, convective cooling or cylinders, the quasi-steady approximation is the engineer's tool. Assume the frozen layer's temperature profile is the <em>steady</em> one for its current thickness, then integrate the Stefan condition in time.</p>
+<p><strong>Plane wall with convective cooling.</strong> A liquid at \(T_f\) is cooled through its face by a fluid at \(T_\infty\) with coefficient \(h\). The series resistances are \(s/k\) (ice) and \(1/h\) (film):</p>
+<div class="eq">$$\rho L\frac{ds}{dt} = \frac{T_f - T_\infty}{s/k + 1/h}\quad\Rightarrow\quad t = \frac{\rho L}{T_f - T_\infty}\left(\frac{s^2}{2k} + \frac{s}{h}\right)$$</div>
+<p>The front starts out linear in time, limited by the film, and becomes \(\sqrt t\) once the ice dominates the resistance.</p>
+<p><strong>Freezing outward from a cold cylinder (cryoprobe, LNG pipeline, ground freezing).</strong> A probe of radius \(r_0\) at \(T_p\) sits in tissue or liquid at \(T_f\). The steady radial profile through the ice is logarithmic:</p>
+<div class="eq box"><span class="eq-tag">Quasi-steady radial freezing</span>$$\rho L\,R\,\frac{dR}{dt} = \frac{k\,(T_f - T_p)}{\ln(R/r_0)}\quad\Rightarrow\quad t(R) = \frac{\rho L}{k\,(T_f - T_p)}\left[\frac{R^2}{2}\ln\frac{R}{r_0} - \frac{R^2 - r_0^2}{4}\right]$$</div>
+<div id="sim-cryoprobe"></div>
+<div class="callout cryo"><div class="t">Cryogenic angle</div>
+<p>In cryosurgery, a liquid-nitrogen probe at about −196 °C freezes tissue around it. The radius of the lethal zone (below about −40 °C) is smaller than the visible ice ball (0 °C), and both grow ever more slowly with time because of the \(\ln(R/r_0)\) resistance. Blood perfusion (Module 11) eventually balances the heat extraction and the ice ball stops growing. Surgeons use repeated freeze–thaw cycles rather than one long freeze, because the gain from a longer single freeze is so small.</p></div>
+<div class="code" data-file="phase_change.py"><pre data-lang="python">import numpy as np
+from scipy.special import erf, erfc
+from scipy.optimize import brentq
+
+# --- Neumann solution: freezing of water from a cold wall ---
+ks, kl = 2.22, 0.556            # ice, water  W/m K
+as_, al = 1.15e-6, 1.33e-7      # m²/s
+cs, Lf = 2040.0, 334e3          # J/kg K, J/kg
+Tf, T0, Ti = 0.0, -10.0, 5.0
+Ste = cs*(Tf - T0)/Lf
+nu = np.sqrt(as_/al)
+f = lambda lam: (np.exp(-lam**2)/erf(lam)
+                 - kl/ks*nu*(Ti - Tf)/(Tf - T0)*np.exp(-(lam*nu)**2)/erfc(lam*nu)
+                 - lam*np.sqrt(np.pi)/Ste)
+lam = brentq(f, 1e-6, 3)
+print(f"Ste = {Ste:.4f}, lambda = {lam:.5f}")
+for hrs in (1, 6, 24):
+    print(f"ice thickness after {hrs:2d} h: {2*lam*np.sqrt(as_*hrs*3600)*1000:.1f} mm")
+
+# --- Enthalpy method check (explicit, 1D) ---
+N, Lx = 400, 0.2; dx = Lx/N; x = (np.arange(N)+0.5)*dx
+rho = 1000.0; cl = 4200.0
+H = rho*(cl*(Ti - Tf) + Lf)*np.ones(N)                         # liquid enthalpy, ref = solid at Tf
+def T_of_H(H):
+    return np.where(H &lt; 0, H/(rho*cs) + Tf, np.where(H &gt; rho*Lf, (H - rho*Lf)/(rho*cl) + Tf, Tf))
+k_of_H = lambda H: np.where(H &lt; rho*Lf/2, ks, kl)
+dt = 0.2*dx**2*rho*cs/ks; t = 0.0
+while t &lt; 6*3600:
+    T = T_of_H(H); k = k_of_H(H)
+    kf = 2*k[1:]*k[:-1]/(k[1:] + k[:-1])                        # harmonic face conductivity
+    q = np.empty(N+1); q[1:-1] = -kf*(T[1:] - T[:-1])/dx
+    q[0] = -ks*(T[0] - T0)/(dx/2); q[-1] = 0
+    H -= dt*(q[1:] - q[:-1])/dx; t += dt
+front = x[np.argmax(T_of_H(H) &gt;= Tf - 1e-9)]
+print(f"enthalpy method front at 6 h: {front*1000:.1f} mm  (Neumann: {2*lam*np.sqrt(as_*6*3600)*1000:.1f} mm)")</pre><pre data-lang="js">// Stefan problem: λ e^{λ²} erf(λ) = Ste/√π, compared with the quasi-steady λ = √(Ste/2)
+const lam = Ste =&gt; M.bisect(l =&gt; l*Math.exp(l*l)*M.erf(l) - Ste/Math.sqrt(Math.PI), 1e-9, 4);
+const St = M.linspace(0.01, 3, 120);
+plot(St, [St.map(lam), St.map(s =&gt; Math.sqrt(s/2))], {xlabel:'Ste', ylabel:'λ', labels:['exact (Stefan)', 'quasi-steady √(Ste/2)']});
+[0.1, 0.5, 1, 2].forEach(s =&gt; print("Ste =", s, " λ =", lam(s), " quasi-steady error:", ((Math.sqrt(s/2)/lam(s)-1)*100).toFixed(2)+" %"));</pre></div>
+<div class="quiz" data-title="Module 8 check"><script type="application/json">[{"q":"Why is the Stefan problem nonlinear even with constant properties?","o":["Because erf is nonlinear","The interface position is unknown and appears in the boundary condition","Latent heat varies with T","Because of radiation"],"a":1,"w":"The domain itself depends on the solution: s(t) must be found along with T."},
+{"q":"A melt layer 1 cm thick took 10 min to form. Ignoring geometry changes, a 2 cm layer takes about…","o":["20 min","40 min","14 min","10 min"],"a":1,"w":"s ∝ √t, so doubling s takes 4× the time."},
+{"q":"Adding superheat to the liquid in a freezing problem…","o":["Speeds freezing","Slows freezing","Has no effect","Reverses the front"],"a":1,"w":"The front must also remove the sensible heat conducted from the warm liquid."},
+{"q":"The quasi-steady approximation is accurate when…","o":["Ste is small (latent heat dominates)","Ste is large","The liquid is superheated","The geometry is cylindrical only"],"a":0,"w":"Small Ste: the temperature field relaxes fast compared with the front, so a steady profile at each instant is a good approximation."},
+{"q":"For freezing outward from a cold cylinder, the growth rate dR/dt decreases because of…","o":["Lower latent heat at large R","The ln(R/r₀) conduction resistance and growing R in the Stefan balance","Radiation","Convection in the ice"],"a":1,"w":"ρL R dR/dt = kΔT/ln(R/r₀): both the area to freeze and the resistance grow with R."}]</script></div>
+</section>
+
+
+<nav class="pager"><a href="m07.html"><small>← Module 07</small><b>Duhamel’s Theorem &amp; Green’s Functions</b></a><a class="nx" href="m09.html"><small>Module 09 →</small><b>Local &amp; Moving Heat Sources</b></a></nav>
+</article>
+</div>
+<footer class="site wrap"><div class="in">
+<div><b>Advanced Heat Conduction</b> · a Cryogenics Online course<br>Course author: <b>Prashanth S R</b></div>
+<div>Contact: <span class="copyable">prashanthsravikumar@gmail.com</span></div>
+</div></footer>
+
+<script>
+const PCM={ice:['Ice / water',2.22,0.556,1.15e-6,1.33e-7,2040,4200,334e3,0,917],para:['Paraffin (n-octadecane)',0.36,0.15,1.0e-7,8.0e-8,1900,2200,244e3,28,800],al:['Aluminium',237,95,8.4e-5,3.6e-5,1040,1180,397e3,660,2600],pb:['Lead',35,15,2.4e-5,1.0e-5,140,160,23e3,327,11000],salt:['Salt hydrate PCM',1.1,0.55,5.0e-7,2.6e-7,1500,2700,250e3,32,1500]};
+// [name, ks, kl, as, al, cs, cl, Lf, Tf, rho]; diffusivities made consistent with k/(ρc)
+Object.values(PCM).forEach(p=>{ p[3]=p[1]/(p[9]*p[5]); p[4]=p[2]/(p[9]*p[6]); });
+
+/* ===== Stefan one-region melting ===== */
+(function(){
+  const S=H.sim('#sim-stefan',{title:'Melting a solid that starts at its melting point',tag:'Stefan’s exact solution vs quasi-steady',
+    canvases:[{id:'f',cbar:['T_f','','T₀']},{id:'p'},{id:'s'}],
+    controls:[{type:'select',id:'m',label:'Material',options:Object.entries(PCM).map(([k,v])=>[k,v[0]]),value:'para'},
+      {id:'dT',label:'Wall superheat T₀ − T_f (K)',min:1,max:150,step:1,value:20},
+      {id:'t',label:'Time',min:60,max:86400,value:3600,log:true,fmt:v=>v<3600?(v/60).toFixed(1)+' min':(v/3600).toFixed(2)+' h'}],
+    readouts:[['ste','Ste = c_ℓ(T₀−T_f)/L'],['lam','λ (exact)'],['lq','λ (quasi-steady)'],['s','Melt depth s(t)'],['t1','Time to melt 1 cm']],
+    note:'Top: the slab, with liquid on the left in false colour and solid on the right at T_f. Middle: temperature through the melt. Bottom: front position against time, exact vs quasi-steady.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.16}), pp=new H.Plot(S.c.p,{aspect:0.32,xlabel:'x (mm)',ylabel:'(T − T_f)/(T₀ − T_f)',ymin:0,ymax:1.05,xmin:0}), ps=new H.Plot(S.c.s,{aspect:0.28,xlabel:'t (h)',ylabel:'s (mm)',xmin:0});
+  const lamOf=Ste=>M.bisect(l=>l*Math.exp(l*l)*M.erf(l)-Ste/Math.sqrt(Math.PI),1e-9,4);
+  function draw(){
+    const p=PCM[S.v.m], al=p[4], Ste=p[6]*S.v.dT/p[7], lam=lamOf(Ste), t=S.v.t, s=2*lam*Math.sqrt(al*t), sq=Math.sqrt(2*Ste*al*t);
+    const X=Math.max(s*1.8,1e-4), xs=M.linspace(0,X,200), T=xs.map(x=>x<s?1-M.erf(x/(2*Math.sqrt(al*t)))/M.erf(lam):0);
+    const nx=260, ny=26, d=new Float32Array(nx*ny); for(let i=0;i<nx;i++){ const x=(i+0.5)/nx*X, v=x<s?1-M.erf(x/(2*Math.sqrt(al*t)))/M.erf(lam):-0.15; for(let j=0;j<ny;j++) d[j*nx+i]=v; }
+    fld.draw(d,nx,ny,-0.15,1,{overlay:(ctx,b)=>{ const xf=b.l+s/X*b.w; ctx.strokeStyle='#bfe3ff'; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(xf,b.t); ctx.lineTo(xf,b.t+b.h); ctx.stroke(); H.label(ctx,'liquid',b.l+8,b.t+b.h/2,{size:10,color:'#000',bg:'rgba(255,255,255,0.7)'}); H.label(ctx,'solid at T_f',xf+8,b.t+b.h/2,{size:10,color:'#fff'}); }});
+    pp.o.xmax=X*1000;
+    pp.draw([{x:xs.map(x=>x*1000),y:T,color:'hot',width:3,fill:true},{x:[0,sq*1000],y:[1,0],color:'cold',dash:[6,4],width:1.8,label:'quasi-steady (linear)'}],{vlines:[{x:s*1000,color:'cold',label:'s(t)'}]});
+    const th=M.linspace(0,Math.max(t,3600)/3600,120);
+    ps.draw([{x:th,y:th.map(h=>2*lam*Math.sqrt(al*h*3600)*1000),color:'hot',width:2.6,label:'exact'},{x:th,y:th.map(h=>Math.sqrt(2*Ste*al*h*3600)*1000),color:'cold',dash:[6,4],label:'quasi-steady'}],{marks:[{x:t/3600,y:s*1000,color:'hot'}]});
+    S.out('ste',Ste.toFixed(4)); S.out('lam',lam.toFixed(5)); S.out('lq',Math.sqrt(Ste/2).toFixed(5)); S.out('s',(s*1000).toFixed(2)+' mm');
+    const t1=(0.01/(2*lam))**2/al; S.out('t1',t1<3600?(t1/60).toFixed(1)+' min':(t1/3600).toFixed(2)+' h');
+  }
+  S.on(draw); draw();
+  const A=H.anim(S.c.p,dt=>{ let t=S.v.t*(1+dt*0.9); if(t>86400) t=60; S.set_t(t); draw(); }); A.pause(); S.playBtn(A);
+})();
+
+/* ===== Neumann two-region solidification + enthalpy method ===== */
+(function(){
+  const S=H.sim('#sim-neumann',{title:'Freezing a superheated liquid',tag:'Neumann exact solution vs enthalpy method',
+    canvases:[{id:'f',cbar:['T₀','T_f','Tᵢ']},{id:'p'},{id:'s'}],
+    controls:[{type:'select',id:'m',label:'Material',options:Object.entries(PCM).map(([k,v])=>[k,v[0]]),value:'ice'},
+      {id:'sub',label:'Wall subcooling T_f − T₀ (K)',min:1,max:100,step:1,value:10},
+      {id:'sup',label:'Liquid superheat Tᵢ − T_f (K)',min:0,max:60,step:0.5,value:5},
+      {type:'buttons',items:[{id:'run',label:'Restart numerical run',pri:true}]}],
+    readouts:[['ste','Ste (solid)'],['lam','λ (Neumann)'],['lam0','λ with no superheat'],['s','Front now (exact)'],['sn','Front now (enthalpy FD)']],
+    note:'The enthalpy method needs no front tracking: each cell stores enthalpy, and temperature follows from it (flat at T_f while the cell is partly frozen). Dots in the bottom plot are its front positions. They lie on the exact √t curve.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.16}), pp=new H.Plot(S.c.p,{aspect:0.32,xlabel:'x (mm)',ylabel:'T (°C)',xmin:0}), ps=new H.Plot(S.c.s,{aspect:0.28,xlabel:'t (min)',ylabel:'s (mm)',xmin:0});
+  let sim=null, hist=[];
+  function lamN(p,sub,sup){ const [n,ks,kl,as,al,cs,cl,Lf]=p, Ste=cs*sub/Lf, nu=Math.sqrt(as/al);
+    const f=l=>Math.exp(-l*l)/M.erf(l)-kl/ks*nu*(sup/sub)*Math.exp(-(l*nu)*(l*nu))/M.erfc(l*nu)-l*Math.sqrt(Math.PI)/Ste; return {lam:M.bisect(f,1e-7,4),Ste,nu}; }
+  function setup(){
+    const p=PCM[S.v.m], [n,ks,kl,as,al,cs,cl,Lf,Tf,rho]=p, T0=Tf-S.v.sub, Ti=Tf+S.v.sup, {lam}=lamN(p,S.v.sub,S.v.sup);
+    const tEnd=(0.03/(2*lam))**2/as; // time for 30 mm front
+    const Lx=Math.max(0.06,8*Math.sqrt(al*tEnd)+0.04), N=400, dx=Lx/N; const Hh=new Float64Array(N).fill(rho*(cl*(Ti-Tf)+Lf));
+    const dt=0.2*dx*dx*Math.min(rho*cs/ks,rho*cl/kl);
+    sim={p,T0,Ti,Tf,lam,Lx,N,dx,H:Hh,dt,t:0,tEnd,rho}; hist=[];
+  }
+  const Tof=(h,s)=>{ const [n,ks,kl,as,al,cs,cl,Lf,Tf,rho]=s.p; return h<0?h/(rho*cs)+Tf:h>rho*Lf?(h-rho*Lf)/(rho*cl)+Tf:Tf; };
+  function advance(steps){ const s=sim, [n,ks,kl]=s.p, N=s.N, dx=s.dx, Hh=s.H, rho=s.rho, Lf=s.p[7];
+    const T=new Float64Array(N), k=new Float64Array(N), q=new Float64Array(N+1);
+    for(let it=0;it<steps;it++){
+      for(let i=0;i<N;i++){ T[i]=Tof(Hh[i],s); k[i]=Hh[i]<rho*Lf/2?ks:kl; }
+      q[0]=-ks*(T[0]-s.T0)/(dx/2); q[N]=0; for(let i=1;i<N;i++){ const kf=2*k[i]*k[i-1]/(k[i]+k[i-1]); q[i]=-kf*(T[i]-T[i-1])/dx; }
+      for(let i=0;i<N;i++) Hh[i]-=s.dt*(q[i+1]-q[i])/dx; s.t+=s.dt; }
+  }
+  function front(){ const s=sim, rho=s.rho, Lf=s.p[7]; for(let i=0;i<s.N;i++){ if(s.H[i]>0){ const frac=Math.min(1,s.H[i]/(rho*Lf)); return (i+1-frac)*s.dx; } } return s.Lx; }
+  function draw(){
+    const s=sim, p=s.p, [n,ks,kl,as,al]=p, t=s.t, sx=2*s.lam*Math.sqrt(as*t), X=0.045, xs=M.linspace(0,X,240);
+    const Tex=xs.map(x=> x<sx? s.T0+(s.Tf-s.T0)*M.erf(x/(2*Math.sqrt(as*t)))/M.erf(s.lam) : s.Ti+(s.Tf-s.Ti)*M.erfc(x/(2*Math.sqrt(al*t)))/M.erfc(s.lam*Math.sqrt(as/al)) );
+    const xn=[],Tn=[]; for(let i=0;i<s.N;i++){ const x=(i+0.5)*s.dx; if(x>X) break; if(i%4===0){ xn.push(x*1000); Tn.push(Tof(s.H[i],s)); } }
+    const nx=260, ny=26, d=new Float32Array(nx*ny); for(let i=0;i<nx;i++){ const k=Math.min(239,Math.round(i/nx*239)); for(let j=0;j<ny;j++) d[j*nx+i]=t>0?Tex[k]:s.Ti; }
+    fld.draw(d,nx,ny,s.T0,Math.max(s.Ti,s.Tf+0.5),{overlay:(ctx,b)=>{ const xf=b.l+Math.min(1,sx/X)*b.w; ctx.strokeStyle='#bfe3ff'; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(xf,b.t); ctx.lineTo(xf,b.t+b.h); ctx.stroke(); H.label(ctx,'solid',b.l+6,b.t+b.h/2,{size:10,color:'#fff'}); H.label(ctx,'liquid',Math.min(b.l+b.w-50,xf+8),b.t+b.h/2,{size:10,color:'#000',bg:'rgba(255,255,255,0.7)'}); }});
+    pp.o.xmax=X*1000; pp.o.ymin=s.T0-1; pp.o.ymax=s.Ti+1+(s.Ti===s.Tf?1:0);
+    pp.draw([{x:xs.map(x=>x*1000),y:t>0?Tex:xs.map(()=>s.Ti),color:'hot',width:3,label:'Neumann exact'},{x:xn,y:Tn,points:true,color:'cold',r:2.6,label:'enthalpy FD'}],{hlines:[{y:s.Tf,color:'muted',label:'T_f'}],vlines:[{x:sx*1000,color:'cold'}]});
+    const tm=M.linspace(0,s.tEnd/60,100);
+    ps.draw([{x:tm,y:tm.map(m=>2*s.lam*Math.sqrt(as*m*60)*1000),color:'hot',width:2.5,label:'exact s = 2λ√(αₛt)'},{x:hist.map(h=>h[0]/60),y:hist.map(h=>h[1]*1000),points:true,color:'cold',r:3,label:'enthalpy FD'}]);
+    const {lam:l0}=lamN(p,S.v.sub,0), {Ste}=lamN(p,S.v.sub,S.v.sup);
+    S.out('ste',Ste.toFixed(4)); S.out('lam',s.lam.toFixed(5)); S.out('lam0',l0.toFixed(5)); S.out('s',(sx*1000).toFixed(2)+' mm'); S.out('sn',(front()*1000).toFixed(2)+' mm');
+  }
+  setup(); draw();
+  S.on(()=>{setup();draw();}); S.btn.run.addEventListener('click',()=>{setup();draw();A.play();});
+  const A=H.anim(S.c.p,dt=>{ if(sim.t>=sim.tEnd){ return; } const target=sim.t+sim.tEnd/240; let guard=0; while(sim.t<target&&guard<4000){ advance(20); guard+=20; } hist.push([sim.t,front()]); draw(); });
+  S.playBtn(A);
+})();
+
+/* ===== Cryoprobe ice ball (quasi-steady radial) ===== */
+(function(){
+  const S=H.sim('#sim-cryoprobe',{title:'Ice ball around a cryoprobe',tag:'Quasi-steady radial freezing',
+    canvases:[{id:'f',cbar:['T_p','','T_f']},{id:'p'}],
+    controls:[{id:'Tp',label:'Probe temperature (°C)',min:-196,max:-20,step:1,value:-196},
+      {id:'r0',label:'Probe radius r₀ (mm)',min:0.5,max:5,step:0.1,value:1.5,fmt:v=>v.toFixed(1)},
+      {id:'t',label:'Freezing time (min)',min:0.2,max:30,step:0.1,value:8,fmt:v=>v.toFixed(1)}],
+    readouts:[['R','Ice-ball radius (0 °C)'],['R40','Lethal radius (−40 °C)'],['rate','Growth rate now'],['dbl','Time to double the radius']],
+    note:'Tissue modelled as water at 0 °C with ice properties in the frozen zone, and no blood perfusion (an upper bound). Isotherms inside the ice ball are logarithmic: T = T_p + (T_f − T_p) ln(r/r₀)/ln(R/r₀).'});
+  if(!S) return;
+  const k=2.22, rho=917, Lf=334e3, fld=new H.Field(S.c.f,{aspect:0.55}), pp=new H.Plot(S.c.p,{aspect:0.3,xlabel:'t (min)',ylabel:'radius (mm)',xmin:0,xmax:30});
+  const tOf=(R,r0,dT)=>rho*Lf/(k*dT)*(R*R/2*Math.log(R/r0)-(R*R-r0*r0)/4);
+  const ROf=(t,r0,dT)=>{ let a=r0*1.0000001, b=0.2; for(let i=0;i<80;i++){ const m=0.5*(a+b); if(tOf(m,r0,dT)<t) a=m; else b=m; } return 0.5*(a+b); };
+  function draw(){
+    const r0=S.v.r0/1000, dT=0-S.v.Tp, t=S.v.t*60, R=ROf(t,r0,dT), lnR=Math.log(R/r0), R40=r0*Math.exp(lnR*(-40-S.v.Tp)/dT);
+    const nx=240, ny=132, d=new Float32Array(nx*ny), W=0.06; // 60 mm wide view
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){ const x=((i+0.5)/nx-0.5)*W, y=((j+0.5)/ny-0.5)*W*ny/nx, r=Math.hypot(x,y); d[j*nx+i]= r<r0?S.v.Tp: r<R? S.v.Tp+dT*Math.log(r/r0)/lnR : 0; }
+    fld.draw(d,nx,ny,S.v.Tp,5,{contours:[-150,-100,-60,-40,-20,-1],overlay:(ctx,b)=>{ const cx=b.l+b.w/2, cy=b.t+b.h/2, sc=b.w/W; ctx.strokeStyle='#bfe3ff'; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(cx,cy,R*sc,0,7); ctx.stroke(); ctx.strokeStyle='#ff6b6b'; ctx.setLineDash([5,4]); ctx.beginPath(); if(R40>r0){ ctx.arc(cx,cy,R40*sc,0,7); ctx.stroke(); } ctx.setLineDash([]); ctx.fillStyle='#ccd'; ctx.beginPath(); ctx.arc(cx,cy,Math.max(2,r0*sc),0,7); ctx.fill();
+      H.label(ctx,'0 °C front',cx+R*sc*0.72,cy-R*sc*0.72,{size:10,color:'#fff'}); if(R40>r0) H.label(ctx,'−40 °C',cx+R40*sc*0.7,cy+R40*sc*0.7+10,{size:10,color:'#ffb3b3'}); }});
+    const ts=M.linspace(0.05,30,150), Rs=ts.map(m=>ROf(m*60,r0,dT)*1000), R40s=Rs.map(Rm=>{ const Rr=Rm/1000; return r0*1000*Math.exp(Math.log(Rr/r0)*(-40-S.v.Tp)/dT); });
+    pp.draw([{x:ts,y:Rs,color:'cold',width:2.6,label:'0 °C ice front'},{x:ts,y:R40s,color:'hot',width:2,dash:[5,4],label:'−40 °C lethal'}],{vlines:[{x:S.v.t,color:'muted'}]});
+    const rate=k*dT/(rho*Lf*R*lnR);
+    S.out('R',(R*1000).toFixed(2)+' mm'); S.out('R40',R40>r0?(R40*1000).toFixed(2)+' mm':'inside probe'); S.out('rate',(rate*1e3*60).toFixed(3)+' mm/min'); S.out('dbl',((tOf(2*R,r0,dT)-t)/60).toFixed(1)+' min more');
+  }
+  S.on(draw); draw();
+})();
+</script>
+
+</body></html>

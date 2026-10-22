@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M03 Steady Multidimensional Conduction</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Separation of variables in rectangular, cylindrical and spherical bodies, with superposition for non-homogeneous problems.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-module="m03">
+<header class="topbar wrap"><div class="in">
+<a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><b>Advanced Heat Conduction</b></a><a class="navbtn sitehome" href="../" title="Back to the main Cryogenics Online site">← Cryogenics Online</a>
+<span class="sp"></span>
+<div class="modmenu"><button class="navbtn" type="button" aria-expanded="false"><span>☰</span><span class="lbl">Modules</span></button>
+<div class="modmenu-panel"><a href="m01.html" class=""><span>M01</span><span>Foundations of Heat Conduction</span></a><a href="m02.html" class=""><span>M02</span><span>Sturm–Liouville Theory &amp; Fourier Expansions</span></a><a href="m03.html" class="on"><span>M03</span><span>Steady Multidimensional Conduction</span></a><a href="m04.html" class=""><span>M04</span><span>Transient Conduction by Separation of Variables</span></a><a href="m05.html" class=""><span>M05</span><span>Semi-infinite &amp; Infinite Domains</span></a><a href="m06.html" class=""><span>M06</span><span>Integral Transform Methods</span></a><a href="m07.html" class=""><span>M07</span><span>Duhamel’s Theorem &amp; Green’s Functions</span></a><a href="m08.html" class=""><span>M08</span><span>Conduction with Phase Change</span></a><a href="m09.html" class=""><span>M09</span><span>Local &amp; Moving Heat Sources</span></a><a href="m10.html" class=""><span>M10</span><span>Approximate &amp; Integral Methods</span></a><a href="m11.html" class=""><span>M11</span><span>Porous Media &amp; Anisotropic Solids</span></a><a href="m12.html" class=""><span>M12</span><span>Numerical Methods for Conduction</span></a><a href="cheatsheet.html"><span>REF</span><span>Formula sheet</span></a></div></div>
+<button class="iconbtn" type="button" data-theme-toggle aria-label="Toggle light or dark theme">◐</button>
+</div></header>
+<section class="mhero wrap"><div class="in">
+<div><div class="eyebrow">Module 03 · Week 3 · Lectures 13–18</div><h1>Steady Multidimensional Conduction</h1><p class="lede">Separation of variables in rectangular, cylindrical and spherical bodies, with superposition for non-homogeneous problems.</p>
+<div class="lec-chips"><a href="#l13">L13 Uniqueness &amp; the method</a><a href="#l14">L14 Rectangular plates</a><a href="#l15">L15 Superposition</a><a href="#l16">L16 Cylinders: T(r, z)</a><a href="#l17">L17 Cylinders: T(r, φ)</a><a href="#l18">L18 Spheres &amp; 3D</a></div></div>
+<canvas class="mhero-canvas" data-hero="plate" aria-label="Live heat diffusion animation"></canvas>
+</div></section>
+<div class="page wrap">
+<nav class="rail" aria-label="Lectures in this module"><div class="eyebrow">In this module</div><a href="#l13">L13 · Uniqueness &amp; the method</a><a href="#l14">L14 · Rectangular plates</a><a href="#l15">L15 · Superposition</a><a href="#l16">L16 · Cylinders: T(r, z)</a><a href="#l17">L17 · Cylinders: T(r, φ)</a><a href="#l18">L18 · Spheres &amp; 3D</a>
+<div class="prog"><div class="eyebrow" style="margin:0">Your progress</div><button class="btn" type="button" data-mark-done>Mark module complete</button></div></nav>
+<article>
+<section class="lec" id="l13" data-lec="13" data-title="Uniqueness & the method">
+<div class="lec-head"><span class="lec-num">Lecture 13</span><h2>Uniqueness and the method of separation of variables</h2></div>
+<p>Before solving, we need to know that a solution, once found, is <em>the</em> solution. Suppose two fields \(T_1, T_2\) satisfy the same heat equation, initial condition and boundary conditions. Their difference \(\Delta = T_1 - T_2\) satisfies the homogeneous problem with zero initial data. Now look at the "thermal energy norm" \(E(t) = \tfrac12\int_V\Delta^2\,dV\):</p>
+<div class="eq">$$\frac{dE}{dt} = \alpha\int_V\Delta\nabla^2\Delta\,dV = \alpha\oint_A\Delta\frac{\partial\Delta}{\partial n}dA - \alpha\int_V|\nabla\Delta|^2dV = -\alpha\sum_i\frac{h_i}{k}\oint_{A_i}\Delta^2dA - \alpha\int_V|\nabla\Delta|^2dV\le 0$$</div>
+<p>\(E\) starts at zero, can never grow, and is never negative, so it stays zero and \(T_1\equiv T_2\). A steady problem is unique too, up to an additive constant when every boundary is a prescribed flux.</p>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>Uniqueness is the second law in mathematical form. Diffusion only smooths. It cannot create a temperature difference that the boundaries and initial state do not demand. In practice this means you may guess a solution by any means (intuition, symmetry, superposition, a table) and, if it satisfies every condition, you are done.</p></div>
+<h3>The method</h3>
+<p>Separation of variables works when three things hold. The PDE and all but one of the boundary conditions are <strong>linear and homogeneous</strong>. The region fits the <strong>coordinate surfaces</strong> of an orthogonal system (a rectangle, cylinder or sphere). And the product form splits the PDE into ODEs. The recipe:</p>
+<ol>
+<li>Assume \(T = X(x)Y(y)\) (or \(R(r)Z(z)\), and so on) and substitute.</li>
+<li>Divide by \(XY\). Each side depends on a different variable, so both must equal a constant \(\pm\lambda^2\).</li>
+<li>Choose the sign so that the direction with <strong>two homogeneous conditions</strong> gets the oscillatory (Sturm–Liouville) equation. That direction supplies the eigenfunctions.</li>
+<li>Solve the other ODE with sinh/cosh, exponentials, or \(I_\nu/K_\nu\), \(r^{\pm n}\). Impose its homogeneous condition.</li>
+<li>Superpose all modes and fix the coefficients from the single non-homogeneous condition using orthogonality (Module 2).</li>
+</ol>
+<div class="callout key"><div class="t">The rule that decides everything</div>
+<p>Eigenfunctions run <em>along</em> the direction that has homogeneous conditions at <em>both</em> ends. If more than one boundary is non-homogeneous, split the problem by superposition (Lecture 15) so that each sub-problem has exactly one.</p></div>
+</section>
+
+<section class="lec" id="l14" data-lec="14" data-title="Rectangular plates">
+<div class="lec-head"><span class="lec-num">Lecture 14</span><h2>Rectangular coordinates</h2></div>
+<h4>The classic: three cold edges, one hot</h4>
+<p>A long bar of cross-section \(L\times W\) has \(T=T_1\) on three sides and \(T=T_0\) on the side \(y=W\). Let \(\theta = (T - T_1)/(T_0 - T_1)\). The \(x\)-direction has homogeneous conditions at both ends, so it is the eigen-direction:</p>
+<div class="eq">$$\theta = X(x)Y(y):\quad \frac{X''}{X} = -\frac{Y''}{Y} = -\lambda^2\ \Rightarrow\ X_n = \sin\lambda_nx,\ \lambda_n = \frac{n\pi}{L};\qquad Y_n = \sinh\lambda_ny$$</div>
+<p>The sinh choice already satisfies \(\theta(x,0) = 0\). Matching \(\theta(x,W) = 1\) with a sine series gives</p>
+<div class="eq box"><span class="eq-tag">Steady 2D plate solution</span>$$\frac{T - T_1}{T_0 - T_1} = \frac{2}{\pi}\sum_{n=1}^\infty\frac{1 - (-1)^n}{n}\,\sin\frac{n\pi x}{L}\,\frac{\sinh(n\pi y/L)}{\sinh(n\pi W/L)}$$</div>
+<p><strong>Worked example.</strong> \(T_1 = 0\) °C, \(T_0 = 100\) °C, \(L = 2W\). At the centre \((L/2, W/2)\):</p>
+<div class="eq">$$T = \frac{200}{\pi}\sum_n\frac{1-(-1)^n}{n}\frac{\sin(n\pi/2)\sinh(n\pi/4)}{\sinh(n\pi/2)} = 48.061 - 3.987 + 0.502 - \dots = 44.512\ ^\circ\mathrm C$$</div>
+<p>Three terms give 44.576 °C, already within 0.07 °C of the converged 44.512 °C. The series converges fast in the interior, because sinh ratios decay like \(e^{-n\pi(W-y)/L}\). It converges slowly near the hot edge, where the eigenfunctions must reproduce a discontinuity at the corners.</p>
+<div id="sim-plate"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>Each sine mode decays away from the hot edge over a distance \(L/n\pi\). Fine detail in the boundary temperature (high \(n\)) is forgotten within a short distance; only the smooth, low-\(n\) content reaches deep into the plate. This is Saint-Venant's principle for heat. It is why a thermocouple a few millimetres into a wall reads a smooth average of a patchy surface. Click the plate to probe the temperature and watch how few terms the interior needs.</p></div>
+<h4>A convective edge</h4>
+<p>If the edge \(x = b\) convects to a fluid at the reference temperature, the \(x\)-eigenfunctions become \(\cos\lambda_nx\) (insulated at 0) with \(\lambda_n\tan\lambda_nb = h/k\). The eigenvalues are no longer evenly spaced and come from the same graphical construction as in Module 2. The norm changes accordingly, but the procedure is identical.</p>
+</section>
+
+<section class="lec" id="l15" data-lec="15" data-title="Superposition">
+<div class="lec-head"><span class="lec-num">Lecture 15</span><h2>Superposition: non-homogeneous boundaries and sources</h2></div>
+<p>Because the heat equation is linear, the sum of two solutions is a solution. A plate with four non-zero edges \(f_1\) to \(f_4\) becomes four plates, each with one hot edge:</p>
+<div class="eq">$$T(x,y) = T_1(x,y) + T_2(x,y) + T_3(x,y) + T_4(x,y)$$</div>
+<p>Each \(T_i\) satisfies Laplace's equation, takes \(f_i\) on its own edge, and is zero on the other three. Adding them reproduces all four boundary conditions and the PDE.</p>
+<div id="sim-superpose"></div>
+<h4>Non-homogeneous PDE: internal generation</h4>
+<p>For \(\nabla^2T + \dot q/k = 0\) in a rectangle with \(T = 0\) on all sides, split \(T = \psi(x) + \phi(x,y)\). Let \(\psi\) carry the source in 1D: \(\psi'' + \dot q/k = 0\), \(\psi(0) = \psi(L) = 0\), so \(\psi = \frac{\dot q}{2k}x(L-x)\). Then \(\phi\) satisfies Laplace's equation with \(\phi = -\psi\) on \(y = 0, W\), a problem you can already solve. The trick works whenever the source can be absorbed by a one-dimensional particular solution.</p>
+<div class="callout real"><div class="t">In the real world</div>
+<p>An electronics board with chips on top, a cooled base, and two clamped edges is exactly a superposition problem: one sub-problem per heat path, plus a particular solution for the volumetric heating of buried resistive traces. Before any FEA run, engineers use these closed-form series as sanity checks.</p></div>
+</section>
+
+<section class="lec" id="l16" data-lec="16" data-title="Cylinders: T(r, z)">
+<div class="lec-head"><span class="lec-num">Lecture 16</span><h2>Cylindrical coordinates: T(r, z)</h2></div>
+<p>A short solid cylinder (a stubby pin fin) of radius \(r_0\) and length \(L\) protrudes from a wall at \(T_0\). Its sides and tip are cooled so strongly (\(h\to\infty\)) that they sit at \(T_\infty\). Let \(\theta = T - T_\infty\):</p>
+<div class="eq">$$\frac{1}{r}\frac{\partial}{\partial r}\!\left(r\frac{\partial\theta}{\partial r}\right) + \frac{\partial^2\theta}{\partial z^2} = 0,\quad \theta(r_0,z) = 0,\quad \theta(r,L) = 0,\quad \theta(r,0) = F(r)$$</div>
+<p>The radial direction has two homogeneous conditions (finite at 0, zero at \(r_0\)), so it supplies the Bessel eigenfunctions \(J_0(\lambda_nr)\) with \(J_0(\lambda_nr_0) = 0\). The axial solution vanishing at \(z = L\) is \(\sinh\lambda_n(L - z)\):</p>
+<div class="eq box"><span class="eq-tag">Cylinder, uniform base temperature</span>$$\frac{\theta(r,z)}{\theta_0} = \frac{2}{r_0}\sum_{n=1}^\infty\frac{J_0(\lambda_nr)}{\lambda_nJ_1(\lambda_nr_0)}\,\frac{\sinh\lambda_n(L-z)}{\sinh\lambda_nL}$$</div>
+<p><strong>Worked example.</strong> \(L/r_0 = 2\), point \(r/r_0 = 0.5\), \(z/L = 0.75\). With \(\alpha_n = \lambda_nr_0\) the zeros of \(J_0\):</p>
+<div class="eq">$$\frac{\theta}{\theta_0} = 2\sum_n\frac{J_0(0.5\alpha_n)\,\sinh(0.5\alpha_n)}{\alpha_nJ_1(\alpha_n)\,\sinh(2\alpha_n)}\approx 0.0265$$</div>
+<div id="sim-cylz"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>Compare with the 1D fin of Module 1. There, temperature was assumed uniform over each cross-section. Here, with \(h\to\infty\), the surface is pinned at \(T_\infty\) and the core stays hotter, so the profile is strongly two-dimensional. The 1D fin model is valid only when \(\mathrm{Bi} = hr_0/k\ll 1\). Raise \(L/r_0\) in the simulation: beyond about \(L/r_0 = 1.5\), the tip is essentially at \(T_\infty\), because the first mode decays like \(e^{-2.405z/r_0}\).</p></div>
+</section>
+
+<section class="lec" id="l17" data-lec="17" data-title="Cylinders: T(r, φ)">
+<div class="lec-head"><span class="lec-num">Lecture 17</span><h2>Cylindrical coordinates: T(r, φ)</h2></div>
+<p>A long cylinder has its surface held at a temperature that varies around the circumference, \(T(r_0,\phi) = f(\phi)\). The azimuthal direction has <em>periodic</em> conditions, which give \(\sin n\phi\) and \(\cos n\phi\). The radial equation \(r^2R'' + rR' - n^2R = 0\) is equidimensional, with solutions \(r^{n}\) and \(r^{-n}\) (and \(\ln r\) for \(n = 0\)). Finiteness at the axis keeps only \(r^n\):</p>
+<div class="eq box"><span class="eq-tag">Interior of a circle</span>$$T(r,\phi) = \frac{a_0}{2} + \sum_{n=1}^\infty\left(\frac{r}{r_0}\right)^n\left(a_n\cos n\phi + b_n\sin n\phi\right),\quad a_n, b_n = \frac{1}{\pi}\int_0^{2\pi}f(\phi')\left(\cos, \sin\right)n\phi'\,d\phi'$$</div>
+<p>For the region <em>outside</em> a hole in a large plate, finiteness at infinity keeps \(r^{-n}\) instead: replace \((r/r_0)^n\) by \((r_0/r)^n\). Summing the series in closed form gives the Poisson integral \(T(r,\phi) = \frac{1}{2\pi}\int_0^{2\pi}\frac{(r_0^2 - r^2)f(\phi')}{r_0^2 - 2rr_0\cos(\phi - \phi') + r^2}d\phi'\).</p>
+<div id="sim-cylphi"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>The centre temperature is \(a_0/2\), the plain average of the surface temperature. This is the mean-value property of harmonic functions. The \(n\)-th harmonic shrinks as \((r/r_0)^n\) toward the centre, so a pipe wall heated on one side by sunlight, with \(n = 1\) dominant, has a nearly linear temperature across its bore. A pattern with many lobes is smoothed out within a thin skin.</p></div>
+<h4>Non-homogeneous PDE in a cylinder</h4>
+<p>With generation \(\dot q\) in a cylinder whose surface is at \(T_\infty\) and whose base is at \(T_0\), absorb the source in the 1D radial particular solution \(\psi(r) = \frac{\dot q}{4k}(r_0^2 - r^2)\). The remainder satisfies Laplace's equation with modified base data. This is the same split as in the rectangle.</p>
+</section>
+
+<section class="lec" id="l18" data-lec="18" data-title="Spheres & 3D">
+<div class="lec-head"><span class="lec-num">Lecture 18</span><h2>Spherical coordinates and extension to 3D</h2></div>
+<p>A solid sphere has surface temperature \(f(\theta)\) that depends only on polar angle. With \(\mu = \cos\theta\), \(T = R(r)M(\mu)\) separates into Legendre's equation for \(M\) (finite at both poles, so \(M = P_n(\mu)\)) and \(r^2R'' + 2rR' - n(n+1)R = 0\), with solutions \(r^n\) and \(r^{-(n+1)}\):</p>
+<div class="eq box"><span class="eq-tag">Solid sphere</span>$$T(r,\theta) = \sum_{n=0}^\infty A_n\left(\frac{r}{r_0}\right)^nP_n(\cos\theta),\qquad A_n = \frac{2n+1}{2}\int_{-1}^{1}f(\mu)P_n(\mu)\,d\mu$$</div>
+<p>For the exterior of a sphere, use \((r_0/r)^{n+1}\) instead. The centre is again the surface average, \(A_0\).</p>
+<div id="sim-sphere"></div>
+<h4>Three dimensions</h4>
+<p>For \(T(x,y,z)\) in a box with one non-homogeneous face, there are two eigen-directions. Assume \(T = X(x)Y(y)Z(z)\). With \(X_m = \sin\beta_mx\) and \(Y_n = \sin\gamma_ny\), the third direction gets \(\sinh\left(\sqrt{\beta_m^2 + \gamma_n^2}\,z\right)\), and the coefficients form a double series \(A_{mn}\), computed by a double orthogonality integral. In a cylinder \(T(r,\phi,z)\) the eigenfunctions are \(J_\nu(\lambda_{\nu n}r)\cos\nu\phi\), and so on.</p>
+<h4>A geometry that does not separate, but symmetry rescues it</h4>
+<p>A long prism with right isosceles triangular cross-section has \(T = 0\) on one leg, convection on the other leg, and an insulated hypotenuse. A triangle does not fit any coordinate system. But an insulated hypotenuse is a symmetry line: the triangle's solution is half of the solution in the <em>square</em> obtained by mirroring across the diagonal. The square has symmetric conditions and separates. Look for symmetry planes before reaching for numerics.</p>
+<div class="code" data-file="sov_series.py"><pre data-lang="python">import numpy as np
+from scipy.special import j0, j1, jn_zeros
+
+# 1) Rectangular bar, L = 2W, centreline temperature (T0 = 100, T1 = 0)
+def plate(x, y, L=2.0, W=1.0, N=200):
+    n = np.arange(1, N+1)
+    terms = (1-(-1.0)**n)/n*np.sin(n*np.pi*x/L)*np.exp(n*np.pi*(y-W)/L)*(1-np.exp(-2*n*np.pi*y/L))/(1-np.exp(-2*n*np.pi*W/L))
+    return 200/np.pi*terms.sum()        # sinh ratio written with exponentials: no overflow
+print(f"T(L/2, W/2) = {plate(1.0, 0.5):.3f} °C   (converged; 3 terms give 44.576)")
+for N in (1, 2, 3, 5, 50):
+    print(f"   N = {N:3d}: {plate(1.0, 0.5, N=N):.4f}")
+
+# 2) Short cylinder with h -&gt; infinity, L/r0 = 2, point r/r0 = 0.5, z/L = 0.75
+a = jn_zeros(0, 60); Lr = 2.0; rr, zz = 0.5, 0.75
+th = 2*np.sum(j0(a*rr)/(a*j1(a))*np.exp(-a*Lr*zz)*(1-np.exp(-2*a*Lr*(1-zz)))/(1-np.exp(-2*a*Lr)))
+print(f"theta/theta0 at (0.5, 0.75) = {th:.5f}")
+
+# 3) Sphere: surface hot on the upper hemisphere -&gt; centre equals the surface mean
+from scipy.special import eval_legendre
+from scipy.integrate import quad
+A = [(2*n+1)/2*quad(lambda m: eval_legendre(n, m), 0, 1)[0] for n in range(8)]
+print("sphere A_n:", np.round(A, 4), " centre T =", A[0])</pre><pre data-lang="js">// Rectangular plate series: convergence at the centre and along the mid-line
+const L = 2, W = 1;
+function T(x, y, N) {
+  let s = 0;
+  for (let n = 1; n &lt;= N; n += 2)   // only odd n survive
+    s += (2/n)*Math.sin(n*Math.PI*x/L)*Math.exp(n*Math.PI*(y-W)/L)*(1-Math.exp(-2*n*Math.PI*y/L))/(1-Math.exp(-2*n*Math.PI*W/L));
+  return 200/Math.PI*s;
+}
+[1, 3, 5, 51].forEach(N =&gt; print("N =", N, " T(L/2, W/2) =", T(1, 0.5, N)));
+const ys = M.linspace(0, 1, 120);
+plot(ys, [ys.map(y =&gt; T(1, y, 1)), ys.map(y =&gt; T(1, y, 5)), ys.map(y =&gt; T(1, y, 101))], {xlabel:'y / W', ylabel:'T on x = L/2 (°C)', labels:['N = 1','N = 5','N = 101']});</pre></div>
+<div class="quiz" data-title="Module 3 check"><script type="application/json">[{"q":"In separation of variables, the eigenfunctions run along the direction that…","o":["Is longest","Has homogeneous conditions at both ends","Contains the hot boundary","Is radial"],"a":1,"w":"The Sturm–Liouville problem needs two homogeneous conditions. The remaining direction carries sinh/cosh and absorbs the single non-homogeneous condition."},
+{"q":"Temperature at the centre of a long circular cylinder whose surface is held at f(φ) equals…","o":["max f","The average of f over the circumference","f(0)","Zero"],"a":1,"w":"All n ≥ 1 harmonics vanish as (r/r₀)ⁿ at r = 0, leaving a₀/2: the mean-value property."},
+{"q":"For the region outside a circular hole in a large plate, the radial functions are…","o":["rⁿ","r⁻ⁿ","Jₙ(λr)","sinh(nr)"],"a":1,"w":"Finiteness as r → ∞ removes rⁿ, leaving (r₀/r)ⁿ."},
+{"q":"A plate has three edges at 0 and one at T₀. Doubling W/L (making it taller) makes the centre temperature…","o":["Increase","Decrease","Stay the same","Oscillate"],"a":1,"w":"The centre moves further from the hot edge relative to the decay length L/π, so it gets colder."},
+{"q":"A right-isosceles triangle with an insulated hypotenuse can be solved by SOV because…","o":["Triangles separate in polar coordinates","The insulated hypotenuse is a symmetry line of a square","It cannot be solved","Fourier series work on any shape"],"a":1,"w":"Mirror the triangle across the hypotenuse. The resulting square has symmetric conditions and separates; zero normal flux on the diagonal is automatic."}]</script></div>
+</section>
+
+
+<nav class="pager"><a href="m02.html"><small>← Module 02</small><b>Sturm–Liouville Theory &amp; Fourier Expansions</b></a><a class="nx" href="m04.html"><small>Module 04 →</small><b>Transient Conduction by Separation of Variables</b></a></nav>
+</article>
+</div>
+<footer class="site wrap"><div class="in">
+<div><b>Advanced Heat Conduction</b> · a Cryogenics Online course<br>Course author: <b>Prashanth S R</b></div>
+<div>Contact: <span class="copyable">prashanthsravikumar@gmail.com</span></div>
+</div></footer>
+
+<script>
+/* shared: plate series with exponential-safe sinh ratio */
+function sinhRatio(a,b){ // sinh(a)/sinh(b), 0<=a<=b
+  if(b<1e-9) return a/b||0; return Math.exp(a-b)*(1-Math.exp(-2*a))/(1-Math.exp(-2*b)); }
+
+/* ===== Rectangular plate ===== */
+(function(){
+  const edges={uni:['Uniform T₀',x=>1],sin:['sin(πx/L)',x=>Math.sin(Math.PI*x)],lin:['Linear ramp',x=>x],spot:['Hot spot at x = 0.3L',x=>Math.exp(-1*((x-0.3)/0.06)**2)],two:['Two hot strips',x=>(x>0.15&&x<0.3)||(x>0.65&&x<0.85)?1:0]};
+  const S=H.sim('#sim-plate',{title:'Steady plate: one hot edge',tag:'Separation of variables · click to probe',
+    canvases:[{id:'f',cbar:['T₁','','T₀']},{id:'c'}],
+    controls:[{type:'select',id:'e',label:'Hot-edge profile f(x)',options:Object.entries(edges).map(([k,v])=>[k,v[0]]),value:'uni'},
+      {id:'ar',label:'Aspect W / L',min:0.2,max:2,step:0.05,value:0.5,fmt:v=>v.toFixed(2)},
+      {id:'N',label:'Terms N',min:1,max:121,step:1,value:21},
+      {type:'check',id:'q',label:'Show heat-flux arrows',value:true}],
+    readouts:[['pt','Probe (x/L, y/W)'],['T','θ at probe'],['Tc','θ at centre'],['cv','Term-by-term at probe']],
+    note:'Default: L = 2W, uniform hot edge, so θ at the centre converges to 0.44512 (44.512 °C for 0/100 °C). Bottom: convergence of θ at the probe as terms are added.'});
+  if(!S) return;
+  let probe={x:0.5,y:0.5}, coef=[], ck='';
+  const fld=new H.Field(S.c.f,{aspect:0.5,flipY:true}), pc=new H.Plot(S.c.c,{aspect:0.25,xlabel:'terms included',ylabel:'θ(probe)'});
+  function coefs(){ if(ck===S.v.e) return; ck=S.v.e; const f=edges[ck][1], xq=M.linspace(0,1,2001), fq=xq.map(f); coef=[0]; for(let n=1;n<=121;n++) coef.push(2*M.trapz(xq.map((x,i)=>fq[i]*Math.sin(n*Math.PI*x)),xq)); }
+  const th=(x,y,N,ar)=>{ let s=0; for(let n=1;n<=N;n++){ if(Math.abs(coef[n])<1e-12) continue; s+=coef[n]*Math.sin(n*Math.PI*x)*sinhRatio(n*Math.PI*y*ar,n*Math.PI*ar);} return s; };
+  function draw(){
+    coefs(); const ar=S.v.ar, N=S.v.N; fld.o.aspect=Math.min(1.2,ar); const nx=160, ny=Math.max(30,Math.round(160*ar)), d=new Float32Array(nx*ny);
+    for(let j=0;j<ny;j++){ const y=(j+0.5)/ny; for(let i=0;i<nx;i++) d[j*nx+i]=th((i+0.5)/nx,y,N,ar); }
+    const lv=[0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];
+    fld.draw(d,nx,ny,0,1,{contours:lv,overlay:(ctx,b)=>{
+      if(S.v.q){ const e=0.004; for(let j=1;j<6;j++)for(let i=1;i<12;i++){ const x=i/12,y=j/6; const gx=(th(x+e,y,N,ar)-th(x-e,y,N,ar))/(2*e), gy=(th(x,y+e,N,ar)-th(x,y-e,N,ar))/(2*e)/ar; const m=Math.hypot(gx,gy); if(m<1e-4) continue; const X=b.l+x*b.w, Y=b.t+(1-y)*b.h, Lh=6+8*Math.min(1,m); H.arrow(ctx,X,Y,X-gx/m*Lh,Y+gy/m*Lh,'rgba(150,200,255,0.9)',1.3);} }
+      const X=b.l+probe.x*b.w, Y=b.t+(1-probe.y)*b.h; ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(X,Y,6,0,7); ctx.stroke();
+      H.label(ctx,'hot edge f(x)',b.l+b.w/2,b.t+10,{align:'center',size:10,color:'#000',bg:'rgba(255,255,255,0.7)'});
+    }});
+    const ns=[],vs=[]; for(let n=1;n<=N;n++){ ns.push(n); vs.push(th(probe.x,probe.y,n,ar)); }
+    pc.draw([{x:ns,y:vs,color:'hot',width:2,points:N<40,line:true,r:2.5}],{hlines:[{y:vs[vs.length-1],color:'muted',label:M.fmt(vs[vs.length-1],5)}]});
+    S.out('pt',probe.x.toFixed(2)+', '+probe.y.toFixed(2)); S.out('T',th(probe.x,probe.y,N,ar).toFixed(5)); S.out('Tc',th(0.5,0.5,121,ar).toFixed(5)); S.out('cv',vs.slice(0,3).map(v=>v.toFixed(3)).join(' → ')+'…');
+  }
+  S.c.f.addEventListener('pointerdown',e=>{const r=S.c.f.getBoundingClientRect(); probe={x:M.clamp((e.clientX-r.left)/r.width,0.005,0.995),y:M.clamp(1-(e.clientY-r.top)/r.height,0.005,0.995)}; draw();});
+  S.on(()=>{ck=ck===S.v.e?ck:''; draw();}); draw();
+})();
+
+/* ===== Superposition of four edges ===== */
+(function(){
+  const S=H.sim('#sim-superpose',{title:'Four hot edges = four simple problems',tag:'Principle of superposition',
+    canvases:[{id:'f',cbar:['0','','1']}],
+    controls:[{id:'t',label:'Top edge T',min:0,max:1,step:0.05,value:1,fmt:v=>v.toFixed(2)},{id:'r',label:'Right edge T',min:0,max:1,step:0.05,value:0.4,fmt:v=>v.toFixed(2)},
+      {id:'b',label:'Bottom edge T',min:0,max:1,step:0.05,value:0,fmt:v=>v.toFixed(2)},{id:'l',label:'Left edge T',min:0,max:1,step:0.05,value:0.7,fmt:v=>v.toFixed(2)}],
+    readouts:[['c','Centre T (sum)'],['avg','Mean of edge T']],
+    note:'Small panels: each sub-problem has one hot edge and three at zero. Large panel: their sum, which satisfies all four boundary conditions. For a square, the centre equals the average of the four edge temperatures.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.42,bg:true});
+  const n0=40, base=new Float32Array(n0*n0); // top-hot unit solution on unit square
+  for(let j=0;j<n0;j++)for(let i=0;i<n0;i++){ const x=(i+.5)/n0, y=1-(j+.5)/n0; let s=0; for(let n=1;n<=61;n+=2) s+=4/(n*Math.PI)*Math.sin(n*Math.PI*x)*sinhRatio(n*Math.PI*y,n*Math.PI); base[j*n0+i]=s; }
+  const rot=(i,j,k)=>{ // sample unit solution rotated: k=0 top,1 right,2 bottom,3 left
+    if(k===0) return base[j*n0+i]; if(k===2) return base[(n0-1-j)*n0+i]; if(k===1) return base[(n0-1-i)*n0+j]; return base[i*n0+j]; };
+  function draw(){
+    const v=[S.v.t,S.v.r,S.v.b,S.v.l], W=n0*4+3*8+n0*2+16, Hh=n0*2+6; // layout: 2x2 small panels (each n0) + big (2n0)
+    const nx=n0*2+4+n0*2+8, ny=n0*2+4, d=new Float32Array(nx*ny).fill(NaN);
+    const pos=[[0,0],[n0+4,0],[n0+4,n0+4],[0,n0+4]];
+    for(let k=0;k<4;k++){ const [ox,oy]=pos[k]; for(let j=0;j<n0;j++)for(let i=0;i<n0;i++){ const a=Math.floor(i), c=Math.floor(j); d[(oy+j)*nx+ox+i]=v[k]*rot(i,j,k);} }
+    const ox=n0*2+12; for(let j=0;j<n0*2&&j<ny;j++)for(let i=0;i<n0*2;i++){ const ii=Math.floor(i/2), jj=Math.floor(j/2); let s=0; for(let k=0;k<4;k++) s+=v[k]*rot(ii,jj,k); d[j*nx+ox+i]=s; }
+    fld.draw(d,nx,ny,0,1,{pixel:false,overlay:(ctx,b)=>{ const sx=b.w/nx, sy=b.h/ny; const names=['top','right','bottom','left'];
+      for(let k=0;k<4;k++){ const [x0,y0]=pos[k]; H.label(ctx,names[k]+' = '+v[k].toFixed(2),b.l+(x0+n0/2)*sx,b.t+(y0+n0/2)*sy,{align:'center',size:10,color:'#fff',bg:'rgba(0,0,0,0.45)'}); }
+      H.label(ctx,'=',b.l+(n0*2+7)*sx,b.t+b.h/2,{align:'center',size:22,color:H.css('--ink')});
+      H.label(ctx,'Σ',b.l+(n0*2+12+n0)*sx,b.t+10,{align:'center',size:13,color:'#fff',bg:'rgba(0,0,0,0.45)'}); }});
+    const c=v.reduce((s,x,k)=>s+x*rot(n0/2,n0/2,k),0);
+    S.out('c',c.toFixed(4)); S.out('avg',(v.reduce((a,b)=>a+b)/4).toFixed(4));
+  }
+  S.on(draw); draw();
+})();
+
+/* ===== Cylinder T(r,z) ===== */
+(function(){
+  const S=H.sim('#sim-cylz',{title:'Short cylinder (pin fin) with h → ∞',tag:'Fourier–Bessel × sinh',
+    canvases:[{id:'f',cbar:['T∞','','T₀']},{id:'p'}],
+    controls:[{id:'Lr',label:'L / r₀',min:0.3,max:4,step:0.05,value:2,fmt:v=>v.toFixed(2)},{id:'N',label:'Terms',min:1,max:40,step:1,value:20},
+      {id:'rr',label:'Probe r / r₀',min:0,max:1,step:0.01,value:0.5,fmt:v=>v.toFixed(2)},{id:'zz',label:'Probe z / L',min:0,max:1,step:0.01,value:0.75,fmt:v=>v.toFixed(2)}],
+    readouts:[['th','θ/θ₀ at probe'],['ax','Axis θ/θ₀ at z = L/2']],
+    note:'Longitudinal section through the cylinder (−r₀ to r₀ across, base on the left). Bottom: axial profiles on the axis and at the probe radius. Default probe gives θ/θ₀ ≈ 0.0265.'});
+  if(!S) return;
+  const a=M.besselZeros(0,40), J1a=a.map(M.J1), fld=new H.Field(S.c.f,{aspect:0.42}), pp=new H.Plot(S.c.p,{aspect:0.3,xlabel:'z / L',ylabel:'θ/θ₀',xmin:0,xmax:1,ymin:0,ymax:1.05});
+  const th=(r,z,N,Lr)=>{ let s=0; for(let n=0;n<N;n++) s+=2*M.J0(a[n]*r)/(a[n]*J1a[n])*sinhRatio(a[n]*Lr*(1-z),a[n]*Lr); return s; };
+  function draw(){
+    const Lr=S.v.Lr, N=S.v.N, nz=180, nr=Math.max(20,Math.round(180*2/Lr*0.5)), nrr=Math.min(120,Math.max(30,Math.round(nz*2/Lr))); fld.o.aspect=Math.min(1,2/Lr*0.5+0.12);
+    const ny=Math.round(nz*Math.min(1,2/Lr*0.5+0.12)), d=new Float32Array(nz*ny);
+    const J0t=[]; for(let j=0;j<ny;j++){ const r=Math.abs(2*(j+0.5)/ny-1); J0t.push(a.slice(0,N).map(l=>M.J0(l*r))); }
+    for(let j=0;j<ny;j++) for(let i=0;i<nz;i++){ const z=(i+0.5)/nz; let s=0; for(let n=0;n<N;n++) s+=2*J0t[j][n]/(a[n]*J1a[n])*sinhRatio(a[n]*Lr*(1-z),a[n]*Lr); d[j*nz+i]=s; }
+    fld.draw(d,nz,ny,0,1,{contours:[0.05,0.1,0.2,0.3,0.5,0.7,0.9],overlay:(ctx,b)=>{ const X=b.l+S.v.zz*b.w, Y=b.t+(0.5-S.v.rr/2)*b.h; ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(X,Y,6,0,7); ctx.stroke(); H.label(ctx,'base T₀',b.l+6,b.t+12,{size:10,color:'#000',bg:'rgba(255,255,255,0.75)'}); H.label(ctx,'surface & tip at T∞',b.l+b.w-6,b.t+12,{align:'right',size:10,color:'#fff',bg:'rgba(0,0,0,0.5)'}); }});
+    const zs=M.linspace(0,1,150);
+    pp.draw([{x:zs,y:zs.map(z=>th(0,z,N,Lr)),color:'hot',width:2.5,label:'axis r = 0'},{x:zs,y:zs.map(z=>th(S.v.rr,z,N,Lr)),color:'cold',width:2,label:'r/r₀ = '+S.v.rr.toFixed(2)}],{marks:[{x:S.v.zz,y:th(S.v.rr,S.v.zz,40,Lr),color:'ink'}]});
+    S.out('th',th(S.v.rr,S.v.zz,40,Lr).toFixed(5)); S.out('ax',th(0,0.5,40,Lr).toFixed(4));
+
+  }
+  S.on(draw); draw();
+})();
+
+/* ===== Cylinder T(r,phi) ===== */
+(function(){
+  const fs={half:['Half hot, half cold',p=>Math.cos(p)>0?1:0],cos:['½(1 + cos φ) sunlit pipe',p=>0.5*(1+Math.cos(p))],spot:['Hot spot (15° wide)',p=>Math.exp(-1*((Math.atan2(Math.sin(p),Math.cos(p)))/0.13)**2)],lobes:['Three lobes, ½(1 + cos 3φ)',p=>0.5*(1+Math.cos(3*p))],sq:['Four alternating quadrants',p=>Math.floor(((p%(2*Math.PI))+2*Math.PI)%(2*Math.PI)/(Math.PI/2))%2]};
+  const S=H.sim('#sim-cylphi',{title:'Circle with prescribed surface temperature',tag:'Harmonics rⁿ cos nφ',
+    canvases:[{id:'f',cbar:['0','','1']}],
+    controls:[{type:'select',id:'fn',label:'Surface temperature f(φ)',options:Object.entries(fs).map(([k,v])=>[k,v[0]]),value:'half'},
+      {type:'select',id:'dom',label:'Region',options:[['in','Inside a solid cylinder'],['out','Outside a hole in a large plate']],value:'in'},
+      {id:'N',label:'Harmonics N',min:0,max:60,step:1,value:30}],
+    readouts:[['c','T at centre (or far field)'],['a0','Surface mean a₀/2']],
+    note:'The isotherms bend toward the cold side. For the exterior problem the harmonics decay as (r₀/r)ⁿ, so far from the hole the plate sits at the mean surface temperature.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.62}); let ab=[],k='';
+  function coefs(){ if(k===S.v.fn) return; k=S.v.fn; const f=fs[k][1], pq=M.linspace(0,2*Math.PI,2401), fq=pq.map(f); ab=[]; for(let n=0;n<=60;n++){ ab.push([M.trapz(pq.map((p,i)=>fq[i]*Math.cos(n*p)),pq)/Math.PI, M.trapz(pq.map((p,i)=>fq[i]*Math.sin(n*p)),pq)/Math.PI]); } }
+  function draw(){
+    coefs(); const N=S.v.N, out=S.v.dom==='out', nx=220, ny=136, d=new Float32Array(nx*ny), R=out?28:62, cx=nx/2, cy=ny/2;
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){ const dx=i+0.5-cx, dy=cy-(j+0.5), r=Math.hypot(dx,dy)/R; if((!out&&r>1)||(out&&r<1)){ d[j*nx+i]=NaN; continue; } const p=Math.atan2(dy,dx), rn=out?1/r:r; let s=ab[0][0]/2, pw=1; for(let n=1;n<=N;n++){ pw*=rn; s+=pw*(ab[n][0]*Math.cos(n*p)+ab[n][1]*Math.sin(n*p)); } d[j*nx+i]=s; }
+    fld.draw(d,nx,ny,0,1,{contours:[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9],overlay:(ctx,b)=>{ const sx=b.w/nx; ctx.strokeStyle=H.css('--ink'); ctx.lineWidth=2; ctx.beginPath(); ctx.arc(b.l+cx*sx,b.t+cy*b.h/ny,R*sx,0,7); ctx.stroke(); }});
+    S.out('c',(ab[0][0]/2).toFixed(4)); S.out('a0',(ab[0][0]/2).toFixed(4));
+  }
+  S.on(()=>{k=k===S.v.fn?k:'';draw();}); draw();
+})();
+
+/* ===== Sphere T(r,theta) ===== */
+(function(){
+  const fs={cap:['cos θ on upper half, 0 on lower',m=>m>0?m:0],half:['Upper hemisphere hot',m=>m>0?1:0],polar:['Polar cap, θ < 30°',m=>m>Math.cos(Math.PI/6)?1:0],belt:['Hot equatorial belt',m=>Math.abs(m)<0.25?1:0]};
+  const S=H.sim('#sim-sphere',{title:'Sphere with prescribed surface temperature',tag:'Aₙ (r/r₀)ⁿ Pₙ(cos θ)',
+    canvases:[{id:'f',cbar:['0','','1']}],
+    controls:[{type:'select',id:'fn',label:'Surface temperature f(θ)',options:Object.entries(fs).map(([k,v])=>[k,v[0]]),value:'half'},{id:'N',label:'Legendre terms N',min:0,max:60,step:1,value:40}],
+    readouts:[['c','Centre T = A₀'],['a1','A₁'],['a2','A₂']],
+    note:'Meridional cross-section of the sphere with the polar axis vertical. Isotherms near the surface follow f(θ); toward the centre, higher Pₙ fade as (r/r₀)ⁿ.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.6}); let A=[],k='';
+  function coefs(){ if(k===S.v.fn) return; k=S.v.fn; const f=fs[k][1], mq=M.linspace(-1,1,4001); A=[]; for(let n=0;n<=60;n++) A.push((2*n+1)/2*M.trapz(mq.map(m=>f(m)*M.legendre(n,m)),mq)); }
+  function draw(){
+    coefs(); const N=S.v.N, nx=200, ny=120, d=new Float32Array(nx*ny), R=56, cx=nx/2, cy=ny/2;
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){ const dx=i+0.5-cx, dy=cy-(j+0.5), r=Math.hypot(dx,dy)/R; if(r>1){d[j*nx+i]=NaN;continue;} const mu=r>0?dy/(r*R):1; let s=0,pw=1; for(let n=0;n<=N;n++){ s+=A[n]*pw*M.legendre(n,mu); pw*=r; } d[j*nx+i]=s; }
+    fld.draw(d,nx,ny,0,1,{contours:[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9],overlay:(ctx,b)=>{ const sx=b.w/nx; ctx.strokeStyle=H.css('--ink'); ctx.setLineDash([3,4]); ctx.beginPath(); ctx.moveTo(b.l+cx*sx,b.t+4); ctx.lineTo(b.l+cx*sx,b.t+b.h-4); ctx.stroke(); ctx.setLineDash([]); H.label(ctx,'θ = 0',b.l+cx*sx+6,b.t+10,{size:10}); }});
+    S.out('c',A[0].toFixed(4)); S.out('a1',A[1].toFixed(4)); S.out('a2',A[2].toFixed(4));
+  }
+  S.on(()=>{k=k===S.v.fn?k:'';draw();}); draw();
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M12 Numerical Methods for Conduction</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Finite differences in 1D, 2D and time, stability, iterative solvers, and production tools in Python and MATLAB.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-module="m12">
+<header class="topbar wrap"><div class="in">
+<a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span><b>Advanced Heat Conduction</b></a><a class="navbtn sitehome" href="../" title="Back to the main Cryogenics Online site">← Cryogenics Online</a>
+<span class="sp"></span>
+<div class="modmenu"><button class="navbtn" type="button" aria-expanded="false"><span>☰</span><span class="lbl">Modules</span></button>
+<div class="modmenu-panel"><a href="m01.html" class=""><span>M01</span><span>Foundations of Heat Conduction</span></a><a href="m02.html" class=""><span>M02</span><span>Sturm–Liouville Theory &amp; Fourier Expansions</span></a><a href="m03.html" class=""><span>M03</span><span>Steady Multidimensional Conduction</span></a><a href="m04.html" class=""><span>M04</span><span>Transient Conduction by Separation of Variables</span></a><a href="m05.html" class=""><span>M05</span><span>Semi-infinite &amp; Infinite Domains</span></a><a href="m06.html" class=""><span>M06</span><span>Integral Transform Methods</span></a><a href="m07.html" class=""><span>M07</span><span>Duhamel’s Theorem &amp; Green’s Functions</span></a><a href="m08.html" class=""><span>M08</span><span>Conduction with Phase Change</span></a><a href="m09.html" class=""><span>M09</span><span>Local &amp; Moving Heat Sources</span></a><a href="m10.html" class=""><span>M10</span><span>Approximate &amp; Integral Methods</span></a><a href="m11.html" class=""><span>M11</span><span>Porous Media &amp; Anisotropic Solids</span></a><a href="m12.html" class="on"><span>M12</span><span>Numerical Methods for Conduction</span></a><a href="cheatsheet.html"><span>REF</span><span>Formula sheet</span></a></div></div>
+<button class="iconbtn" type="button" data-theme-toggle aria-label="Toggle light or dark theme">◐</button>
+</div></header>
+<section class="mhero wrap"><div class="in">
+<div><div class="eyebrow">Module 12 · Week 12 · Lectures 60–65</div><h1>Numerical Methods for Conduction</h1><p class="lede">Finite differences in 1D, 2D and time, stability, iterative solvers, and production tools in Python and MATLAB.</p>
+<div class="lec-chips"><a href="#l60">L60 Why &amp; how: discretisation</a><a href="#l61">L61 FDM in 1D</a><a href="#l62">L62 FDM in 2D</a><a href="#l63">L63 Transient FDM &amp; stability</a><a href="#l64">L64 Built-in solvers</a><a href="#l65">L65 PDE toolboxes &amp; FEM</a></div></div>
+<canvas class="mhero-canvas" data-hero="grid" aria-label="Live heat diffusion animation"></canvas>
+</div></section>
+<div class="page wrap">
+<nav class="rail" aria-label="Lectures in this module"><div class="eyebrow">In this module</div><a href="#l60">L60 · Why &amp; how: discretisation</a><a href="#l61">L61 · FDM in 1D</a><a href="#l62">L62 · FDM in 2D</a><a href="#l63">L63 · Transient FDM &amp; stability</a><a href="#l64">L64 · Built-in solvers</a><a href="#l65">L65 · PDE toolboxes &amp; FEM</a>
+<div class="prog"><div class="eyebrow" style="margin:0">Your progress</div><button class="btn" type="button" data-mark-done>Mark module complete</button></div></nav>
+<article>
+<section class="lec" id="l60" data-lec="60" data-title="Why & how: discretisation">
+<div class="lec-head"><span class="lec-num">Lecture 60</span><h2>Introduction to numerical solution</h2></div>
+<p>Analytical methods give insight and exact benchmarks, but real problems often have irregular geometry, temperature-dependent properties, radiation boundaries, or coupled phenomena. Numerical methods replace the differential equation by algebraic equations for the temperature at a finite set of points (nodes). The main families are finite differences (FDM), finite volumes (FVM, which conserve energy cell by cell and are the basis of most CFD codes) and finite elements (FEM, the Galerkin method of Module 10 on small elements).</p>
+<h4>Finite-difference approximations from Taylor series</h4>
+<div class="eq">$$T_{i\pm1} = T_i \pm \Delta x\,T'_i + \frac{\Delta x^2}{2}T''_i \pm \frac{\Delta x^3}{6}T'''_i + \dots$$</div>
+<div class="eq box"><span class="eq-tag">Basic difference formulas</span>$$T'_i\approx\frac{T_{i+1}-T_i}{\Delta x}\ \ \mathcal O(\Delta x)\ \text{(forward)},\qquad T'_i\approx\frac{T_{i+1}-T_{i-1}}{2\Delta x}\ \ \mathcal O(\Delta x^2)\ \text{(central)},\qquad T''_i\approx\frac{T_{i+1}-2T_i+T_{i-1}}{\Delta x^2}\ \ \mathcal O(\Delta x^2)$$</div>
+<p>The leading neglected term is the <strong>truncation error</strong>. Halving \(\Delta x\) halves a first-order error and quarters a second-order one, until round-off takes over at very small \(\Delta x\), because you are subtracting nearly equal numbers.</p>
+<div id="sim-stencil"></div>
+<div class="callout phys"><div class="t">Physical interpretation: the energy-balance view</div>
+<p>The central-difference equation at node \(i\), \(k(T_{i+1} - 2T_i + T_{i-1})/\Delta x^2 + \dot q = 0\), is also a heat balance on a control volume of width \(\Delta x\) around the node. The heat conducted in from the left, \(k(T_{i-1}-T_i)/\Delta x\), plus that from the right, plus the heat generated, sums to zero. Each link between nodes is a thermal resistor \(\Delta x/kA\). Writing nodal equations as energy balances is the safest way to derive boundary nodes, interfaces, and variable-\(k\) cases, and it guarantees conservation.</p></div>
+</section>
+
+<section class="lec" id="l61" data-lec="61" data-title="FDM in 1D">
+<div class="lec-head"><span class="lec-num">Lecture 61</span><h2>Finite differences for 1D steady problems</h2></div>
+<p>A pin fin of length \(L\) with base at \(\theta_b\) and a convective tip, \(\theta'' - m^2\theta = 0\). With \(N\) intervals and \(\Delta x = L/N\), interior nodes give</p>
+<div class="eq">$$\theta_{i-1} - (2 + m^2\Delta x^2)\,\theta_i + \theta_{i+1} = 0,\qquad i = 1,\dots,N-1$$</div>
+<p>The tip node \(N\) owns half a control volume. Its energy balance, conduction in from node \(N-1\) equal to convection off the half-volume's side and off the tip face, is</p>
+<div class="eq">$$\frac{kA_c}{\Delta x}(\theta_{N-1} - \theta_N) - hP\frac{\Delta x}{2}\theta_N - hA_c\theta_N = 0$$</div>
+<p>The system is <strong>tridiagonal</strong>, and the Thomas algorithm (TDMA) solves it in \(\mathcal O(N)\) operations by forward elimination and back substitution. A million-node 1D problem solves in milliseconds.</p>
+<div id="sim-fd1d"></div>
+</section>
+
+<section class="lec" id="l62" data-lec="62" data-title="FDM in 2D">
+<div class="lec-head"><span class="lec-num">Lecture 62</span><h2>Finite differences for 2D steady problems</h2></div>
+<p>On a uniform grid with \(\Delta x = \Delta y\), Laplace's equation becomes the five-point rule: each interior temperature is the average of its four neighbours.</p>
+<div class="eq">$$T_{i,j} = \tfrac14\left(T_{i+1,j} + T_{i-1,j} + T_{i,j+1} + T_{i,j-1}\right) + \frac{\dot q\Delta x^2}{4k}$$</div>
+<p>For \(n\times n\) nodes this is a sparse system of \(n^2\) equations. Direct sparse solvers work well up to a few million unknowns. Iterative methods are simple and memory-light:</p>
+<ul>
+<li><strong>Jacobi</strong>: update every node from the old values. Simple, but slow.</li>
+<li><strong>Gauss–Seidel</strong>: use new values as soon as they are available. About twice as fast as Jacobi.</li>
+<li><strong>Successive over-relaxation (SOR)</strong>: \(T^{new} = T^{old} + \omega(T^{GS} - T^{old})\) with \(1\lt\omega\lt2\). With the optimal \(\omega\approx 2/(1 + \sin(\pi/n))\), the iteration count drops from \(\mathcal O(n^2)\) to \(\mathcal O(n)\).</li>
+</ul>
+<div id="sim-fd2d"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>Watch the Jacobi iterations. Information spreads one node per sweep, much like a diffusion process in "iteration time". Boundary values must seep across the whole grid, which takes about \(n^2\) sweeps, the discrete version of the diffusion time \(L^2/\alpha\). Over-relaxation deliberately overshoots, anticipating where each node is heading, and propagates information far faster. Multigrid methods go further by smoothing the error on coarse grids, where long wavelengths are cheap to remove. They reach \(\mathcal O(n^2)\) total work, optimal for a 2D grid.</p></div>
+</section>
+
+<section class="lec" id="l63" data-lec="63" data-title="Transient FDM & stability">
+<div class="lec-head"><span class="lec-num">Lecture 63</span><h2>Transient problems: explicit, implicit and Crank–Nicolson</h2></div>
+<p>With time levels \(p\), \(\Delta t\) and the mesh Fourier number \(\mathrm{Fo} = \alpha\Delta t/\Delta x^2\), the 1D heat equation can be discretised three classical ways:</p>
+<div class="eq box"><span class="eq-tag">Time-marching schemes</span>$$\begin{aligned}
+\text{explicit (FTCS):}\quad & T_i^{p+1} = \mathrm{Fo}\,(T_{i+1}^p + T_{i-1}^p) + (1 - 2\mathrm{Fo})\,T_i^p\\
+\text{fully implicit:}\quad & -\mathrm{Fo}\,T_{i-1}^{p+1} + (1 + 2\mathrm{Fo})\,T_i^{p+1} - \mathrm{Fo}\,T_{i+1}^{p+1} = T_i^p\\
+\text{Crank–Nicolson:}\quad & \text{average of the two, second order in }\Delta t
+\end{aligned}$$</div>
+<p><strong>Stability.</strong> The explicit scheme requires \(1 - 2\mathrm{Fo}\ge0\), i.e. \(\mathrm{Fo}\le\tfrac12\) in 1D (\(\tfrac14\) in 2D, \(\tfrac16\) in 3D). Otherwise the coefficient of \(T_i^p\) is negative, which says a hotter node becomes colder than its neighbours: a violation of the second law that grows into oscillations. Von Neumann analysis gives the amplification factor \(G = 1 - 4\mathrm{Fo}\sin^2(\kappa\Delta x/2)\), and \(|G|\le1\) for all wavenumbers requires \(\mathrm{Fo}\le\tfrac12\). Implicit schemes are unconditionally stable. Crank–Nicolson can still produce damped oscillations near discontinuities when Fo is large.</p>
+<div id="sim-fdt"></div>
+<div class="callout key"><div class="t">Choosing a scheme</div>
+<p>Explicit: trivial to code, good for short transients and nonlinear problems, but \(\Delta t\propto\Delta x^2\) makes fine meshes expensive. Implicit: one tridiagonal solve per step and any \(\Delta t\), but only first-order accurate in time. Crank–Nicolson: second order at the same cost, the default for smooth problems. For production work, use the method of lines: discretise space and hand the ODE system to an adaptive stiff integrator (BDF), as MATLAB's pdepe and SciPy's solve_ivp do.</p></div>
+</section>
+
+<section class="lec" id="l64" data-lec="64" data-title="Built-in solvers">
+<div class="lec-head"><span class="lec-num">Lecture 64</span><h2>Built-in solvers: pdepe, bvp4c and their Python equivalents</h2></div>
+<p><strong>pdepe</strong> solves 1D parabolic and elliptic systems of the form</p>
+<div class="eq">$$c\!\left(x,t,u,\frac{\partial u}{\partial x}\right)\frac{\partial u}{\partial t} = x^{-m}\frac{\partial}{\partial x}\!\left(x^mf\!\left(x,t,u,\frac{\partial u}{\partial x}\right)\right) + s\!\left(x,t,u,\frac{\partial u}{\partial x}\right),\qquad p + q\,f = 0\ \text{at each end}$$</div>
+<p>with \(m = 0, 1, 2\) for slab, cylinder and sphere. For conduction, \(c = \rho c_p\), \(f = k\,\partial T/\partial x\), \(s = \dot q\). A convective boundary \(-k\,\partial_xT = h(T - T_\infty)\) at the right end becomes \(p_r = h(T - T_\infty)\), \(q_r = 1\). <strong>bvp4c</strong> solves two-point boundary-value ODEs, written as first-order systems, by collocation. A classic example is a nonlinear fin losing heat by both convection and radiation:</p>
+<div class="eq">$$\frac{d^2T}{dx^2} = h'(T - T_\infty) + \sigma'(T^4 - T_\infty^4),\quad h' = 0.05\ \mathrm{m^{-2}},\ \sigma' = 2.7\times10^{-9}\ \mathrm{K^{-3}m^{-2}},\ T_\infty = 200\ \mathrm K,\ T(0) = 300,\ T(10) = 400\ \mathrm K$$</div>
+<div class="code" data-file="builtin_solvers.py"><pre data-lang="python">import numpy as np
+from scipy.integrate import solve_bvp, solve_ivp
+import matplotlib.pyplot as plt
+
+# --- bvp4c equivalent: nonlinear convective-radiative rod ---
+h, sig, Tinf = 0.05, 2.7e-9, 200.0
+f  = lambda x, y: np.vstack([y[1], h*(y[0]-Tinf) + sig*(y[0]**4 - Tinf**4)])
+bc = lambda ya, yb: np.array([ya[0]-300.0, yb[0]-400.0])
+x = np.linspace(0, 10, 50)
+sol = solve_bvp(f, bc, x, np.vstack([np.linspace(300, 400, 50), np.full(50, 10.0)]))
+print("bvp converged:", sol.success, "  T(5) =", float(sol.sol(5.0)[0]), "K")
+
+# --- pdepe equivalent: method of lines, convective cylinder (m = 1) ---
+k, rho, cp, hc, Tf, r0 = 15.0, 8000.0, 500.0, 200.0, 20.0, 0.02
+N = 60; r = np.linspace(0, r0, N); dr = r[1] - r[0]; alpha = k/(rho*cp)
+def rhs(t, T):
+    d = np.empty_like(T)
+    # r = 0: symmetry -&gt; 1/r d/dr(r dT/dr) -&gt; 2 d2T/dr2
+    d[0] = alpha*4*(T[1] - T[0])/dr**2
+    rp, rm = r[1:-1] + dr/2, r[1:-1] - dr/2
+    d[1:-1] = alpha*(rp*(T[2:] - T[1:-1]) - rm*(T[1:-1] - T[:-2]))/(r[1:-1]*dr**2)
+    # convective surface: half control volume energy balance
+    qin = k*(r0 - dr/2)*(T[-2] - T[-1])/dr
+    d[-1] = (qin - hc*r0*(T[-1] - Tf))/(rho*cp*(r0*dr/2 - dr**2/8))
+    return d
+s = solve_ivp(rhs, (0, 600), np.full(N, 400.0), method='BDF', t_eval=[0, 60, 180, 600])
+for t, T in zip(s.t, s.y.T): plt.plot(r*1e3, T, label=f't = {t:.0f} s')
+plt.xlabel('r (mm)'); plt.ylabel('T (°C)'); plt.legend(); plt.title('Method of lines (pdepe-style) cooling of a steel rod')
+print("centre temperature after 600 s:", s.y[0, -1])</pre><pre data-lang="matlab">% ---- pdepe: transient conduction in a slab, convective right face ----
+m = 0; x = linspace(0, 0.05, 51); t = linspace(0, 600, 61);
+sol = pdepe(m, @heatpde, @heatic, @heatbc, x, t);
+surf(x, t, sol(:,:,1)); xlabel('x (m)'); ylabel('t (s)'); zlabel('T (°C)');
+
+function [c, f, s] = heatpde(x, t, u, dudx)
+    k = 15; rho = 8000; cp = 500;
+    c = rho*cp; f = k*dudx; s = 0;
+end
+function u0 = heatic(x)
+    u0 = 400;
+end
+function [pl, ql, pr, qr] = heatbc(xl, ul, xr, ur, t)
+    h = 200; Tinf = 20;
+    pl = 0;            ql = 1;        % insulated (symmetry) at x = 0
+    pr = h*(ur - Tinf); qr = 1;       % -k dT/dx = h (T - Tinf) at x = L
+end
+
+% ---- bvp4c: nonlinear convective-radiative rod ----
+solinit = bvpinit(linspace(0, 10, 50), [300 10]);
+sol = bvp4c(@(x,y)[y(2); 0.05*(y(1)-200) + 2.7e-9*(y(1)^4 - 200^4)], ...
+            @(ya,yb)[ya(1)-300; yb(1)-400], solinit);
+xv = linspace(0,10); yv = deval(sol, xv); plot(xv, yv(1,:)); xlabel('x (m)'); ylabel('T (K)');</pre><pre data-lang="js">// Live: nonlinear rod T'' = h'(T−T∞) + σ'(T⁴−T∞⁴) by finite differences + Newton iteration
+const h = 0.05, s = 2.7e-9, Ti = 200, N = 100, L = 10, dx = L/N;
+let T = M.linspace(300, 400, N+1);
+for (let it = 0; it &lt; 20; it++) {
+  const a = new Float64Array(N+1), b = new Float64Array(N+1), c = new Float64Array(N+1), d = new Float64Array(N+1);
+  b[0] = 1; d[0] = 0; b[N] = 1; d[N] = 0;                  // Newton corrections vanish at fixed ends
+  let res = 0;
+  for (let i = 1; i &lt; N; i++) {
+    const F = (T[i-1] - 2*T[i] + T[i+1])/(dx*dx) - h*(T[i]-Ti) - s*(T[i]**4 - Ti**4);
+    a[i] = 1/(dx*dx); c[i] = 1/(dx*dx); b[i] = -2/(dx*dx) - h - 4*s*T[i]**3; d[i] = -F; res = Math.max(res, Math.abs(F));
+  }
+  const dT = M.tdma(a, b, c, d); T = T.map((v, i) =&gt; v + dT[i]);
+  if (res &lt; 1e-10) { print("Newton converged in", it, "iterations"); break; }
+}
+print("T(5 m) =", T[N/2].toFixed(3), "K");
+plot(M.linspace(0, L, N+1), T, {xlabel:'x (m)', ylabel:'T (K)', labels:['FD + Newton']});</pre></div>
+</section>
+
+<section class="lec" id="l65" data-lec="65" data-title="PDE toolboxes & FEM">
+<div class="lec-head"><span class="lec-num">Lecture 65</span><h2>PDE toolboxes and finite elements for 2D/3D conduction</h2></div>
+<p>For irregular 2D and 3D geometries, finite-element toolboxes such as MATLAB's PDE Toolbox, FEniCS, Elmer, COMSOL and ANSYS Mechanical handle meshing, assembly and solution. They solve the general form \(m\ddot u + d\dot u - \nabla\cdot(c\nabla u) + au = f\). For heat conduction, \(d = \rho c_p\), \(c = k\) (a tensor for anisotropic media, Module 11), \(a = 0\) and \(f = \dot q\). The workflow is the same in all of them: geometry, material properties, boundary and initial conditions, mesh, solve, post-process. Always check mesh independence, and validate against an analytical benchmark. Every exact solution in Modules 3–9 is a ready-made benchmark.</p>
+<div class="code" data-file="fem_and_2d.py"><pre data-lang="python"># Transient 2D conduction in a plate with a hole-like cold region, implicit Euler on a sparse grid
+import numpy as np, scipy.sparse as sp, scipy.sparse.linalg as spla
+n, L, alpha, dt = 60, 0.1, 1e-5, 2.0
+dx = L/(n-1); Fo = alpha*dt/dx**2
+X, Y = np.meshgrid(np.linspace(0, L, n), np.linspace(0, L, n))
+fixed = (X == 0) | (X == L) | (Y == 0) | (Y == L) | ((X-0.05)**2 + (Y-0.05)**2 &lt; 0.015**2)
+Tfix = np.where((X-0.05)**2 + (Y-0.05)**2 &lt; 0.015**2, 0.0, 100.0)
+idx = np.arange(n*n).reshape(n, n)
+rows, cols, vals = [], [], []
+for j in range(n):
+    for i in range(n):
+        p = idx[j, i]
+        if fixed[j, i]:
+            rows.append(p); cols.append(p); vals.append(1.0); continue
+        rows += [p]*5; cols += [p, idx[j, i-1], idx[j, i+1], idx[j-1, i], idx[j+1, i]]
+        vals += [1 + 4*Fo, -Fo, -Fo, -Fo, -Fo]
+A = sp.csr_matrix((vals, (rows, cols)), shape=(n*n, n*n)); lu = spla.splu(A.tocsc())
+T = np.where(fixed, Tfix, 50.0).ravel()
+for step in range(300):
+    rhs = np.where(fixed.ravel(), Tfix.ravel(), T); T = lu.solve(rhs)
+print("temperature at (0.025, 0.05) after 600 s:", T.reshape(n, n)[n//2, n//4].round(2), "°C")</pre><pre data-lang="matlab">% MATLAB PDE Toolbox: transient conduction in a square plate with a cold circular hole
+thermalmodel = createpde('thermal','transient');
+R = [3 4 0 0.1 0.1 0 0 0 0.1 0.1]'; C = [1 0.05 0.05 0.015 0 0 0 0 0 0]';
+gd = [R C]; ns = char('R','C')'; sf = 'R-C';
+geometryFromEdges(thermalmodel, decsg(gd, sf, ns));
+thermalProperties(thermalmodel, 'ThermalConductivity', 15, 'MassDensity', 8000, 'SpecificHeat', 500);
+thermalBC(thermalmodel, 'Edge', 1:4, 'Temperature', 100);       % outer edges
+thermalBC(thermalmodel, 'Edge', 5:8, 'Temperature', 0);         % hole
+thermalIC(thermalmodel, 50);
+generateMesh(thermalmodel, 'Hmax', 0.003);
+tlist = 0:10:600;
+res = solve(thermalmodel, tlist);
+pdeplot(thermalmodel, 'XYData', res.Temperature(:, end), 'Contour', 'on'); axis equal
+title('T at t = 600 s')</pre></div>
+<div class="callout real"><div class="t">In the real world</div>
+<p>The workflow in this module, discretise, solve, verify against an exact solution, and check grid convergence, is what separates a trustworthy thermal simulation from a colourful picture. The same steps apply when you move to OpenFOAM (finite volume) for conjugate heat transfer and sloshing problems, or to FEM codes for thermal stress. They also apply to emerging physics-informed neural networks, where the residual of the heat equation becomes the loss function, a direct descendant of the weighted-residual idea in Module 10.</p></div>
+<div class="quiz" data-title="Module 12 check"><script type="application/json">[{"q":"The central difference for T′ has truncation error of order…","o":["Δx","Δx²","Δx³","1/Δx"],"a":1,"w":"Odd-order terms cancel in the Taylor expansions of T(x ± Δx)."},
+{"q":"The explicit FTCS scheme for 1D conduction is stable only if…","o":["Fo ≤ 1","Fo ≤ 1/2","Fo ≥ 1/2","Always"],"a":1,"w":"The coefficient (1 − 2Fo) must be non-negative; von Neumann analysis gives the same limit."},
+{"q":"Why is the 1D steady FD system cheap to solve?","o":["It is diagonal","It is tridiagonal: the Thomas algorithm is O(N)","It is symmetric","It is small"],"a":1,"w":"Each node couples only to its two neighbours."},
+{"q":"SOR accelerates Gauss–Seidel by…","o":["Using a coarser grid","Over-shooting each update by a factor 1 < ω < 2","Reducing the number of nodes","Using double precision"],"a":1,"w":"With the optimal ω the iteration count drops from O(n²) to O(n)."},
+{"q":"In MATLAB's pdepe, m = 1 corresponds to…","o":["Slab","Cylindrical symmetry","Spherical symmetry","2D Cartesian"],"a":1,"w":"m = 0, 1, 2 for slab, cylinder, sphere: the x⁻ᵐ ∂/∂x(xᵐ f) form."}]</script></div>
+</section>
+
+
+<nav class="pager"><a href="m11.html"><small>← Module 11</small><b>Porous Media &amp; Anisotropic Solids</b></a></nav>
+</article>
+</div>
+<footer class="site wrap"><div class="in">
+<div><b>Advanced Heat Conduction</b> · a Cryogenics Online course<br>Course author: <b>Prashanth S R</b></div>
+<div>Contact: <span class="copyable">prashanthsravikumar@gmail.com</span></div>
+</div></footer>
+
+<script>
+/* ===== Truncation and round-off ===== */
+(function(){
+  const S=H.sim('#sim-stencil',{title:'Truncation vs round-off error',tag:'Finite-difference derivatives',
+    canvases:[{id:'p'}],
+    controls:[{type:'select',id:'f',label:'Test function',options:[['exp','eˣ at x = 1'],['sin','sin(3x) at x = 0.4'],['erf','erfc(x) at x = 0.5']],value:'exp'}],
+    readouts:[['fw','Forward-difference slope'],['ce','Central-difference slope'],['opt','Best h (central)']],
+    note:'Error in the first derivative against step size on log–log axes. The straight sections have slopes 1 (forward) and 2 (central). At very small h, floating-point cancellation (round-off) takes over and the error grows again.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.45,xlabel:'step h',ylabel:'|error| in T′',logx:true,logy:true,xmin:1e-14,xmax:1,ymin:1e-14,ymax:10});
+  const fs={exp:[Math.exp,Math.exp,1],sin:[x=>Math.sin(3*x),x=>3*Math.cos(3*x),0.4],erf:[M.erfc,x=>-2/Math.sqrt(Math.PI)*Math.exp(-x*x),0.5]};
+  function draw(){ const [f,df,x]=fs[S.v.f], hs=[]; for(let e=-14;e<=0;e+=0.1) hs.push(10**e);
+    const fw=hs.map(h=>Math.abs((f(x+h)-f(x))/h-df(x))||1e-16), ce=hs.map(h=>Math.abs((f(x+h)-f(x-h))/(2*h)-df(x))||1e-16), d2=hs.map(h=>Math.abs((f(x+h)-2*f(x)+f(x-h))/(h*h)-0)||1e-16);
+    pp.draw([{x:hs,y:fw,color:'cold',width:2.2,label:'forward  O(h)'},{x:hs,y:ce,color:'hot',width:2.2,label:'central  O(h²)'}]);
+    const slope=(arr)=>{ const i1=hs.findIndex(h=>h>=1e-3), i2=hs.findIndex(h=>h>=1e-1); return (Math.log10(arr[i2])-Math.log10(arr[i1]))/(Math.log10(hs[i2])-Math.log10(hs[i1])); };
+    let mi=0; ce.forEach((v,i)=>{ if(v<ce[mi]) mi=i; });
+    S.out('fw',slope(fw).toFixed(2)); S.out('ce',slope(ce).toFixed(2)); S.out('opt',hs[mi].toExponential(1)+' (≈ ε^{1/3})'); }
+  S.on(draw); draw();
+})();
+
+/* ===== 1D FD fin with TDMA ===== */
+(function(){
+  const S=H.sim('#sim-fd1d',{title:'Pin fin by finite differences',tag:'Tridiagonal system · grid convergence',
+    canvases:[{id:'p'},{id:'e'}],
+    controls:[{id:'N',label:'Intervals N',min:2,max:64,step:1,value:6},{id:'mL',label:'mL',min:0.2,max:5,step:0.05,value:2,fmt:v=>v.toFixed(2)},{id:'bt',label:'Tip Biot hL_c/k … (h/mk)',min:0,max:2,step:0.01,value:0.1,fmt:v=>v.toFixed(2)},
+      {type:'check',id:'half',label:'Correct half-cell tip node (energy balance)',value:true}],
+    readouts:[['q','Fin heat rate (FD)'],['qe','Exact'],['err','Error'],['ord','Observed order']],
+    note:'Top: nodes (dots) against the exact profile. Bottom: heat-rate error against N. Untick the half-cell option to see what a careless boundary node does: the error drops to first order.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.36,xlabel:'x / L',ylabel:'θ / θ_b',xmin:0,xmax:1,ymin:0,ymax:1.05}), pe=new H.Plot(S.c.e,{aspect:0.28,xlabel:'N',ylabel:'|heat-rate error|',logx:true,logy:true,xmin:2,xmax:256});
+  function solve(N,m,a,half){ // dimensionless: L = 1, θ'' - m²θ = 0, θ(0)=1, -θ'(1) = a m θ(1)
+    const dx=1/N, A=new Float64Array(N+1), B=new Float64Array(N+1), C=new Float64Array(N+1), D=new Float64Array(N+1);
+    B[0]=1; D[0]=1;
+    for(let i=1;i<N;i++){ A[i]=1; B[i]=-(2+m*m*dx*dx); C[i]=1; }
+    if(half){ A[N]=1/dx; B[N]=-(1/dx+m*m*dx/2+a*m); } else { A[N]=1; B[N]=-(1+a*m*dx); }
+    const th=M.tdma(A,B,C,D);
+    const q=(th[0]-th[1])/dx+m*m*dx/2*th[0]; // energy balance on base half-cell
+    return {th,q};
+  }
+  const exact=(m,a)=>m*(Math.sinh(m)+a*Math.cosh(m))/(Math.cosh(m)+a*Math.sinh(m));
+  function draw(){
+    const N=S.v.N, m=S.v.mL, a=S.v.bt, half=S.v.half, {th,q}=solve(N,m,a,half), xs=M.linspace(0,1,200);
+    const ex=x=>(Math.cosh(m*(1-x))+a*Math.sinh(m*(1-x)))/(Math.cosh(m)+a*Math.sinh(m));
+    pp.draw([{x:xs,y:xs.map(ex),color:'ink',dash:[6,4],width:1.8,label:'exact'},{x:M.linspace(0,1,N+1),y:Array.from(th),color:'hot',points:true,line:true,r:4,width:2,label:'FD, N = '+N}]);
+    const Ns=[2,4,8,16,32,64,128,256], errs=Ns.map(n=>Math.abs(solve(n,m,a,half).q-exact(m,a)));
+    pe.draw([{x:Ns,y:errs,color:'cold',points:true,line:true,r:3.5,width:2}],{marks:[{x:N,y:Math.abs(q-exact(m,a))||1e-16,color:'hot'}]});
+    S.out('q',q.toFixed(6)); S.out('qe',exact(m,a).toFixed(6)); S.out('err',((q/exact(m,a)-1)*100).toFixed(4)+' %'); S.out('ord',(Math.log(errs[4]/errs[5])/Math.log(2)).toFixed(2));
+  }
+  S.on(draw); draw();
+})();
+
+/* ===== 2D Laplace: Jacobi / Gauss-Seidel / SOR with painting ===== */
+(function(){
+  const S=H.sim('#sim-fd2d',{title:'2D steady conduction: iterate to convergence',tag:'Jacobi · Gauss–Seidel · SOR · paint your own boundaries',
+    canvases:[{id:'f',cbar:['0','','100']},{id:'r'}],
+    controls:[{type:'select',id:'meth',label:'Iterative method',options:[['jac','Jacobi'],['gs','Gauss–Seidel'],['sor','SOR']],value:'sor'},
+      {id:'w',label:'Relaxation ω (SOR)',min:1,max:1.99,step:0.01,value:1.85,fmt:v=>v.toFixed(2)},
+      {id:'n',label:'Grid n × n',min:10,max:80,step:2,value:40},
+      {type:'select',id:'paint',label:'Click/drag to paint',options:[['hot','Hot cell (100)'],['cold','Cold cell (0)'],['ins','Insulated block'],['erase','Erase']],value:'hot'},
+      {id:'top',label:'Top edge T',min:0,max:100,step:1,value:100},{id:'side',label:'Other edges T',min:0,max:100,step:1,value:0},
+      {type:'buttons',items:[{id:'rs',label:'Reset field'},{id:'clr',label:'Clear paint'}]}],
+    readouts:[['it','Iterations'],['res','Max change last sweep'],['wopt','Optimal ω (theory)'],['tc','Centre T']],
+    note:'The field starts at 0 and is iterated live. The bottom plot shows the max change per sweep (log scale). Compare Jacobi, Gauss–Seidel and SOR, and try ω above and below the theoretical optimum.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.6}), pr=new H.Plot(S.c.r,{aspect:0.26,xlabel:'iteration',ylabel:'max |ΔT|',logy:true,ymin:1e-6,ymax:100,xmin:0});
+  let n=0, T, mask, hist=[], it=0;
+  function init(keep){ const nn=S.v.n; if(!keep||nn!==n){ n=nn; mask=new Int8Array(n*n); } T=new Float64Array(n*n); hist=[]; it=0; applyBC(); }
+  function applyBC(){ for(let i=0;i<n;i++){ T[i]=S.v.top; T[(n-1)*n+i]=S.v.side; T[i*n]=S.v.side; T[i*n+n-1]=S.v.side; } for(let k=0;k<n*n;k++){ if(mask[k]===1) T[k]=100; else if(mask[k]===2) T[k]=0; } }
+  function sweep(){ const meth=S.v.meth, w=meth==='sor'?S.v.w:1, old=meth==='jac'?T.slice():T; let md=0;
+    for(let j=1;j<n-1;j++)for(let i=1;i<n-1;i++){ const k=j*n+i; if(mask[k]===1||mask[k]===2||mask[k]===3) continue;
+      let s=0,c=0; const nb=[k-1,k+1,k-n,k+n]; for(const q of nb){ if(mask[q]===3) continue; s+=old[q]; c++; } if(!c) continue;
+      const gs=s/c, nv=(meth==='jac'?old[k]:T[k])+w*(gs-(meth==='jac'?old[k]:T[k])); const ch=Math.abs(nv-T[k]); if(ch>md) md=ch; if(meth==='jac') T[k]=nv; else T[k]=nv; }
+    if(meth==='jac'){} it++; hist.push(md); applyBC(); return md; }
+  function draw(){
+    const d=new Float32Array(n*n); for(let k=0;k<n*n;k++) d[k]=mask[k]===3?NaN:T[k];
+    fld.o.aspect=0.6; fld.draw(d,n,n,0,100,{pixel:n<30,contours:[10,20,30,40,50,60,70,80,90]});
+    pr.o.xmax=Math.max(50,it); pr.draw([{x:hist.map((_,i)=>i+1),y:hist.map(v=>Math.max(v,1e-7)),color:'hot',width:1.8}],{hlines:[{y:1e-4,color:'good',label:'converged'}]});
+    S.out('it',it); S.out('res',(hist[hist.length-1]||0).toExponential(2)); S.out('wopt',(2/(1+Math.sin(Math.PI/(n-1)))).toFixed(3)); S.out('tc',T[Math.floor(n/2)*n+Math.floor(n/2)].toFixed(2));
+  }
+  init(false); draw();
+  const A=H.anim(S.c.f,()=>{ const last=hist[hist.length-1]; if(last!==undefined&&last<1e-5&&it>5) { draw(); return; } for(let s=0;s<(S.v.meth==='jac'?4:2);s++) sweep(); draw(); });
+  S.playBtn(A);
+  S.btn.rs.addEventListener('click',()=>{init(true);draw();A.play();}); S.btn.clr.addEventListener('click',()=>{mask.fill(0);init(true);draw();A.play();});
+  ['meth','n','top','side','w'].forEach(id=>S.el[id].addEventListener(id==='meth'?'change':'input',()=>{init(true);draw();A.play();}));
+  let painting=false;
+  const paint=e=>{ const r=S.c.f.getBoundingClientRect(), i=Math.floor((e.clientX-r.left)/r.width*n), j=Math.floor((e.clientY-r.top)/r.height*n); const v={hot:1,cold:2,ins:3,erase:0}[S.v.paint];
+    for(let dj=-1;dj<=1;dj++)for(let di=-1;di<=1;di++){ const ii=i+di, jj=j+dj; if(ii>0&&jj>0&&ii<n-1&&jj<n-1) mask[jj*n+ii]=v; } applyBC(); hist=[]; it=0; A.play(); draw(); };
+  S.c.f.addEventListener('pointerdown',e=>{painting=true; S.c.f.setPointerCapture(e.pointerId); paint(e);});
+  S.c.f.addEventListener('pointermove',e=>{ if(painting) paint(e); });
+  S.c.f.addEventListener('pointerup',()=>painting=false);
+})();
+
+/* ===== Transient schemes & stability ===== */
+(function(){
+  const S=H.sim('#sim-fdt',{title:'Explicit vs implicit vs Crank–Nicolson',tag:'Stability and accuracy',
+    canvases:[{id:'p'},{id:'g'}],
+    controls:[{id:'fo',label:'Mesh Fourier number Fo = αΔt/Δx²',min:0.05,max:3,step:0.01,value:0.45,fmt:v=>v.toFixed(2)},{id:'N',label:'Intervals N',min:8,max:60,step:1,value:20},
+      {type:'check',id:'ex',label:'Explicit (FTCS)',value:true},{type:'check',id:'im',label:'Fully implicit',value:true},{type:'check',id:'cn',label:'Crank–Nicolson',value:true},
+      {type:'buttons',items:[{id:'rs',label:'Restart'}]}],
+    readouts:[['t','Time αt/L²'],['eE','Explicit max error'],['eI','Implicit max error'],['eC','Crank–Nicolson max error']],
+    note:'Slab initially at 1, faces suddenly at 0. Push Fo above 0.5 and the explicit solution develops a saw-tooth that grows without bound. The bottom plot is the amplification factor G(κΔx) for each scheme: |G| > 1 means instability.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.4,xlabel:'x / L',ylabel:'θ',xmin:0,xmax:1,ymin:-0.6,ymax:1.4}), pg=new H.Plot(S.c.g,{aspect:0.26,xlabel:'κΔx',ylabel:'G',xmin:0,xmax:Math.PI,ymin:-3,ymax:1.2});
+  let E,I,C,t,N;
+  function reset(){ N=S.v.N; const mk=()=>{ const a=new Float64Array(N+1).fill(1); a[0]=0; a[N]=0; return a; }; E=mk(); I=mk(); C=mk(); t=0; }
+  reset(); S.btn.rs.addEventListener('click',()=>{reset();draw();}); S.el.N.addEventListener('input',()=>{reset();draw();});
+  function stepAll(){ const F=S.v.fo, n=N, dx=1/n; t+=F*dx*dx;
+    const En=E.slice(); for(let i=1;i<n;i++) En[i]=F*(E[i-1]+E[i+1])+(1-2*F)*E[i]; En[0]=En[n]=0; E=En.map(v=>Math.max(-1e6,Math.min(1e6,v)));
+    const a=new Float64Array(n+1), b=new Float64Array(n+1), c=new Float64Array(n+1), d=new Float64Array(n+1);
+    b[0]=1;b[n]=1; for(let i=1;i<n;i++){ a[i]=-F; b[i]=1+2*F; c[i]=-F; d[i]=I[i]; } I=Float64Array.from(M.tdma(a,b,c,d));
+    const a2=new Float64Array(n+1), b2=new Float64Array(n+1), c2=new Float64Array(n+1), d2=new Float64Array(n+1);
+    b2[0]=1;b2[n]=1; for(let i=1;i<n;i++){ a2[i]=-F/2; b2[i]=1+F; c2[i]=-F/2; d2[i]=F/2*C[i-1]+(1-F)*C[i]+F/2*C[i+1]; } C=Float64Array.from(M.tdma(a2,b2,c2,d2));
+  }
+  const exact=(x,tt)=>{ let s=0; for(let k=0;k<200;k++){ const l=(2*k+1)*Math.PI; s+=4/l*Math.sin(l*x)*Math.exp(-l*l*tt); } return tt<=0?1:s; };
+  function draw(){
+    const xs=M.linspace(0,1,N+1), xe=M.linspace(0,1,200), ser=[{x:xe,y:xe.map(x=>exact(x,t)),color:'ink',dash:[6,4],width:2,label:'exact'}];
+    if(S.v.ex) ser.push({x:xs,y:Array.from(E),color:'hot',points:true,line:true,r:3,width:1.8,label:'explicit'});
+    if(S.v.im) ser.push({x:xs,y:Array.from(I),color:'cold',points:true,line:true,r:3,width:1.8,label:'implicit'});
+    if(S.v.cn) ser.push({x:xs,y:Array.from(C),color:'good',points:true,line:true,r:3,width:1.8,label:'Crank–Nicolson'});
+    pp.draw(ser);
+    const F=S.v.fo, ks=M.linspace(0,Math.PI,200), s2=ks.map(k=>Math.sin(k/2)**2);
+    pg.draw([{x:ks,y:s2.map(s=>1-4*F*s),color:'hot',width:2.2,label:'explicit'},{x:ks,y:s2.map(s=>1/(1+4*F*s)),color:'cold',width:2.2,label:'implicit'},{x:ks,y:s2.map(s=>(1-2*F*s)/(1+2*F*s)),color:'good',width:2.2,label:'Crank–Nicolson'}],{hlines:[{y:1,color:'muted'},{y:-1,color:'muted',label:'|G| = 1'}]});
+    const err=arr=>Math.max(...Array.from(arr).map((v,i)=>Math.abs(v-exact(i/N,t))));
+    S.out('t',t.toFixed(4)); S.out('eE',err(E)>1e3?'unstable':err(E).toExponential(2)); S.out('eI',err(I).toExponential(2)); S.out('eC',err(C).toExponential(2));
+  }
+  draw();
+  const A=H.anim(S.c.p,()=>{ if(t>0.4) reset(); stepAll(); draw(); }); S.playBtn(A);
+})();
+</script>
+
+</body></html>
