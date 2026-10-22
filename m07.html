@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#06111c">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M07 Duhamel’s Theorem &amp; Green’s Functions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Building responses to arbitrary time-varying boundaries and sources from a single elementary solution.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,600&display=swap">
+<script>try{var t=localStorage.getItem("co-theme");if(t)document.documentElement.setAttribute("data-theme",JSON.parse(t))}catch(e){}</script>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="../assets/shell.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-reading="1" data-module="m07">
+<header class="sh"><div class="sh-in">
+<a class="sh-brand" href="../index.html" aria-label="Cryogenics Online home"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="coM" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b2740"/><stop offset="1" stop-color="#1f8fd0"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#coM)"/><g stroke="#e9f7ff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M16 6v20M7.3 11l17.4 10M7.3 21 24.7 11"/><path d="m13.5 7.8 2.5 2 2.5-2M13.5 24.2l2.5-2 2.5 2M8.2 14.3l3 .2-.5-3M23.8 17.7l-3-.2.5 3M8.2 17.7l3-.2-.5 3M23.8 14.3l-3 .2.5-3"/></g><circle cx="16" cy="16" r="2.2" fill="#ff8a4c"/></svg><b>Cryogenics Online</b></a>
+<nav class="sh-nav" aria-label="Main">
+<button class="sh-l" type="button" data-mega-btn aria-expanded="false">Courses <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+<a href="../conduction/index.html" class="on">Heat Conduction</a>
+<a href="../index.html#paths">Learning paths</a>
+<a href="../progress.html">Progress</a>
+</nav>
+<span class="sh-sp"></span>
+<button class="sh-search" type="button" data-search aria-label="Search (Ctrl K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="lbl">Search lessons</span><kbd>Ctrl K</kbd></button>
+<a class="sh-ic sh-ring" href="../progress.html" data-sh-ring aria-label="Your progress"></a>
+<button class="sh-ic" type="button" data-theme-btn aria-label="Switch light or dark theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
+<button class="sh-ic sh-burger" type="button" data-burger aria-label="Open menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div>
+<div class="mega"><div class="mega-in"><h5>Cryogenics · 63 lessons in 15 modules</h5><a href="../lessons/what-is-cryogenics.html"><i>F</i><span>Foundations</span><small>7</small></a><a href="../lessons/cryogens-and-their-properties.html"><i>2</i><span>Cryogenic fluids</span><small>3</small></a><a href="../lessons/mechanical-properties-and-thermal-contraction.html"><i>3</i><span>Materials</span><small>3</small></a><a href="../lessons/conduction-in-solids-at-low-temperature.html"><i>HT</i><span>Heat transfer track</span><small>8</small></a><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html"><i>4</i><span>Liquefaction and refrigeration</span><small>9</small></a><a href="../lessons/gas-separation-and-ideal-work.html"><i>5</i><span>Gas separation</span><small>4</small></a><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html"><i>6</i><span>Cryocoolers</span><small>4</small></a><a href="../lessons/cryogenic-insulation.html"><i>7</i><span>Insulation</span><small>1</small></a><a href="../lessons/vacuum-technology.html"><i>8</i><span>Vacuum</span><small>1</small></a><a href="../lessons/cryogenic-instrumentation.html"><i>9</i><span>Instrumentation</span><small>2</small></a><a href="../lessons/safety-in-cryogenics.html"><i>10</i><span>Safety</span><small>1</small></a><a href="../lessons/cryogenic-storage-and-boil-off.html"><i>11</i><span>Systems and storage</span><small>9</small></a><a href="../lessons/liquid-argon-detectors-and-dune.html"><i>12</i><span>Science applications</span><small>3</small></a><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html"><i>13</i><span>Sub-kelvin cryogenics</span><small>4</small></a><a href="../lessons/lab-building-a-cryostat-step-by-step.html"><i>14</i><span>Experimental cryogenics</span><small>4</small></a><h5>Advanced Heat Conduction · 12 modules</h5><a class="hc" href="../conduction/m01.html"><i>M01</i><span>Foundations of Heat Conduction</span><small>6</small></a><a class="hc" href="../conduction/m02.html"><i>M02</i><span>Sturm–Liouville Theory &amp; Fourier Expansions</span><small>5</small></a><a class="hc" href="../conduction/m03.html"><i>M03</i><span>Steady Multidimensional Conduction</span><small>6</small></a><a class="hc" href="../conduction/m04.html"><i>M04</i><span>Transient Conduction by Separation of Variables</span><small>5</small></a><a class="hc" href="../conduction/m05.html"><i>M05</i><span>Semi-infinite &amp; Infinite Domains</span><small>5</small></a><a class="hc" href="../conduction/m06.html"><i>M06</i><span>Integral Transform Methods</span><small>5</small></a><a class="hc" href="../conduction/m07.html"><i>M07</i><span>Duhamel’s Theorem &amp; Green’s Functions</span><small>5</small></a><a class="hc" href="../conduction/m08.html"><i>M08</i><span>Conduction with Phase Change</span><small>4</small></a><a class="hc" href="../conduction/m09.html"><i>M09</i><span>Local &amp; Moving Heat Sources</span><small>4</small></a><a class="hc" href="../conduction/m10.html"><i>M10</i><span>Approximate &amp; Integral Methods</span><small>5</small></a><a class="hc" href="../conduction/m11.html"><i>M11</i><span>Porous Media &amp; Anisotropic Solids</span><small>4</small></a><a class="hc" href="../conduction/m12.html"><i>M12</i><span>Numerical Methods for Conduction</span><small>6</small></a></div></div>
+<div class="readbar"></div>
+</header>
+<nav class="drawer" aria-label="Menu"><a href="../index.html"><span>Home</span></a><a href="../index.html#paths"><span>Learning paths</span></a><a href="../progress.html"><span>Your progress</span></a><a href="../contact.html"><span>Contact</span></a><h5>Cryogenics</h5><a href="../lessons/what-is-cryogenics.html"><span>Foundations</span><small>7 lessons</small></a><a href="../lessons/cryogens-and-their-properties.html"><span>Cryogenic fluids</span><small>3 lessons</small></a><a href="../lessons/mechanical-properties-and-thermal-contraction.html"><span>Materials</span><small>3 lessons</small></a><a href="../lessons/conduction-in-solids-at-low-temperature.html"><span>Heat transfer track</span><small>8 lessons</small></a><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html"><span>Liquefaction and refrigeration</span><small>9 lessons</small></a><a href="../lessons/gas-separation-and-ideal-work.html"><span>Gas separation</span><small>4 lessons</small></a><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html"><span>Cryocoolers</span><small>4 lessons</small></a><a href="../lessons/cryogenic-insulation.html"><span>Insulation</span><small>1 lessons</small></a><a href="../lessons/vacuum-technology.html"><span>Vacuum</span><small>1 lessons</small></a><a href="../lessons/cryogenic-instrumentation.html"><span>Instrumentation</span><small>2 lessons</small></a><a href="../lessons/safety-in-cryogenics.html"><span>Safety</span><small>1 lessons</small></a><a href="../lessons/cryogenic-storage-and-boil-off.html"><span>Systems and storage</span><small>9 lessons</small></a><a href="../lessons/liquid-argon-detectors-and-dune.html"><span>Science applications</span><small>3 lessons</small></a><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html"><span>Sub-kelvin cryogenics</span><small>4 lessons</small></a><a href="../lessons/lab-building-a-cryostat-step-by-step.html"><span>Experimental cryogenics</span><small>4 lessons</small></a><h5>Advanced Heat Conduction</h5><a href="../conduction/index.html"><span>Course home</span></a><a href="../conduction/m01.html"><span>Foundations of Heat Conduction</span><small>M01</small></a><a href="../conduction/m02.html"><span>Sturm–Liouville Theory &amp; Fourier Expansions</span><small>M02</small></a><a href="../conduction/m03.html"><span>Steady Multidimensional Conduction</span><small>M03</small></a><a href="../conduction/m04.html"><span>Transient Conduction by Separation of Variables</span><small>M04</small></a><a href="../conduction/m05.html"><span>Semi-infinite &amp; Infinite Domains</span><small>M05</small></a><a href="../conduction/m06.html"><span>Integral Transform Methods</span><small>M06</small></a><a href="../conduction/m07.html"><span>Duhamel’s Theorem &amp; Green’s Functions</span><small>M07</small></a><a href="../conduction/m08.html"><span>Conduction with Phase Change</span><small>M08</small></a><a href="../conduction/m09.html"><span>Local &amp; Moving Heat Sources</span><small>M09</small></a><a href="../conduction/m10.html"><span>Approximate &amp; Integral Methods</span><small>M10</small></a><a href="../conduction/m11.html"><span>Porous Media &amp; Anisotropic Solids</span><small>M11</small></a><a href="../conduction/m12.html"><span>Numerical Methods for Conduction</span><small>M12</small></a></nav>
+<section class="mhero wrap"><div class="in">
+<div><div class="eyebrow">Module 07 · Week 7 · Lectures 35–39</div><h1>Duhamel’s Theorem &amp; Green’s Functions</h1><p class="lede">Building responses to arbitrary time-varying boundaries and sources from a single elementary solution.</p>
+<div class="lec-chips"><a href="#l35">L35 Duhamel’s theorem</a><a href="#l36">L36 Discontinuous boundaries</a><a href="#l37">L37 Duhamel examples</a><a href="#l38">L38 Green’s functions</a><a href="#l39">L39 Finding G</a></div></div>
+<canvas class="mhero-canvas" data-hero="pulse" aria-label="Live heat diffusion animation"></canvas>
+</div></section>
+<div class="page wrap">
+<nav class="rail" aria-label="Lectures in this module"><div class="eyebrow">In this module</div><a href="#l35">L35 · Duhamel’s theorem</a><a href="#l36">L36 · Discontinuous boundaries</a><a href="#l37">L37 · Duhamel examples</a><a href="#l38">L38 · Green’s functions</a><a href="#l39">L39 · Finding G</a>
+<div class="prog"><div class="eyebrow" style="margin:0">Your progress</div><button class="btn" type="button" data-mark-done>Mark module complete</button></div></nav>
+<article>
+<section class="lec" id="l35" data-lec="35" data-title="Duhamel’s theorem">
+<div class="lec-head"><span class="lec-num">Lecture 35</span><h2>Duhamel’s method for time-dependent boundary conditions</h2></div>
+<p>Real boundaries rarely jump to a constant value and stay there. A furnace wall ramps up, a brake disc heats in pulses, a building facade follows the sun. Duhamel's insight: solve the problem <em>once</em> for a unit step, and you have solved it for every possible time history.</p>
+<p>Let \(\Phi(\mathbf r,t)\) be the response to a boundary condition that jumps from 0 to 1 at \(t = 0\), with zero initial temperature and everything else homogeneous. A time-varying boundary value \(f(t)\) can be approximated by a staircase of small steps \(\Delta f_i\) at times \(\tau_i\). By linearity each step produces \(\Delta f_i\,\Phi(\mathbf r, t - \tau_i)\), and the responses add. As the steps shrink:</p>
+<div class="eq box"><span class="eq-tag">Duhamel’s superposition integral</span>$$T(\mathbf r,t) = f(0)\,\Phi(\mathbf r,t) + \int_0^t\frac{df(\tau)}{d\tau}\,\Phi(\mathbf r,t-\tau)\,d\tau = \frac{\partial}{\partial t}\int_0^tf(\tau)\,\Phi(\mathbf r,t-\tau)\,d\tau$$</div>
+<p>The two forms are equivalent; integrate by parts to go from one to the other. The second form avoids differentiating \(f\), which helps when \(f\) is measured data. The method also applies to time-varying sources: the response to \(\dot q(\mathbf r)g(t)\) is \(\partial_t\int_0^tg(\tau)\Phi_q(\mathbf r,t-\tau)d\tau\), where \(\Phi_q\) is the response to \(\dot q(\mathbf r)\) switched on at \(t = 0\).</p>
+<div id="sim-duhamel"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>The body has <em>memory</em>, and that memory fades. A boundary event at time \(\tau\) is felt at time \(t\) through \(\Phi(\mathbf r, t-\tau)\). Once \(t - \tau\) exceeds the diffusion time to the point of interest, the event is fully absorbed into the response. Recent history matters most; ancient history matters only through its cumulative effect. This is mathematically identical to the convolution of an input signal with a system's step response in control theory. A solid behaves as a linear, time-invariant filter.</p></div>
+</section>
+
+<section class="lec" id="l36" data-lec="36" data-title="Discontinuous boundaries">
+<div class="lec-head"><span class="lec-num">Lecture 36</span><h2>Discontinuities in the boundary history</h2></div>
+<p>If \(f(t)\) jumps by \(\Delta f_j\) at \(t = t_j\), the derivative contains a Dirac delta \(\Delta f_j\,\delta(t - t_j)\). The integral picks up a discrete term:</p>
+<div class="eq">$$T(\mathbf r,t) = f(0)\Phi(\mathbf r,t) + \int_0^t f'(\tau)\Phi(\mathbf r,t-\tau)\,d\tau + \sum_{t_j\lt t}\Delta f_j\,\Phi(\mathbf r,t - t_j)$$</div>
+<p>where the integral now covers only the smooth parts of \(f\). A boundary that is switched on at \(t_1\) and off at \(t_2\) gives \(T = \Phi(t - t_1) - \Phi(t - t_2)\). The response to a pulse is the difference of two delayed step responses. Choose "pulse" or "step at t₁" in the simulation above to see it.</p>
+</section>
+
+<section class="lec" id="l37" data-lec="37" data-title="Duhamel examples">
+<div class="lec-head"><span class="lec-num">Lecture 37</span><h2>Applications of Duhamel’s method</h2></div>
+<p><strong>Example 1: ramped wall.</strong> A plate of thickness \(L\) at zero temperature has \(T(0,t) = 0\) and \(T(L,t) = At\). The step response with \(T(L) = 1\) is</p>
+<div class="eq">$$\Phi(x,t) = \frac{x}{L} + \frac{2}{\pi}\sum_{n=1}^\infty\frac{(-1)^n}{n}\sin\frac{n\pi x}{L}\,e^{-\alpha n^2\pi^2t/L^2}$$</div>
+<p>With \(f = At\), \(f(0) = 0\) and \(f' = A\), Duhamel's integral gives</p>
+<div class="eq box"><span class="eq-tag">Ramped boundary</span>$$T(x,t) = A\left[\frac{xt}{L} + \frac{2L^2}{\alpha\pi^3}\sum_{n=1}^\infty\frac{(-1)^n}{n^3}\sin\frac{n\pi x}{L}\left(1 - e^{-\alpha n^2\pi^2t/L^2}\right)\right]$$</div>
+<p>At long times, \(T\to A\left[\frac{xt}{L} - \frac{L^2}{6\alpha}\frac{x}{L}\left(1 - \frac{x^2}{L^2}\right)\right]\). The interior lags the linear profile by a fixed, cubic-shaped deficit, a quasi-steady state in which the whole profile rises at rate \(A\,x/L\).</p>
+<p><strong>Example 3: cylinder with \(T(r_0,t) = f(t)\).</strong> With \(\Phi(r,t) = 1 - 2\sum_n\frac{J_0(\lambda_nr)}{\lambda_nr_0J_1(\lambda_nr_0)}e^{-\alpha\lambda_n^2t}\) and \(J_0(\lambda_nr_0) = 0\):</p>
+<div class="eq">$$T(r,t) = f(t) - \frac{2}{r_0}\sum_n\frac{J_0(\lambda_nr)}{\lambda_nJ_1(\lambda_nr_0)}\left[f(0)e^{-\alpha\lambda_n^2t} + \int_0^tf'(\tau)e^{-\alpha\lambda_n^2(t-\tau)}d\tau\right]$$</div>
+<p><strong>Example 4: sphere.</strong> The same structure holds with \(\Phi = 1 + \frac{2r_0}{\pi r}\sum_n\frac{(-1)^n}{n}\sin\frac{n\pi r}{r_0}e^{-\alpha n^2\pi^2t/r_0^2}\). <strong>Example 5: cylinder with time-varying generation \(\dot q(t)\).</strong> Use \(\Phi_q\), the response to unit generation switched on at \(t = 0\), which tends to \(\frac{r_0^2 - r^2}{4k}\), and apply the same convolution to \(\dot q(t)\).</p>
+<div class="callout real"><div class="t">In the real world</div>
+<p>Inverse heat conduction, the estimation of surface heat flux from interior thermocouples (rocket nozzles, quench probes, re-entry tiles), is Duhamel's integral run backwards. Because diffusion damps high frequencies, the inversion amplifies measurement noise, so practical methods add regularisation. Understanding the forward convolution is the first step.</p></div>
+</section>
+
+<section class="lec" id="l38" data-lec="38" data-title="Green’s functions">
+<div class="lec-head"><span class="lec-num">Lecture 38</span><h2>Introduction to Green’s functions</h2></div>
+<p>Duhamel generalises the boundary <em>history</em>. Green's functions generalise everything at once: initial data, sources anywhere in space and time, and every boundary. Define \(G(\mathbf r,t\,|\,\mathbf r',\tau)\) as the temperature at \((\mathbf r, t)\) caused by an <strong>instantaneous point source</strong> of unit energy (1 J per \(\rho c\), so that it produces a unit temperature-volume) released at \(\mathbf r'\) at time \(\tau\), in the body with <em>homogeneous</em> boundary conditions:</p>
+<div class="eq">$$\frac{1}{\alpha}\frac{\partial G}{\partial t} = \nabla^2G + \frac{1}{\alpha}\delta(\mathbf r - \mathbf r')\,\delta(t - \tau),\qquad G = 0\ \text{for } t\lt\tau$$</div>
+<p>Then the solution of the general problem with initial temperature \(F\), source \(\dot q\), and boundary data \(f_i\) on surfaces \(S_i\) is a sum of three integrals:</p>
+<div class="eq box"><span class="eq-tag">Green’s function solution</span>$$T(\mathbf r,t) = \int_R G\big|_{\tau=0}F(\mathbf r')\,dv' + \frac{\alpha}{k}\int_0^t\!\!\int_R G\,\dot q(\mathbf r',\tau)\,dv'\,d\tau + \alpha\int_0^t\sum_i\oint_{S_i}\left[\frac{G}{k_i}f_i\right]_{\text{2nd, 3rd kind}}\text{ or }\left[-\frac{\partial G}{\partial n'_i}f_i\right]_{\text{1st kind}}dS_i'\,d\tau$$</div>
+<p>Read it physically. The initial temperature is a collection of instantaneous sources at \(\tau = 0\). The generation is a continuous release of sources. A prescribed flux at a boundary is a surface source. A prescribed temperature acts as a dipole layer, which is why the normal derivative of \(G\) appears.</p>
+<p><strong>Reciprocity.</strong> \(G(\mathbf r,t\,|\,\mathbf r',\tau) = G(\mathbf r', -\tau\,|\,\mathbf r, -t)\): the effect at A of a pulse at B equals the effect at B of a pulse at A, with time reversed.</p>
+</section>
+
+<section class="lec" id="l39" data-lec="39" data-title="Finding G">
+<div class="lec-head"><span class="lec-num">Lecture 39</span><h2>Determining Green’s functions</h2></div>
+<p>The practical route: solve the <em>homogeneous</em> version of the problem with an arbitrary initial temperature \(F\), by separation of variables or transforms. Rearrange the answer as \(\int G|_{\tau=0}F\,dv'\), read off the kernel, and replace \(t\) by \(t - \tau\).</p>
+<p><strong>Infinite line.</strong> Module 6 gave \(T = \frac{1}{\sqrt{4\pi\alpha t}}\int F(x')e^{-(x-x')^2/4\alpha t}dx'\), so</p>
+<div class="eq">$$G_\infty(x,t\,|\,x',\tau) = \frac{1}{\sqrt{4\pi\alpha(t-\tau)}}\exp\!\left[-\frac{(x-x')^2}{4\alpha(t-\tau)}\right]$$</div>
+<p><strong>Semi-infinite line, \(x\ge0\).</strong> Add an image source at \(-x'\). Its sign is negative for \(T = 0\) at \(x = 0\) (the images cancel there) and positive for an insulated face (their slopes cancel):</p>
+<div class="eq box"><span class="eq-tag">Method of images</span>$$G(x,t\,|\,x',\tau) = \frac{1}{\sqrt{4\pi\alpha(t-\tau)}}\left\{\exp\!\left[-\frac{(x-x')^2}{4\alpha(t-\tau)}\right]\mp\exp\!\left[-\frac{(x+x')^2}{4\alpha(t-\tau)}\right]\right\}$$</div>
+<p>With \(F = 0\), \(\dot q = 0\) and \(T(0,t) = f(t)\), the boundary term gives \(T = \int_0^t f(\tau)\frac{x}{\sqrt{4\pi\alpha}(t-\tau)^{3/2}}e^{-x^2/4\alpha(t-\tau)}d\tau\). For constant \(f\) this is \(f\,\operatorname{erfc}(x/2\sqrt{\alpha t})\), as it must be. In 2D and 3D, products of 1D Green's functions give \(G\) for corners, strips and boxes, and \(G_{3D} = (4\pi\alpha t)^{-3/2}e^{-r^2/4\alpha t}\) for unbounded space.</p>
+<div id="sim-green"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>The space–time map shows each source's influence spreading inside a parabolic "diffusion cone" \(x - x'\sim\sqrt{4\alpha(t - \tau)}\). Unlike a wave there is no sharp front: \(G\) is non-zero everywhere immediately, but exponentially small outside the cone. Every boundary condition is replaced by mirror sources. A cold wall is a sink image; an insulated wall is a source image. In a finite slab, the images repeat forever, and summing them is equivalent to the eigenfunction series of Module 4. Image sums converge fast at early times; eigenfunction series converge fast at late times.</p></div>
+<div class="code" data-file="duhamel_green.py"><pre data-lang="python">import numpy as np
+import matplotlib.pyplot as plt
+
+L, alpha = 1.0, 1.0
+x = np.linspace(0, L, 201)
+n = np.arange(1, 201)
+
+def Phi(x, t):  # unit step on T(L,t), T(0,t)=0, zero initial T
+    t = np.maximum(t, 1e-12)
+    return x/L + 2/np.pi*np.sum(((-1.0)**n/n)[:, None]*np.sin(np.outer(n, x)*np.pi/L)*np.exp(-alpha*(n*np.pi/L)[:, None]**2*t), axis=0)
+
+def duhamel(f, t, x, N=2000):
+    """T = f(0) Phi(t) + ∫ f'(tau) Phi(t - tau) dtau, by midpoint rule"""
+    tau = (np.arange(N) + 0.5)*t/N; dt = t/N
+    df = (f(tau + dt/2) - f(tau - dt/2))
+    return f(0)*Phi(x, t) + sum(d*Phi(x, t - ta) for d, ta in zip(df, tau))
+
+A = 1.0
+f = lambda t: A*t
+t = 0.5
+T_num = duhamel(f, t, x, N=400)
+T_ex = A*(x*t/L + 2*L**2/(alpha*np.pi**3)*np.sum(((-1.0)**n/n**3)[:, None]*np.sin(np.outer(n, x)*np.pi/L)*(1-np.exp(-alpha*(n*np.pi/L)[:, None]**2*t)), axis=0))
+print("max |Duhamel numeric - closed form| =", np.abs(T_num - T_ex).max())
+plt.plot(x, T_ex, label='closed form'); plt.plot(x, T_num, '--', label='Duhamel (numerical)')
+plt.xlabel('x / L'); plt.ylabel('T'); plt.legend(); plt.title('Ramped wall T(L,t) = A t')
+
+# Green's function check: semi-infinite, T(0,t)=1 -&gt; erfc
+from scipy.special import erfc
+xx, tt = 0.3, 0.2
+tau = np.linspace(0, tt, 20001)[:-1]
+kern = xx/np.sqrt(4*np.pi*alpha)/(tt - tau)**1.5*np.exp(-xx**2/(4*alpha*(tt - tau)))
+print("Green integral:", np.trapz(kern, tau), "  erfc:", erfc(xx/(2*np.sqrt(alpha*tt))))</pre><pre data-lang="js">// Duhamel convolution for a sinusoidal wall temperature, slab 0..1, probe at x = 0.5
+const Phi = (x, t) =&gt; { let s = x; for (let n = 1; n &lt;= 80; n++) s += 2/Math.PI*((n%2?-1:1)/n)*Math.sin(n*Math.PI*x)*Math.exp(-n*n*Math.PI*Math.PI*Math.max(t,1e-9)); return s; };
+const f = t =&gt; Math.sin(2*Math.PI*t);       // wall temperature history
+const ts = M.linspace(0, 3, 300), x = 0.5, N = 300;
+const T = ts.map(t =&gt; { let s = f(0)*Phi(x, t); const d = t/N; for (let i = 0; i &lt; N; i++) { const tau = (i+0.5)*d; s += (f(tau+d/2)-f(tau-d/2))*Phi(x, t-tau); } return s; });
+plot(ts, [ts.map(f), T], {xlabel:'αt/L²', ylabel:'T', labels:['wall f(t)', 'mid-plane response']});
+print("amplitude ratio at mid-plane ≈", Math.max(...T.slice(200)).toFixed(3));</pre></div>
+<div class="quiz" data-title="Module 7 check"><script type="application/json">[{"q":"Duhamel's theorem requires the problem to be…","o":["Steady","Linear (constant properties, linear BCs)","One-dimensional","Semi-infinite"],"a":1,"w":"It is superposition in time, so linearity is essential. Variable k(T) or radiation boundaries break it."},
+{"q":"The response to a boundary pulse of height 1 between t₁ and t₂ is…","o":["Φ(t − t₁) + Φ(t − t₂)","Φ(t − t₁) − Φ(t − t₂)","Φ(t₂ − t₁)","∂Φ/∂t"],"a":1,"w":"A pulse is a step up at t₁ followed by a step down at t₂."},
+{"q":"For a semi-infinite solid with T = 0 at x = 0, the image of a source at x′ is…","o":["A source at −x′","A sink (negative source) at −x′","A source at 2x′","Not needed"],"a":1,"w":"Equal and opposite sources cancel at x = 0, enforcing T = 0."},
+{"q":"In the Green's function solution, a prescribed boundary temperature enters through…","o":["G itself","∂G/∂n′ at the boundary","The initial condition","It cannot be handled"],"a":1,"w":"A first-kind condition corresponds to a dipole layer, so the normal derivative of G appears."},
+{"q":"Image-series and eigenfunction-series forms of a slab's Green's function are…","o":["Different functions","The same function, converging fast at early and late times respectively","Only equal at steady state","Unrelated"],"a":1,"w":"They are identical (Poisson summation). Use images for small t and eigenfunctions for large t."}]</script></div>
+</section>
+
+
+<nav class="pager"><a href="m06.html"><small>← Module 06</small><b>Integral Transform Methods</b></a><a class="nx" href="m08.html"><small>Module 08 →</small><b>Conduction with Phase Change</b></a></nav>
+</article>
+</div>
+<footer class="ft"><div class="ft-in">
+<div><a class="sh-brand" href="../index.html" style="margin-bottom:10px"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="coM" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b2740"/><stop offset="1" stop-color="#1f8fd0"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#coM)"/><g stroke="#e9f7ff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M16 6v20M7.3 11l17.4 10M7.3 21 24.7 11"/><path d="m13.5 7.8 2.5 2 2.5-2M13.5 24.2l2.5-2 2.5 2M8.2 14.3l3 .2-.5-3M23.8 17.7l-3-.2.5 3M8.2 17.7l3-.2-.5 3M23.8 14.3l-3 .2.5-3"/></g><circle cx="16" cy="16" r="2.2" fill="#ff8a4c"/></svg><b>Cryogenics Online</b></a><p>Interactive lessons on the science and engineering of very low temperatures, with animated mechanisms, calculators and quizzes.</p><p>Written by <b style="color:var(--text)">Prashanth S R</b>.</p></div>
+<div><h6>Cryogenics</h6><a href="../lessons/what-is-cryogenics.html">Foundations</a><a href="../lessons/cryogens-and-their-properties.html">Cryogenic fluids</a><a href="../lessons/mechanical-properties-and-thermal-contraction.html">Materials</a><a href="../lessons/conduction-in-solids-at-low-temperature.html">Heat transfer track</a><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html">Liquefaction and refrigeration</a><a href="../lessons/gas-separation-and-ideal-work.html">Gas separation</a><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html">Cryocoolers</a></div>
+<div><h6>More modules</h6><a href="../lessons/cryogenic-insulation.html">Insulation</a><a href="../lessons/vacuum-technology.html">Vacuum</a><a href="../lessons/cryogenic-instrumentation.html">Instrumentation</a><a href="../lessons/safety-in-cryogenics.html">Safety</a><a href="../lessons/cryogenic-storage-and-boil-off.html">Systems and storage</a><a href="../lessons/liquid-argon-detectors-and-dune.html">Science applications</a><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html">Sub-kelvin cryogenics</a><a href="../lessons/lab-building-a-cryostat-step-by-step.html">Experimental cryogenics</a></div>
+<div><h6>Courses &amp; tools</h6><a href="../conduction/index.html">Advanced Heat Conduction</a><a href="../conduction/cheatsheet.html">Conduction formula sheet</a><a href="../index.html#paths">Learning paths</a><a href="../progress.html">Your progress</a><a href="../contact.html">Contact &amp; feedback</a><a class="mail" data-sub="Cryogenics Online: report an error" href="../contact.html">Report an error</a></div>
+</div>
+<div class="sf"><details><summary>All lessons</summary><div class="all"><h4>Foundations</h4><a href="../lessons/what-is-cryogenics.html">What is cryogenics?</a><a href="../lessons/cryogenic-fluids.html">Cryogenic fluids</a><a href="../lessons/refrigeration-and-liquefaction.html">Refrigeration and liquefaction</a><a href="../lessons/heat-transfer-and-insulation.html">Heat transfer and insulation</a><a href="../lessons/materials-at-low-temperature.html">Materials at low temperature</a><a href="../lessons/applications.html">Applications</a><a href="../lessons/safety.html">Safety</a><h4>Module 2 · Cryogenic fluids</h4><a href="../lessons/cryogens-and-their-properties.html">Cryogens and their properties</a><a href="../lessons/hydrogen-and-helium.html">Hydrogen and helium</a><a href="../lessons/superfluid-helium-he-ii.html">Superfluid helium (He II)</a><h4>Module 3 · Materials</h4><a href="../lessons/mechanical-properties-and-thermal-contraction.html">Mechanical properties and thermal contraction</a><a href="../lessons/specific-heat-and-thermal-conduction.html">Specific heat and thermal conduction</a><a href="../lessons/superconductivity.html">Superconductivity</a><h4>Heat transfer track</h4><a href="../lessons/conduction-in-solids-at-low-temperature.html">Conduction in solids at low temperature</a><a href="../lessons/thermal-resistance-joints-and-thermal-links.html">Thermal resistance, joints and thermal links</a><a href="../lessons/transient-conduction-and-cooldown.html">Transient conduction and cooldown</a><a href="../lessons/natural-convection-and-stable-stratification.html">Natural convection and stable stratification</a><a href="../lessons/convection-and-boiling-heat-transfer.html">Convection and boiling heat transfer</a><a href="../lessons/boiling-in-motion-bubbles-burnout-and-hysteresis.html">Boiling in motion: bubbles, burnout and hysteresis</a><a href="../lessons/gas-conduction-and-thermal-radiation.html">Gas conduction and thermal radiation</a><a href="../lessons/counterflow-heat-exchangers-in-motion.html">Counterflow heat exchangers in motion</a><h4>Module 4 · Liquefaction and refrigeration</h4><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html">Ideal refrigerators and the cost of cold</a><a href="../lessons/the-joule-thomson-effect-in-motion.html">The Joule–Thomson effect in motion</a><a href="../lessons/linde-hampson-liquefier.html">Linde–Hampson liquefier</a><a href="../lessons/heat-exchanger-effectiveness.html">Heat exchanger effectiveness</a><a href="../lessons/precooled-and-dual-pressure-systems.html">Precooled and dual-pressure systems</a><a href="../lessons/claude-system.html">Claude system</a><a href="../lessons/claude-family-and-system-comparison.html">Claude family and system comparison</a><a href="../lessons/liquefier-cycles-in-motion.html">Liquefier cycles in motion</a><a href="../lessons/liquefaction-cycles-on-the-t-s-diagram.html">Liquefaction cycles on the T–s diagram</a><h4>Module 5 · Gas separation</h4><a href="../lessons/gas-separation-and-ideal-work.html">Gas separation and ideal work</a><a href="../lessons/mixtures-phase-diagrams-and-k-values.html">Mixtures, phase diagrams and K-values</a><a href="../lessons/rectification-columns-and-plate-calculations.html">Rectification columns and plate calculations</a><a href="../lessons/air-separation-and-distillation-in-motion.html">Air separation and distillation in motion</a><h4>Module 6 · Cryocoolers</h4><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html">Cryocooler fundamentals and the Stirling cycle</a><a href="../lessons/gifford-mcmahon-and-pulse-tube-coolers.html">Gifford–McMahon and pulse tube coolers</a><a href="../lessons/cryocoolers-in-motion.html">Cryocoolers in motion</a><a href="../lessons/the-stirling-cryocooler-cycle-on-p-v-and-t-s-diagrams.html">The Stirling cryocooler cycle on p–V and T–s diagrams</a><h4>Module 7 · Insulation</h4><a href="../lessons/cryogenic-insulation.html">Cryogenic insulation</a><h4>Module 8 · Vacuum</h4><a href="../lessons/vacuum-technology.html">Vacuum technology</a><h4>Module 9 · Instrumentation</h4><a href="../lessons/cryogenic-instrumentation.html">Cryogenic instrumentation</a><a href="../lessons/measuring-flow-pressure-and-liquid-level.html">Measuring flow, pressure and liquid level</a><h4>Module 10 · Safety</h4><a href="../lessons/safety-in-cryogenics.html">Safety in cryogenics</a><h4>Module 11 · Systems and storage</h4><a href="../lessons/cryogenic-storage-and-boil-off.html">Cryogenic storage and boil-off</a><a href="../lessons/piping-valves-and-transfer-lines.html">Piping, valves and transfer lines</a><a href="../lessons/pressure-drop-fittings-and-two-phase-flow.html">Pressure drop, fittings and two-phase flow</a><a href="../lessons/cryostat-design.html">Cryostat design</a><a href="../lessons/designing-a-cryogenic-system.html">Designing a cryogenic system</a><a href="../lessons/pressure-relief-and-overpressure-safety.html">Pressure relief and overpressure safety</a><a href="../lessons/thermoacoustic-oscillations-in-cryogenic-systems.html">Thermoacoustic oscillations in cryogenic systems</a><a href="../lessons/helium-ii-cryogenic-systems.html">Helium II cryogenic systems</a><a href="../lessons/cryogenic-controls-and-plant-automation.html">Cryogenic controls and plant automation</a><h4>Module 12 · Science applications</h4><a href="../lessons/liquid-argon-detectors-and-dune.html">Liquid argon detectors and DUNE</a><a href="../lessons/superconducting-rf-cavities-for-accelerators.html">Superconducting RF cavities for accelerators</a><a href="../lessons/cryogenics-for-dark-matter-and-the-cosmic-microwave-background.html">Cryogenics for dark matter and the cosmic microwave background</a><h4>Module 13 · Sub-kelvin cryogenics</h4><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html">Below 1 kelvin and pumped helium refrigerators</a><a href="../lessons/dilution-refrigerators.html">Dilution refrigerators</a><a href="../lessons/magnetic-cooling-adr-pomeranchuk-and-nuclear-demagnetisation.html">Magnetic cooling: ADR, Pomeranchuk and nuclear demagnetisation</a><a href="../lessons/materials-and-thermometry-below-1-kelvin.html">Materials and thermometry below 1 kelvin</a><h4>Module 14 · Experimental cryogenics</h4><a href="../lessons/lab-building-a-cryostat-step-by-step.html">Lab: Building a cryostat, step by step</a><a href="../lessons/lab-vacuum-and-leak-checking-in-practice.html">Lab: Vacuum and leak checking in practice</a><a href="../lessons/lab-cooling-down-safely.html">Lab: Cooling down safely</a><a href="../lessons/lab-calibrating-thermometers.html">Lab: Calibrating thermometers</a><h4>Advanced Heat Conduction</h4><a href="../conduction/m01.html">Foundations of Heat Conduction</a><a href="../conduction/m02.html">Sturm–Liouville Theory &amp; Fourier Expansions</a><a href="../conduction/m03.html">Steady Multidimensional Conduction</a><a href="../conduction/m04.html">Transient Conduction by Separation of Variables</a><a href="../conduction/m05.html">Semi-infinite &amp; Infinite Domains</a><a href="../conduction/m06.html">Integral Transform Methods</a><a href="../conduction/m07.html">Duhamel’s Theorem &amp; Green’s Functions</a><a href="../conduction/m08.html">Conduction with Phase Change</a><a href="../conduction/m09.html">Local &amp; Moving Heat Sources</a><a href="../conduction/m10.html">Approximate &amp; Integral Methods</a><a href="../conduction/m11.html">Porous Media &amp; Anisotropic Solids</a><a href="../conduction/m12.html">Numerical Methods for Conduction</a></div></details></div>
+<div class="ft-b"><span>© 2026 Prashanth S R · Cryogenics Online</span><span>Press <b>Ctrl K</b> or <b>/</b> to search</span></div>
+</footer>
+
+<script>
+/* ===== Duhamel staircase ===== */
+(function(){
+  const S=H.sim('#sim-duhamel',{title:'Building a response from step responses',tag:'Duhamel superposition',
+    canvases:[{id:'f'},{id:'r'},{id:'x'}],
+    controls:[{type:'select',id:'fn',label:'Wall temperature history f(t)',options:[['ramp','Ramp f = At (Example 1)'],['sin','Sinusoid'],['pulse','Pulse 0.2 < t < 0.6'],['step','Step at t₁ = 0.3'],['exp','Exponential approach 1 − e^{−5t}']],value:'ramp'},
+      {id:'n',label:'Staircase steps',min:2,max:60,step:1,value:8},
+      {id:'xp',label:'Probe position x/L',min:0.05,max:0.95,step:0.01,value:0.5,fmt:v=>v.toFixed(2)},
+      {id:'t',label:'Time αt/L²',min:0.01,max:1.5,step:0.005,value:0.9,fmt:v=>v.toFixed(3)}],
+    readouts:[['Tst','Staircase sum at probe'],['Tex','Exact Duhamel at probe'],['err','Difference']],
+    note:'Top: f(t) and its staircase. Middle: response at the probe; thin lines are the individual delayed step responses Δfᵢ Φ(x, t − τᵢ), and orange is their sum. Bottom: the profile across the slab at the chosen time.'});
+  if(!S) return;
+  const pf=new H.Plot(S.c.f,{aspect:0.26,xlabel:'αt/L²',ylabel:'f(t)',xmin:0,xmax:1.5}), pr=new H.Plot(S.c.r,{aspect:0.34,xlabel:'αt/L²',ylabel:'T(x_p, t)',xmin:0,xmax:1.5}), px=new H.Plot(S.c.x,{aspect:0.28,xlabel:'x / L',ylabel:'T(x, t)',xmin:0,xmax:1});
+  const fns={ramp:t=>t,sin:t=>Math.sin(2*Math.PI*t/0.8),pulse:t=>t>0.2&&t<0.6?1:0,step:t=>t>=0.3?1:0,exp:t=>1-Math.exp(-5*t)};
+  const Phi=(x,t)=>{ if(t<=0) return 0; let s=x; for(let n=1;n<=60;n++){ const e=Math.exp(-n*n*Math.PI*Math.PI*t); if(e<1e-12) break; s+=2/Math.PI*((n%2?-1:1)/n)*Math.sin(n*Math.PI*x)*e; } return s; };
+  const DT=0.0025, NT=Math.ceil(1.6/DT)+2; let tabX=-1, tab=new Float64Array(NT);
+  function PhiT(x,t){ if(x!==tabX){ tabX=x; for(let i=0;i<NT;i++) tab[i]=Phi(x,i*DT); } if(t<=0) return 0; const u=t/DT, i=Math.floor(u), w=u-i; return i+1<NT?tab[i]*(1-w)+tab[i+1]*w:tab[NT-1]; }
+  function exact(x,t,f,N){ N=N||300; const d=t/N, P=x===S.v.xp?PhiT:Phi; let s=f(0)*P(x,t); for(let i=0;i<N;i++){ const tau=i*d; s+=(f(tau+d)-f(tau))*P(x,t-tau-d/2); } return s; }
+  function draw(){
+    const f=fns[S.v.fn], n=S.v.n, xp=S.v.xp, tc=S.v.t, ts=M.linspace(0,1.5,240);
+    const tauS=M.linspace(0,1.5,n+1).slice(0,n), lev=tauS.map(t=>f(t+1e-9)), dF=lev.map((v,i)=>i===0?v:v-lev[i-1]);
+    const stx=[],sty=[]; tauS.forEach((t,i)=>{ stx.push(t,(i+1<n?tauS[i+1]:1.5)); sty.push(lev[i],lev[i]); });
+    pf.o.ymin=Math.min(-0.1,...ts.map(f))-0.1; pf.o.ymax=Math.max(1,...ts.map(f))+0.15;
+    pf.draw([{x:ts,y:ts.map(f),color:'muted',width:1.5,dash:[4,3],label:'f(t)'},{x:stx,y:sty,color:'cold',width:2.2,label:n+' steps'}],{vlines:[{x:tc,color:'hot',label:'t'}]});
+    const comps=tauS.map((tau,i)=>ts.map(t=>dF[i]*PhiT(xp,t-tau)));
+    const sum=ts.map((t,k)=>comps.reduce((s,c)=>s+c[k],0)), ex=ts.map(t=>exact(xp,t,f));
+    const ser=comps.filter((c,i)=>Math.abs(dF[i])>1e-9).slice(0,40).map(c=>({x:ts,y:c,color:'muted',width:0.8}));
+    ser.push({x:ts,y:ex,color:'ink',dash:[6,4],width:1.6,label:'exact Duhamel'},{x:ts,y:sum,color:'hot',width:2.6,label:'staircase sum'});
+    pr.draw(ser,{vlines:[{x:tc,color:'hot'}]});
+    const xs=M.linspace(0,1,100);
+    px.draw([{x:xs,y:xs.map(x=>exact(x,tc,f,120)),color:'hot',width:3,fill:true,fillTo:0}],{marks:[{x:1,y:f(tc),color:'cold',label:'f(t)',align:'right'},{x:xp,y:exact(xp,tc,f),color:'ink'}]});
+    const st=tauS.reduce((s,tau,i)=>s+dF[i]*Phi(xp,tc-tau),0), e=exact(xp,tc,f);
+    S.out('Tst',st.toFixed(4)); S.out('Tex',e.toFixed(4)); S.out('err',(st-e).toFixed(4));
+  }
+  S.on(draw); draw();
+  const A=H.anim(S.c.r,dt=>{ let t=S.v.t+dt*0.18; if(t>1.5) t=0.01; S.set_t(t); draw(); }); A.pause(); S.playBtn(A);
+})();
+
+/* ===== Green's function playground with images ===== */
+(function(){
+  const S=H.sim('#sim-green',{title:'Green’s function playground',tag:'Click the space–time map to release heat pulses',
+    canvases:[{id:'st',cbar:['−','0','+']},{id:'p'}],
+    controls:[{type:'select',id:'dom',label:'Domain and boundary',options:[['inf','Infinite line'],['dir','Semi-infinite, T = 0 at x = 0 (sink image)'],['neu','Semi-infinite, insulated x = 0 (source image)'],['slab','Slab 0 < x < 1, both faces T = 0 (image series)']],value:'dir'},
+      {id:'t',label:'Observation time t',min:0.002,max:0.5,step:0.001,value:0.06,fmt:v=>v.toFixed(3)},
+      {type:'check',id:'img',label:'Show image sources in the profile',value:true},
+      {type:'buttons',items:[{id:'clr',label:'Clear sources'},{id:'demo',label:'Load example'}]}],
+    readouts:[['ns','Sources placed'],['E','Heat content ∫T dx at t'],['peak','Peak T at t']],
+    note:'Top: T(x, t) with x across and time running downward. Each click releases a unit pulse at (x′, τ), and its diffusion cone opens below it. Bottom: the profile at the observation time, with each source\'s contribution and any image sources drawn faintly.'});
+  if(!S) return;
+  const a=1; let src=[];
+  const demo=()=>{ src=[{x:0.25,tau:0.0,s:0.15},{x:0.6,tau:0.03,s:0.1},{x:0.85,tau:0.12,s:0.08}]; };
+  demo(); S.btn.clr.addEventListener('click',()=>{src=[];draw();}); S.btn.demo.addEventListener('click',()=>{demo();draw();});
+  const G0=(x,xp,dt)=>Math.exp(-1*(x-xp)**2/(4*a*dt))/Math.sqrt(4*Math.PI*a*dt);
+  function images(xp){ const d=S.v.dom; if(d==='inf') return [[xp,1]]; if(d==='dir') return [[xp,1],[-xp,-1]]; if(d==='neu') return [[xp,1],[-xp,1]];
+    const out=[]; for(let m=-6;m<=6;m++){ out.push([xp+2*m,1]); out.push([-xp+2*m,-1]); } return out; }
+  function G(x,xp,dt){ if(dt<=0) return 0; let s=0; for(const [p,sg] of images(xp)) s+=sg*G0(x,p,dt); return s; }
+  const fld=new H.Field(S.c.st,{aspect:0.5}), pp=new H.Plot(S.c.p,{aspect:0.36,xlabel:'x',ylabel:'T'});
+  const xmin=()=>S.v.dom==='inf'?-0.2:-0.4, xmax=()=>S.v.dom==='slab'?1:1.2, TMAX=0.5;
+  function draw(){
+    const x0=xmin(), x1=xmax(), nx=220, ny=110, d=new Float32Array(nx*ny);
+    for(let j=0;j<ny;j++){ const t=(j+0.5)/ny*TMAX; for(let i=0;i<nx;i++){ const x=x0+(i+0.5)/nx*(x1-x0); let s=0; const phys=!(S.v.dom!=='inf'&&x<0); for(const q of src) s+=q.s*G(x,q.x,t-q.tau); d[j*nx+i]=phys?s:NaN; } }
+    fld.draw(d,nx,ny,-0.4,0.4,{cmap:'diverge',overlay:(ctx,b)=>{ const X=x=>b.l+(x-x0)/(x1-x0)*b.w, Y=t=>b.t+t/TMAX*b.h;
+      src.forEach(q=>{ ctx.fillStyle=H.css('--hot'); ctx.beginPath(); ctx.arc(X(q.x),Y(q.tau),5,0,7); ctx.fill(); if(S.v.dom!=='inf'&&S.v.dom!=='slab'){ ctx.strokeStyle=H.css('--muted'); ctx.setLineDash([2,3]); ctx.beginPath(); ctx.arc(X(-q.x),Y(q.tau),5,0,7); ctx.stroke(); ctx.setLineDash([]);} });
+      ctx.strokeStyle=H.css('--ink'); ctx.setLineDash([5,4]); ctx.beginPath(); ctx.moveTo(b.l,Y(S.v.t)); ctx.lineTo(b.l+b.w,Y(S.v.t)); ctx.stroke(); ctx.setLineDash([]);
+      if(S.v.dom!=='inf'){ ctx.fillStyle=H.css('--line'); ctx.fillRect(X(0)-1,b.t,2,b.h); }
+      H.label(ctx,'t ↓',b.l+6,b.t+10,{size:10,color:H.css('--muted')}); }});
+    const t=S.v.t, xs=M.linspace(x0,x1,400), ser=[];
+    src.forEach(q=>{ if(t>q.tau){ ser.push({x:xs,y:xs.map(x=>q.s*G0(x,q.x,t-q.tau)),color:'muted',width:1}); if(S.v.img&&S.v.dom!=='inf') images(q.x).slice(1).forEach(([p,sg])=>{ if(p>x0-0.5&&p<x1+0.5) ser.push({x:xs,y:xs.map(x=>sg*q.s*G0(x,p,t-q.tau)),color:sg>0?'warn':'cold',width:1,dash:[3,3]}); }); } });
+    const tot=xs.map(x=>(S.v.dom!=='inf'&&x<0)?NaN:src.reduce((s,q)=>s+q.s*G(x,q.x,t-q.tau),0));
+    ser.push({x:xs,y:tot,color:'hot',width:3,label:'T(x, t)'});
+    pp.o.xmin=x0; pp.o.xmax=x1; pp.o.ymin=-0.6; pp.o.ymax=0.9;
+    pp.draw(ser,{vlines:S.v.dom!=='inf'?[{x:0,color:'ink',dash:[],label:S.v.dom==='neu'?'insulated':'T = 0'}].concat(S.v.dom==='slab'?[{x:1,color:'ink',dash:[]}]:[]):[]});
+    const xi=xs.filter(x=>x>=(S.v.dom==='inf'?-1e9:0)), ti=xi.map(x=>src.reduce((s,q)=>s+q.s*G(x,q.x,t-q.tau),0));
+    S.out('ns',src.length); S.out('E',M.trapz(ti,xi).toFixed(4)); S.out('peak',Math.max(0,...ti).toFixed(4));
+  }
+  S.c.st.addEventListener('pointerdown',e=>{ const r=S.c.st.getBoundingClientRect(), x=xmin()+(e.clientX-r.left)/r.width*(xmax()-xmin()), tau=(e.clientY-r.top)/r.height*TMAX; if(S.v.dom!=='inf'&&x<0) return; src.push({x,tau,s:0.1}); draw(); });
+  S.on(draw); draw();
+  const A=H.anim(S.c.p,dt=>{ let t=S.v.t+dt*0.05; if(t>0.5) t=0.002; S.set_t(t); draw(); }); A.pause(); S.playBtn(A);
+})();
+</script>
+
+<script src="../assets/course-data.js"></script>
+<script src="../assets/shell.js"></script>
+</body></html>

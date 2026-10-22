@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#06111c">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M05 Semi-infinite &amp; Infinite Domains</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Fourier integrals, the error function, similarity variables and Laplace transforms: heat that never feels the far wall.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,600&display=swap">
+<script>try{var t=localStorage.getItem("co-theme");if(t)document.documentElement.setAttribute("data-theme",JSON.parse(t))}catch(e){}</script>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="../assets/shell.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+
+</head>
+<body data-reading="1" data-module="m05">
+<header class="sh"><div class="sh-in">
+<a class="sh-brand" href="../index.html" aria-label="Cryogenics Online home"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="coM" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b2740"/><stop offset="1" stop-color="#1f8fd0"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#coM)"/><g stroke="#e9f7ff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M16 6v20M7.3 11l17.4 10M7.3 21 24.7 11"/><path d="m13.5 7.8 2.5 2 2.5-2M13.5 24.2l2.5-2 2.5 2M8.2 14.3l3 .2-.5-3M23.8 17.7l-3-.2.5 3M8.2 17.7l3-.2-.5 3M23.8 14.3l-3 .2.5-3"/></g><circle cx="16" cy="16" r="2.2" fill="#ff8a4c"/></svg><b>Cryogenics Online</b></a>
+<nav class="sh-nav" aria-label="Main">
+<button class="sh-l" type="button" data-mega-btn aria-expanded="false">Courses <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+<a href="../conduction/index.html" class="on">Heat Conduction</a>
+<a href="../index.html#paths">Learning paths</a>
+<a href="../progress.html">Progress</a>
+</nav>
+<span class="sh-sp"></span>
+<button class="sh-search" type="button" data-search aria-label="Search (Ctrl K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="lbl">Search lessons</span><kbd>Ctrl K</kbd></button>
+<a class="sh-ic sh-ring" href="../progress.html" data-sh-ring aria-label="Your progress"></a>
+<button class="sh-ic" type="button" data-theme-btn aria-label="Switch light or dark theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
+<button class="sh-ic sh-burger" type="button" data-burger aria-label="Open menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div>
+<div class="mega"><div class="mega-in"><h5>Cryogenics · 63 lessons in 15 modules</h5><a href="../lessons/what-is-cryogenics.html"><i>F</i><span>Foundations</span><small>7</small></a><a href="../lessons/cryogens-and-their-properties.html"><i>2</i><span>Cryogenic fluids</span><small>3</small></a><a href="../lessons/mechanical-properties-and-thermal-contraction.html"><i>3</i><span>Materials</span><small>3</small></a><a href="../lessons/conduction-in-solids-at-low-temperature.html"><i>HT</i><span>Heat transfer track</span><small>8</small></a><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html"><i>4</i><span>Liquefaction and refrigeration</span><small>9</small></a><a href="../lessons/gas-separation-and-ideal-work.html"><i>5</i><span>Gas separation</span><small>4</small></a><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html"><i>6</i><span>Cryocoolers</span><small>4</small></a><a href="../lessons/cryogenic-insulation.html"><i>7</i><span>Insulation</span><small>1</small></a><a href="../lessons/vacuum-technology.html"><i>8</i><span>Vacuum</span><small>1</small></a><a href="../lessons/cryogenic-instrumentation.html"><i>9</i><span>Instrumentation</span><small>2</small></a><a href="../lessons/safety-in-cryogenics.html"><i>10</i><span>Safety</span><small>1</small></a><a href="../lessons/cryogenic-storage-and-boil-off.html"><i>11</i><span>Systems and storage</span><small>9</small></a><a href="../lessons/liquid-argon-detectors-and-dune.html"><i>12</i><span>Science applications</span><small>3</small></a><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html"><i>13</i><span>Sub-kelvin cryogenics</span><small>4</small></a><a href="../lessons/lab-building-a-cryostat-step-by-step.html"><i>14</i><span>Experimental cryogenics</span><small>4</small></a><h5>Advanced Heat Conduction · 12 modules</h5><a class="hc" href="../conduction/m01.html"><i>M01</i><span>Foundations of Heat Conduction</span><small>6</small></a><a class="hc" href="../conduction/m02.html"><i>M02</i><span>Sturm–Liouville Theory &amp; Fourier Expansions</span><small>5</small></a><a class="hc" href="../conduction/m03.html"><i>M03</i><span>Steady Multidimensional Conduction</span><small>6</small></a><a class="hc" href="../conduction/m04.html"><i>M04</i><span>Transient Conduction by Separation of Variables</span><small>5</small></a><a class="hc" href="../conduction/m05.html"><i>M05</i><span>Semi-infinite &amp; Infinite Domains</span><small>5</small></a><a class="hc" href="../conduction/m06.html"><i>M06</i><span>Integral Transform Methods</span><small>5</small></a><a class="hc" href="../conduction/m07.html"><i>M07</i><span>Duhamel’s Theorem &amp; Green’s Functions</span><small>5</small></a><a class="hc" href="../conduction/m08.html"><i>M08</i><span>Conduction with Phase Change</span><small>4</small></a><a class="hc" href="../conduction/m09.html"><i>M09</i><span>Local &amp; Moving Heat Sources</span><small>4</small></a><a class="hc" href="../conduction/m10.html"><i>M10</i><span>Approximate &amp; Integral Methods</span><small>5</small></a><a class="hc" href="../conduction/m11.html"><i>M11</i><span>Porous Media &amp; Anisotropic Solids</span><small>4</small></a><a class="hc" href="../conduction/m12.html"><i>M12</i><span>Numerical Methods for Conduction</span><small>6</small></a></div></div>
+<div class="readbar"></div>
+</header>
+<nav class="drawer" aria-label="Menu"><a href="../index.html"><span>Home</span></a><a href="../index.html#paths"><span>Learning paths</span></a><a href="../progress.html"><span>Your progress</span></a><a href="../contact.html"><span>Contact</span></a><h5>Cryogenics</h5><a href="../lessons/what-is-cryogenics.html"><span>Foundations</span><small>7 lessons</small></a><a href="../lessons/cryogens-and-their-properties.html"><span>Cryogenic fluids</span><small>3 lessons</small></a><a href="../lessons/mechanical-properties-and-thermal-contraction.html"><span>Materials</span><small>3 lessons</small></a><a href="../lessons/conduction-in-solids-at-low-temperature.html"><span>Heat transfer track</span><small>8 lessons</small></a><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html"><span>Liquefaction and refrigeration</span><small>9 lessons</small></a><a href="../lessons/gas-separation-and-ideal-work.html"><span>Gas separation</span><small>4 lessons</small></a><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html"><span>Cryocoolers</span><small>4 lessons</small></a><a href="../lessons/cryogenic-insulation.html"><span>Insulation</span><small>1 lessons</small></a><a href="../lessons/vacuum-technology.html"><span>Vacuum</span><small>1 lessons</small></a><a href="../lessons/cryogenic-instrumentation.html"><span>Instrumentation</span><small>2 lessons</small></a><a href="../lessons/safety-in-cryogenics.html"><span>Safety</span><small>1 lessons</small></a><a href="../lessons/cryogenic-storage-and-boil-off.html"><span>Systems and storage</span><small>9 lessons</small></a><a href="../lessons/liquid-argon-detectors-and-dune.html"><span>Science applications</span><small>3 lessons</small></a><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html"><span>Sub-kelvin cryogenics</span><small>4 lessons</small></a><a href="../lessons/lab-building-a-cryostat-step-by-step.html"><span>Experimental cryogenics</span><small>4 lessons</small></a><h5>Advanced Heat Conduction</h5><a href="../conduction/index.html"><span>Course home</span></a><a href="../conduction/m01.html"><span>Foundations of Heat Conduction</span><small>M01</small></a><a href="../conduction/m02.html"><span>Sturm–Liouville Theory &amp; Fourier Expansions</span><small>M02</small></a><a href="../conduction/m03.html"><span>Steady Multidimensional Conduction</span><small>M03</small></a><a href="../conduction/m04.html"><span>Transient Conduction by Separation of Variables</span><small>M04</small></a><a href="../conduction/m05.html"><span>Semi-infinite &amp; Infinite Domains</span><small>M05</small></a><a href="../conduction/m06.html"><span>Integral Transform Methods</span><small>M06</small></a><a href="../conduction/m07.html"><span>Duhamel’s Theorem &amp; Green’s Functions</span><small>M07</small></a><a href="../conduction/m08.html"><span>Conduction with Phase Change</span><small>M08</small></a><a href="../conduction/m09.html"><span>Local &amp; Moving Heat Sources</span><small>M09</small></a><a href="../conduction/m10.html"><span>Approximate &amp; Integral Methods</span><small>M10</small></a><a href="../conduction/m11.html"><span>Porous Media &amp; Anisotropic Solids</span><small>M11</small></a><a href="../conduction/m12.html"><span>Numerical Methods for Conduction</span><small>M12</small></a></nav>
+<section class="mhero wrap"><div class="in">
+<div><div class="eyebrow">Module 05 · Week 5 · Lectures 24–28</div><h1>Semi-infinite &amp; Infinite Domains</h1><p class="lede">Fourier integrals, the error function, similarity variables and Laplace transforms: heat that never feels the far wall.</p>
+<div class="lec-chips"><a href="#l24">L24 Fourier integral</a><a href="#l25">L25 Cartesian: erf &amp; half-planes</a><a href="#l26">L26 Cylindrical &amp; spherical</a><a href="#l27">L27 Similarity method</a><a href="#l28">L28 Laplace transform</a></div></div>
+<canvas class="mhero-canvas" data-hero="semi" aria-label="Live heat diffusion animation"></canvas>
+</div></section>
+<div class="page wrap">
+<nav class="rail" aria-label="Lectures in this module"><div class="eyebrow">In this module</div><a href="#l24">L24 · Fourier integral</a><a href="#l25">L25 · Cartesian: erf &amp; half-planes</a><a href="#l26">L26 · Cylindrical &amp; spherical</a><a href="#l27">L27 · Similarity method</a><a href="#l28">L28 · Laplace transform</a>
+<div class="prog"><div class="eyebrow" style="margin:0">Your progress</div><button class="btn" type="button" data-mark-done>Mark module complete</button></div></nav>
+<article>
+<section class="lec" id="l24" data-lec="24" data-title="Fourier integral">
+<div class="lec-head"><span class="lec-num">Lecture 24</span><h2>Semi-infinite and infinite solids: the Fourier integral</h2></div>
+<p>A body is "semi-infinite" when one face matters and the far boundary never feels the disturbance on the time scale of interest. That is true when \(L\gg\sqrt{\alpha t}\). The ground under a frosty night, a thick steel ingot just after quench, skin touching a hot plate, and a weld bead's base metal all qualify. A slab of 1 m of concrete (\(\alpha\approx 7\times10^{-7}\) m²/s) behaves as semi-infinite for about \(t\lt L^2/(16\alpha)\approx 25\) hours.</p>
+<p>On a semi-infinite domain the separation constant is no longer quantized. With no second wall, every \(\lambda\ge 0\) is allowed, and the Fourier <em>series</em> becomes a Fourier <em>integral</em>:</p>
+<div class="eq box"><span class="eq-tag">Fourier integral representations</span>$$\begin{aligned}
+(-\infty,\infty):\ & f(x) = \frac{1}{\pi}\int_0^\infty\!\!\int_{-\infty}^{\infty}f(x')\cos\lambda(x - x')\,dx'\,d\lambda\\
+(0,\infty),\ f = 0\text{ at }0:\ & f(x) = \frac{2}{\pi}\int_0^\infty\sin\lambda x\int_0^\infty f(x')\sin\lambda x'\,dx'\,d\lambda\\
+(0,\infty),\ f' = 0\text{ at }0:\ & f(x) = \frac{2}{\pi}\int_0^\infty\cos\lambda x\int_0^\infty f(x')\cos\lambda x'\,dx'\,d\lambda
+\end{aligned}$$</div>
+<p>The discrete sum over \(n\) with spacing \(\Delta\lambda = \pi/L\) becomes, as \(L\to\infty\), an integral over a continuous spectrum. Each wavenumber \(\lambda\) still decays as \(e^{-\alpha\lambda^2t}\), and short wavelengths still disappear first.</p>
+</section>
+
+<section class="lec" id="l25" data-lec="25" data-title="Cartesian: erf & half-planes">
+<div class="lec-head"><span class="lec-num">Lecture 25</span><h2>Cartesian problems: the error function and the half-plane</h2></div>
+<p>A semi-infinite solid at \(T_i\) has its surface suddenly set to \(T_s\). With \(\theta = (T - T_i)/(T_s - T_i)\), apply the sine-integral representation and evaluate the inner integral, which is a Gaussian. The result is one of the most used formulas in heat transfer:</p>
+<div class="eq box"><span class="eq-tag">Step change in surface temperature</span>$$\frac{T - T_i}{T_s - T_i} = \operatorname{erfc}\!\left(\frac{x}{2\sqrt{\alpha t}}\right),\qquad q''_s(t) = \frac{k\,(T_s - T_i)}{\sqrt{\pi\alpha t}},\qquad \operatorname{erf}z = \frac{2}{\sqrt\pi}\int_0^ze^{-u^2}du$$</div>
+<p>The surface flux is infinite at \(t = 0\) and decays like \(t^{-1/2}\). The two other classical surface conditions give:</p>
+<div class="eq">$$\begin{aligned}
+\text{constant flux } q''_0:\ & T - T_i = \frac{2q''_0\sqrt{\alpha t/\pi}}{k}\exp\!\left(-\frac{x^2}{4\alpha t}\right) - \frac{q''_0x}{k}\operatorname{erfc}\frac{x}{2\sqrt{\alpha t}}\\
+\text{convection }(h, T_\infty):\ & \frac{T - T_i}{T_\infty - T_i} = \operatorname{erfc}\eta - \exp\!\left(\frac{hx}{k} + \frac{h^2\alpha t}{k^2}\right)\operatorname{erfc}\!\left(\eta + \frac{h\sqrt{\alpha t}}{k}\right),\quad \eta = \frac{x}{2\sqrt{\alpha t}}
+\end{aligned}$$</div>
+<div id="sim-semi"></div>
+<div class="callout phys"><div class="t">Physical interpretation: the penetration depth</div>
+<p>Since \(\operatorname{erfc}(2) = 0.005\), the disturbance has effectively not arrived beyond \(x\approx 4\sqrt{\alpha t}\). This <strong>thermal penetration depth</strong> grows like \(\sqrt t\). Doubling the depth takes four times as long. A frost wave that reaches 0.5 m in a month needs four months to reach 1 m. This square-root law is the signature of diffusion, as opposed to the linear-in-time travel of a wave or a flow.</p></div>
+<p><strong>Worked example (frozen water pipe).</strong> Dry soil at 20 °C (\(\alpha = 5\times10^{-4}\) m²/h) has its surface held at −15 °C for a month (720 h). How deep must a water pipe be? Set \((T - T_s)/(T_i - T_s) = \operatorname{erf}\eta = (0 + 15)/35 = 0.428\). Then \(\eta = 0.40\) and \(x = 2\eta\sqrt{\alpha t} = 0.8\sqrt{0.36} = 0.48\) m.</p>
+<h4>Two semi-infinite bodies in contact</h4>
+<p>Two bodies at \(T_1\) and \(T_2\) touch at \(t = 0\). Each responds with an erfc profile, and flux continuity at the interface fixes a contact temperature that is <em>constant in time</em>:</p>
+<div class="eq">$$T_c = \frac{e_1T_1 + e_2T_2}{e_1 + e_2},\qquad e = \sqrt{k\rho c}\ \ (\text{thermal effusivity, } \mathrm{W\,s^{1/2}m^{-2}K^{-1}})$$</div>
+<div id="sim-contact"></div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>Your fingertip does not sense the temperature of what you touch. It senses the contact temperature, which is weighted by effusivity. Steel (\(e\approx 14\,000\)) pulls the interface almost to its own temperature. Wood (\(e\approx 400\)) lets your skin (\(e\approx 1\,800\)) dominate. At the same 20 °C, metal "feels cold" and wood "feels warm". The same physics explains why touching a cold-head at 80 K with a gloved hand is fine for a moment but bare skin freezes instantly.</p></div>
+<h4>Periodic surface temperature</h4>
+<p>If the surface oscillates as \(T_s = T_m + A\cos\omega t\), the long-time solution is a damped, lagging thermal wave:</p>
+<div class="eq">$$T(x,t) = T_m + A\,e^{-x/d}\cos\!\left(\omega t - \frac{x}{d}\right),\qquad d = \sqrt{\frac{2\alpha}{\omega}}$$</div>
+<div id="sim-periodic"></div>
+<div class="callout real"><div class="t">In the real world</div>
+<p>For soil, the daily wave is damped to about 1% within roughly 0.5 m, while the annual wave reaches several metres and arrives months late. That is why cellars are cool in summer and warm in winter, and why buried water mains are laid below the frost line. The same formula sizes the wall thickness of a building's thermal mass, and gives the temperature swing in an engine cylinder wall at a combustion frequency of several kHz, where \(d\) is a few tens of micrometres.</p></div>
+<h4>2D steady state in a half-plane</h4>
+<p>A strip \(|x|\lt a\) on the surface \(y = 0\) of a half-plane is held at \(T_0\), and the rest of the surface at 0. The Fourier integral in \(x\) gives a closed form: the temperature is proportional to the angle the hot strip subtends at the point,</p>
+<div class="eq">$$T(x,y) = \frac{T_0}{\pi}\left[\tan^{-1}\frac{a - x}{y} + \tan^{-1}\frac{a + x}{y}\right]$$</div>
+<p>So isotherms are circular arcs through the strip's edges, and the flux lines are their orthogonal family. This is the steady field under a heated road, a hot electronic trace on a thick substrate, or a laser line on a large workpiece.</p>
+<div id="sim-halfplane"></div>
+</section>
+
+<section class="lec" id="l26" data-lec="26" data-title="Cylindrical & spherical">
+<div class="lec-head"><span class="lec-num">Lecture 26</span><h2>Semi-infinite media in cylindrical and spherical coordinates</h2></div>
+<p>For an unbounded radial direction, the Fourier–Bessel series becomes the Fourier–Bessel (Hankel) integral:</p>
+<div class="eq">$$f(r) = \int_0^\infty\lambda J_\nu(\lambda r)\int_0^\infty r'f(r')J_\nu(\lambda r')\,dr'\,d\lambda$$</div>
+<p>An infinite medium with an initial temperature \(F(r)\) about an axis then evolves as \(T(r,t) = \int_0^\infty e^{-\alpha\lambda^2t}\lambda J_0(\lambda r)\int_0^\infty r'F(r')J_0(\lambda r')dr'd\lambda\). For a hot cylinder of radius \(b\) at \(T_0\) in an infinite cold medium, this can be evaluated to show the centre temperature falling as \(1 - e^{-b^2/4\alpha t}\).</p>
+<p>The region outside a spherical cavity, whose surface is suddenly raised to \(T_s\), is simpler. The substitution \(U = r\theta\) makes it a planar problem in \(r - r_0\):</p>
+<div class="eq box"><span class="eq-tag">Outside a sphere, step surface temperature</span>$$\frac{T - T_i}{T_s - T_i} = \frac{r_0}{r}\operatorname{erfc}\!\left(\frac{r - r_0}{2\sqrt{\alpha t}}\right),\qquad q''_s = \frac{k(T_s - T_i)}{r_0}\left[1 + \frac{r_0}{\sqrt{\pi\alpha t}}\right]$$</div>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>The planar solution never reaches a steady state: an erfc profile keeps penetrating forever, and its flux decays to zero. The spherical solution does reach one, \(T = r_0/r\), with a finite steady flux \(k\Delta T/r_0\). Spreading over an area that grows like \(r^2\) lets the far field absorb heat indefinitely at a fixed rate. The cylinder is the borderline case: its steady solution would be \(\ln r\), which diverges, so the flux decays only logarithmically slowly. This is why a long hot wire (a transient hot-wire conductivity probe) shows the characteristic \(\Delta T\propto\ln t\) used to measure \(k\). Select "outside a sphere" in the first simulation to see the steady state appear.</p></div>
+</section>
+
+<section class="lec" id="l27" data-lec="27" data-title="Similarity method">
+<div class="lec-head"><span class="lec-num">Lecture 27</span><h2>The similarity method</h2></div>
+<p>The semi-infinite problem has no length scale of its own. The only way to make \(x\) dimensionless is with \(\sqrt{\alpha t}\). So the solution must depend on the single combination</p>
+<div class="eq">$$\eta = \frac{x}{2\sqrt{\alpha t}},\qquad \frac{\partial\theta}{\partial t} = -\frac{\eta}{2t}\theta',\quad \frac{\partial^2\theta}{\partial x^2} = \frac{\theta''}{4\alpha t}\quad\Rightarrow\quad \theta'' + 2\eta\,\theta' = 0$$</div>
+<p>The PDE in \((x, t)\) has become an ODE in \(\eta\). Integrating once gives \(\theta' = Ce^{-\eta^2}\), and again \(\theta = C_1\operatorname{erf}\eta + C_2\). The three original conditions \(\theta(x,0) = 0\), \(\theta(\infty,t) = 0\) and \(\theta(0,t) = 1\) collapse to two, \(\theta(\infty) = 0\) and \(\theta(0) = 1\), which is exactly what a second-order ODE needs. Ludwig Prandtl used the same idea in 1904 for the boundary layer.</p>
+<div id="sim-similarity"></div>
+<div class="callout key"><div class="t">When does similarity work?</div>
+<p>When the initial and far-field conditions coincide, so that \(t = 0\) and \(x\to\infty\) both map to \(\eta\to\infty\), and when no other length scale enters. A finite slab, or a convective boundary with its length \(k/h\), breaks the similarity. The convective solution above therefore depends on two groups, \(\eta\) and \(h\sqrt{\alpha t}/k\). Phase-change problems (Module 8) are the most important class where similarity survives with a moving boundary.</p></div>
+</section>
+
+<section class="lec" id="l28" data-lec="28" data-title="Laplace transform">
+<div class="lec-head"><span class="lec-num">Lecture 28</span><h2>The Laplace transform method</h2></div>
+<p>The Laplace transform \(\bar\theta(x,s) = \int_0^\infty\theta(x,t)e^{-st}dt\) removes time. Since \(\mathcal L\{\partial\theta/\partial t\} = s\bar\theta - \theta(x,0)\), the diffusion equation with zero initial temperature becomes an ODE in \(x\):</p>
+<div class="eq">$$\frac{d^2\bar\theta}{dx^2} - \frac{s}{\alpha}\bar\theta = 0\quad\Rightarrow\quad \bar\theta = A(s)\,e^{-x\sqrt{s/\alpha}}\quad(\text{bounded as }x\to\infty)$$</div>
+<p>The surface condition fixes \(A(s)\):</p>
+<div class="tw"><table class="t"><tr><th>Surface condition</th><th>\(\bar\theta(x,s)\)</th><th>Inverse (from tables)</th></tr>
+<tr><td>\(\theta(0,t) = \theta_s\)</td><td>\(\dfrac{\theta_s}{s}e^{-x\sqrt{s/\alpha}}\)</td><td>\(\theta_s\operatorname{erfc}\dfrac{x}{2\sqrt{\alpha t}}\)</td></tr>
+<tr><td>\(-k\theta_x(0,t) = q''_0\)</td><td>\(\dfrac{q''_0\sqrt\alpha}{k\,s^{3/2}}e^{-x\sqrt{s/\alpha}}\)</td><td>\(\dfrac{2q''_0\sqrt{\alpha t}}{k}\operatorname{ierfc}\dfrac{x}{2\sqrt{\alpha t}}\)</td></tr>
+<tr><td>\(-k\theta_x = h(\theta_\infty - \theta)\)</td><td>\(\dfrac{\theta_\infty H}{s(H + \sqrt{s/\alpha})}e^{-x\sqrt{s/\alpha}}\), with \(H = h/k\)</td><td>convection formula of Lecture 25</td></tr></table></div>
+<p>When no table entry exists, invert numerically. The <strong>Stehfest algorithm</strong> evaluates \(\bar\theta\) at a dozen real values of \(s\) and combines them with fixed weights. It is shown live, as orange dots, in the first simulation of Lecture 25, where it reproduces the analytical convective solution.</p>
+<h4>Intersections of 1D solutions</h4>
+<p>As with Heisler products in Module 4, a semi-infinite <em>corner</em> (a quarter-space \(x>0\), \(y>0\)) suddenly heated on both faces has the product solution \(\theta = 1 - [1 - \operatorname{erfc}\eta_x][1 - \operatorname{erfc}\eta_y]\), with the semi-infinite solution taking the place of the plate. Products of semi-infinite and finite-plate solutions describe the edge of a thick plate.</p>
+<div class="code" data-file="semi_infinite.py"><pre data-lang="python">import numpy as np
+from scipy.special import erf, erfc, erfinv
+import mpmath as mp
+
+# Frost-line example: soil at 20 °C, surface at -15 °C for 720 h, alpha = 5e-4 m²/h
+Ti, Ts, Tf, alpha, t = 20, -15, 0, 5e-4, 720
+eta = erfinv((Tf - Ts)/(Ti - Ts))
+print(f"eta = {eta:.4f}  -&gt;  burial depth = {2*eta*np.sqrt(alpha*t):.3f} m")
+
+# Convective surface: analytic vs numerical Laplace inversion (Talbot via mpmath)
+k, rho, c, h = 1.0, 2000, 1000, 20.0          # soil-like, W/m K etc.
+a = k/(rho*c); H = h/k
+def analytic(x, t):
+    e = x/(2*np.sqrt(a*t))
+    return erfc(e) - np.exp(H*x + H*H*a*t)*erfc(e + H*np.sqrt(a*t))
+def lap(s, x):                                 # theta_bar for T_inf - Ti = 1
+    return H/(s*(H + mp.sqrt(s/a)))*mp.exp(-x*mp.sqrt(s/a))
+for x in (0.0, 0.05, 0.2):
+    t = 3600*24
+    num = float(mp.invertlaplace(lambda s: lap(s, x), t, method='talbot'))
+    print(f"x = {x:4.2f} m: analytic {analytic(x, t):.6f}   Laplace-inverted {num:.6f}")</pre><pre data-lang="js">// Penetration of an erfc profile into steel, concrete and skin after 60 s
+const mats = {steel:1.2e-5, concrete:7e-7, skin:1.1e-7};
+const x = M.linspace(0, 0.06, 200), t = 60;
+plot(x.map(v=&gt;v*1000), Object.values(mats).map(a =&gt; x.map(v =&gt; M.erfc(v/(2*Math.sqrt(a*t))))),
+     {xlabel:'depth (mm)', ylabel:'θ = (T−Ti)/(Ts−Ti)', labels:Object.keys(mats)});
+for (const [m, a] of Object.entries(mats)) print(m, "penetration depth 4√(αt) =", (4*Math.sqrt(a*t)*1000).toFixed(1), "mm");
+// Stehfest inversion of θ̄ = e^{-x√(s/α)}/s at x = 5 mm in steel:
+const a = 1.2e-5, xx = 0.005;
+print("Stehfest:", M.stehfest(s =&gt; Math.exp(-xx*Math.sqrt(s/a))/s, t), "  exact erfc:", M.erfc(xx/(2*Math.sqrt(a*t))));</pre></div>
+<div class="quiz" data-title="Module 5 check"><script type="application/json">[{"q":"A surface temperature disturbance reaches 2 cm into a solid in 10 minutes. How long to reach 4 cm?","o":["20 min","40 min","14 min","80 min"],"a":1,"w":"Depth ∝ √(αt), so doubling the depth takes four times as long."},
+{"q":"Which property determines how 'cold' a material feels to touch?","o":["k","α","√(kρc), the effusivity","ρc"],"a":2,"w":"The contact temperature is the effusivity-weighted mean of the two initial temperatures."},
+{"q":"For a semi-infinite solid with a step in surface temperature, the surface heat flux…","o":["Is constant","Decays as t^{−1/2}","Grows as √t","Decays exponentially"],"a":1,"w":"q″ₛ = k(Tₛ − Tᵢ)/√(παt)."},
+{"q":"Heat conducted outward from a spherical cavity into an infinite medium…","o":["Never reaches steady state","Reaches a steady state with T ∝ r₀/r","Grows without bound","Oscillates"],"a":1,"w":"Spherical spreading permits a steady solution 1/r with finite flux; the planar erfc never reaches steady state."},
+{"q":"The daily temperature wave in soil (α ≈ 5×10⁻⁷ m²/s) is damped by a factor e at depth d = √(2α/ω) ≈…","o":["1.2 mm","12 cm","1.2 m","12 m"],"a":1,"w":"ω = 2π/86400 s⁻¹ gives d = √(2×5×10⁻⁷/7.27×10⁻⁵) ≈ 0.117 m."}]</script></div>
+</section>
+
+
+<nav class="pager"><a href="m04.html"><small>← Module 04</small><b>Transient Conduction by Separation of Variables</b></a><a class="nx" href="m06.html"><small>Module 06 →</small><b>Integral Transform Methods</b></a></nav>
+</article>
+</div>
+<footer class="ft"><div class="ft-in">
+<div><a class="sh-brand" href="../index.html" style="margin-bottom:10px"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="coM" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b2740"/><stop offset="1" stop-color="#1f8fd0"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#coM)"/><g stroke="#e9f7ff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M16 6v20M7.3 11l17.4 10M7.3 21 24.7 11"/><path d="m13.5 7.8 2.5 2 2.5-2M13.5 24.2l2.5-2 2.5 2M8.2 14.3l3 .2-.5-3M23.8 17.7l-3-.2.5 3M8.2 17.7l3-.2-.5 3M23.8 14.3l-3 .2.5-3"/></g><circle cx="16" cy="16" r="2.2" fill="#ff8a4c"/></svg><b>Cryogenics Online</b></a><p>Interactive lessons on the science and engineering of very low temperatures, with animated mechanisms, calculators and quizzes.</p><p>Written by <b style="color:var(--text)">Prashanth S R</b>.</p></div>
+<div><h6>Cryogenics</h6><a href="../lessons/what-is-cryogenics.html">Foundations</a><a href="../lessons/cryogens-and-their-properties.html">Cryogenic fluids</a><a href="../lessons/mechanical-properties-and-thermal-contraction.html">Materials</a><a href="../lessons/conduction-in-solids-at-low-temperature.html">Heat transfer track</a><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html">Liquefaction and refrigeration</a><a href="../lessons/gas-separation-and-ideal-work.html">Gas separation</a><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html">Cryocoolers</a></div>
+<div><h6>More modules</h6><a href="../lessons/cryogenic-insulation.html">Insulation</a><a href="../lessons/vacuum-technology.html">Vacuum</a><a href="../lessons/cryogenic-instrumentation.html">Instrumentation</a><a href="../lessons/safety-in-cryogenics.html">Safety</a><a href="../lessons/cryogenic-storage-and-boil-off.html">Systems and storage</a><a href="../lessons/liquid-argon-detectors-and-dune.html">Science applications</a><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html">Sub-kelvin cryogenics</a><a href="../lessons/lab-building-a-cryostat-step-by-step.html">Experimental cryogenics</a></div>
+<div><h6>Courses &amp; tools</h6><a href="../conduction/index.html">Advanced Heat Conduction</a><a href="../conduction/cheatsheet.html">Conduction formula sheet</a><a href="../index.html#paths">Learning paths</a><a href="../progress.html">Your progress</a><a href="../contact.html">Contact &amp; feedback</a><a class="mail" data-sub="Cryogenics Online: report an error" href="../contact.html">Report an error</a></div>
+</div>
+<div class="sf"><details><summary>All lessons</summary><div class="all"><h4>Foundations</h4><a href="../lessons/what-is-cryogenics.html">What is cryogenics?</a><a href="../lessons/cryogenic-fluids.html">Cryogenic fluids</a><a href="../lessons/refrigeration-and-liquefaction.html">Refrigeration and liquefaction</a><a href="../lessons/heat-transfer-and-insulation.html">Heat transfer and insulation</a><a href="../lessons/materials-at-low-temperature.html">Materials at low temperature</a><a href="../lessons/applications.html">Applications</a><a href="../lessons/safety.html">Safety</a><h4>Module 2 · Cryogenic fluids</h4><a href="../lessons/cryogens-and-their-properties.html">Cryogens and their properties</a><a href="../lessons/hydrogen-and-helium.html">Hydrogen and helium</a><a href="../lessons/superfluid-helium-he-ii.html">Superfluid helium (He II)</a><h4>Module 3 · Materials</h4><a href="../lessons/mechanical-properties-and-thermal-contraction.html">Mechanical properties and thermal contraction</a><a href="../lessons/specific-heat-and-thermal-conduction.html">Specific heat and thermal conduction</a><a href="../lessons/superconductivity.html">Superconductivity</a><h4>Heat transfer track</h4><a href="../lessons/conduction-in-solids-at-low-temperature.html">Conduction in solids at low temperature</a><a href="../lessons/thermal-resistance-joints-and-thermal-links.html">Thermal resistance, joints and thermal links</a><a href="../lessons/transient-conduction-and-cooldown.html">Transient conduction and cooldown</a><a href="../lessons/natural-convection-and-stable-stratification.html">Natural convection and stable stratification</a><a href="../lessons/convection-and-boiling-heat-transfer.html">Convection and boiling heat transfer</a><a href="../lessons/boiling-in-motion-bubbles-burnout-and-hysteresis.html">Boiling in motion: bubbles, burnout and hysteresis</a><a href="../lessons/gas-conduction-and-thermal-radiation.html">Gas conduction and thermal radiation</a><a href="../lessons/counterflow-heat-exchangers-in-motion.html">Counterflow heat exchangers in motion</a><h4>Module 4 · Liquefaction and refrigeration</h4><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html">Ideal refrigerators and the cost of cold</a><a href="../lessons/the-joule-thomson-effect-in-motion.html">The Joule–Thomson effect in motion</a><a href="../lessons/linde-hampson-liquefier.html">Linde–Hampson liquefier</a><a href="../lessons/heat-exchanger-effectiveness.html">Heat exchanger effectiveness</a><a href="../lessons/precooled-and-dual-pressure-systems.html">Precooled and dual-pressure systems</a><a href="../lessons/claude-system.html">Claude system</a><a href="../lessons/claude-family-and-system-comparison.html">Claude family and system comparison</a><a href="../lessons/liquefier-cycles-in-motion.html">Liquefier cycles in motion</a><a href="../lessons/liquefaction-cycles-on-the-t-s-diagram.html">Liquefaction cycles on the T–s diagram</a><h4>Module 5 · Gas separation</h4><a href="../lessons/gas-separation-and-ideal-work.html">Gas separation and ideal work</a><a href="../lessons/mixtures-phase-diagrams-and-k-values.html">Mixtures, phase diagrams and K-values</a><a href="../lessons/rectification-columns-and-plate-calculations.html">Rectification columns and plate calculations</a><a href="../lessons/air-separation-and-distillation-in-motion.html">Air separation and distillation in motion</a><h4>Module 6 · Cryocoolers</h4><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html">Cryocooler fundamentals and the Stirling cycle</a><a href="../lessons/gifford-mcmahon-and-pulse-tube-coolers.html">Gifford–McMahon and pulse tube coolers</a><a href="../lessons/cryocoolers-in-motion.html">Cryocoolers in motion</a><a href="../lessons/the-stirling-cryocooler-cycle-on-p-v-and-t-s-diagrams.html">The Stirling cryocooler cycle on p–V and T–s diagrams</a><h4>Module 7 · Insulation</h4><a href="../lessons/cryogenic-insulation.html">Cryogenic insulation</a><h4>Module 8 · Vacuum</h4><a href="../lessons/vacuum-technology.html">Vacuum technology</a><h4>Module 9 · Instrumentation</h4><a href="../lessons/cryogenic-instrumentation.html">Cryogenic instrumentation</a><a href="../lessons/measuring-flow-pressure-and-liquid-level.html">Measuring flow, pressure and liquid level</a><h4>Module 10 · Safety</h4><a href="../lessons/safety-in-cryogenics.html">Safety in cryogenics</a><h4>Module 11 · Systems and storage</h4><a href="../lessons/cryogenic-storage-and-boil-off.html">Cryogenic storage and boil-off</a><a href="../lessons/piping-valves-and-transfer-lines.html">Piping, valves and transfer lines</a><a href="../lessons/pressure-drop-fittings-and-two-phase-flow.html">Pressure drop, fittings and two-phase flow</a><a href="../lessons/cryostat-design.html">Cryostat design</a><a href="../lessons/designing-a-cryogenic-system.html">Designing a cryogenic system</a><a href="../lessons/pressure-relief-and-overpressure-safety.html">Pressure relief and overpressure safety</a><a href="../lessons/thermoacoustic-oscillations-in-cryogenic-systems.html">Thermoacoustic oscillations in cryogenic systems</a><a href="../lessons/helium-ii-cryogenic-systems.html">Helium II cryogenic systems</a><a href="../lessons/cryogenic-controls-and-plant-automation.html">Cryogenic controls and plant automation</a><h4>Module 12 · Science applications</h4><a href="../lessons/liquid-argon-detectors-and-dune.html">Liquid argon detectors and DUNE</a><a href="../lessons/superconducting-rf-cavities-for-accelerators.html">Superconducting RF cavities for accelerators</a><a href="../lessons/cryogenics-for-dark-matter-and-the-cosmic-microwave-background.html">Cryogenics for dark matter and the cosmic microwave background</a><h4>Module 13 · Sub-kelvin cryogenics</h4><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html">Below 1 kelvin and pumped helium refrigerators</a><a href="../lessons/dilution-refrigerators.html">Dilution refrigerators</a><a href="../lessons/magnetic-cooling-adr-pomeranchuk-and-nuclear-demagnetisation.html">Magnetic cooling: ADR, Pomeranchuk and nuclear demagnetisation</a><a href="../lessons/materials-and-thermometry-below-1-kelvin.html">Materials and thermometry below 1 kelvin</a><h4>Module 14 · Experimental cryogenics</h4><a href="../lessons/lab-building-a-cryostat-step-by-step.html">Lab: Building a cryostat, step by step</a><a href="../lessons/lab-vacuum-and-leak-checking-in-practice.html">Lab: Vacuum and leak checking in practice</a><a href="../lessons/lab-cooling-down-safely.html">Lab: Cooling down safely</a><a href="../lessons/lab-calibrating-thermometers.html">Lab: Calibrating thermometers</a><h4>Advanced Heat Conduction</h4><a href="../conduction/m01.html">Foundations of Heat Conduction</a><a href="../conduction/m02.html">Sturm–Liouville Theory &amp; Fourier Expansions</a><a href="../conduction/m03.html">Steady Multidimensional Conduction</a><a href="../conduction/m04.html">Transient Conduction by Separation of Variables</a><a href="../conduction/m05.html">Semi-infinite &amp; Infinite Domains</a><a href="../conduction/m06.html">Integral Transform Methods</a><a href="../conduction/m07.html">Duhamel’s Theorem &amp; Green’s Functions</a><a href="../conduction/m08.html">Conduction with Phase Change</a><a href="../conduction/m09.html">Local &amp; Moving Heat Sources</a><a href="../conduction/m10.html">Approximate &amp; Integral Methods</a><a href="../conduction/m11.html">Porous Media &amp; Anisotropic Solids</a><a href="../conduction/m12.html">Numerical Methods for Conduction</a></div></details></div>
+<div class="ft-b"><span>© 2026 Prashanth S R · Cryogenics Online</span><span>Press <b>Ctrl K</b> or <b>/</b> to search</span></div>
+</footer>
+
+<script>
+const MATS5={cu:['Copper',400,8930,385],steel:['Carbon steel',45,7850,475],ss:['Stainless steel',15,8000,500],conc:['Concrete',1.4,2300,880],soil:['Dry soil',0.52,2050,1840],ice:['Ice',2.2,917,2050],wood:['Wood (pine)',0.12,500,2500],skin:['Human skin',0.37,1100,3400],water:['Water',0.6,1000,4180]};
+
+/* ===== Semi-infinite solid ===== */
+(function(){
+  const S=H.sim('#sim-semi',{title:'Semi-infinite solid: three surface conditions',tag:'erfc · √t penetration · Stehfest check',
+    canvases:[{id:'f',cbar:['Tᵢ','','Tₛ']},{id:'p'},{id:'q'}],
+    controls:[{type:'select',id:'bc',label:'Surface condition',options:[['T','Step in surface temperature'],['q','Constant heat flux'],['h','Convection (h, T∞)']],value:'h'},
+      {type:'select',id:'geo',label:'Geometry',options:[['plane','Planar half-space'],['sph','Outside a spherical cavity (r₀ = 2 cm)']],value:'plane'},
+      {type:'select',id:'m',label:'Material',options:Object.entries(MATS5).map(([k,v])=>[k,v[0]]),value:'steel'},
+      {id:'h',label:'h (W/m²K)',min:10,max:1e5,value:2000,log:true,fmt:v=>v.toFixed(0)},
+      {id:'t',label:'Time t (s)',min:0.1,max:3.6e4,value:60,log:true,fmt:v=>v<120?v.toFixed(1)+' s':v<7200?(v/60).toFixed(1)+' min':(v/3600).toFixed(2)+' h'}],
+    readouts:[['a','α (m²/s)'],['d','Penetration 4√(αt)'],['ts','Surface θ'],['q','Surface flux (per K of ΔT)']],
+    note:'Top: the solid in false colour, surface on the left. Middle: θ against depth; orange dots are a Stehfest numerical inversion of the Laplace-domain solution. Bottom: surface temperature (or flux) history.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.16}), pp=new H.Plot(S.c.p,{aspect:0.38,xlabel:'depth x (mm)',ylabel:'θ',ymin:0,ymax:1.05,xmin:0}), pq=new H.Plot(S.c.q,{aspect:0.24,xlabel:'t (s)',ylabel:'θ_s',logx:true});
+  function props(){ const [n,k,rho,c]=MATS5[S.v.m]; return {k,a:k/(rho*c)}; }
+  function th(x,t,o){ const {k,a}=o, e=x/(2*Math.sqrt(a*t)), H_=S.v.h/k, bc=S.v.bc;
+    let v; if(bc==='T') v=M.erfc(e); else if(bc==='q'){ // normalise by q0 L*/k with L* = penetration so that θ_s(t) visible: use θ k/(q0 * 2√(αt/π)) at surface = 1
+      v=Math.exp(-e*e)-e*Math.sqrt(Math.PI)*M.erfc(e); }
+    else { const b=H_*Math.sqrt(a*t); v=M.erfc(e)-(b>25? (Math.exp(-e*e)/(Math.sqrt(Math.PI)*(e+b))) : Math.exp(H_*x+b*b)*M.erfc(e+b)); }
+    return v; }
+  function thG(x,t,o){ if(S.v.geo==='plane') return th(x,t,o); const r0=0.02; return r0/(r0+x)*th(x,t,o); }
+  function lapBar(s,x,o){ const {k,a}=o, q=Math.sqrt(s/a), H_=S.v.h/k; if(S.v.bc==='T') return Math.exp(-x*q)/s; if(S.v.bc==='h') return H_/(s*(H_+q))*Math.exp(-x*q); return null; }
+  function draw(){
+    const o=props(), t=S.v.t, dpen=4*Math.sqrt(o.a*t), xmax=Math.max(dpen*1.6,1e-4), xs=M.linspace(0,xmax,200);
+    const ys=xs.map(x=>thG(x,t,o));
+    const nx=260, ny=30, d=new Float32Array(nx*ny); for(let i=0;i<nx;i++){ const v=thG((i+0.5)/nx*xmax,t,o); for(let j=0;j<ny;j++) d[j*nx+i]=v; }
+    fld.draw(d,nx,ny,0,1,{overlay:(ctx,b)=>{ const X=b.l+dpen/xmax*b.w; ctx.strokeStyle='#7b98ff'; ctx.setLineDash([4,3]); ctx.beginPath(); ctx.moveTo(X,b.t); ctx.lineTo(X,b.t+b.h); ctx.stroke(); ctx.setLineDash([]); H.label(ctx,'4√(αt)',X+4,b.t+b.h/2,{size:10,color:'#fff'}); }});
+    pp.o.xmax=xmax*1000;
+    const ser=[{x:xs.map(x=>x*1000),y:ys,color:'hot',width:3,fill:true,label:S.v.bc==='q'?'θ k/(2q₀√(αt/π))':'θ'}];
+    if(S.v.geo==='plane'&&S.v.bc!=='q'){ const xi=M.linspace(0,xmax,12); ser.push({x:xi.map(x=>x*1000),y:xi.map(x=>M.stehfest(s=>lapBar(s,x,o),t,14)),points:true,color:'#ff9a3c',r:4,label:'Stehfest inversion'}); }
+    if(S.v.geo==='sph'&&S.v.bc==='T') ser.push({x:xs.map(x=>x*1000),y:xs.map(x=>0.02/(0.02+x)),color:'cold',dash:[5,4],label:'steady state r₀/r'});
+    pp.draw(ser,{vlines:[{x:dpen*1000,color:'cold',label:'4√(αt)'}]});
+    const tt=[]; for(let e=-1;e<=Math.log10(3.6e4);e+=0.05) tt.push(10**e);
+    pq.o.ylabel=S.v.bc==='T'?'q″ₛ/ΔT (W/m²K)':'θ at surface';
+    pq.draw([{x:tt,y:tt.map(T=>S.v.bc==='T'?o.k/Math.sqrt(Math.PI*o.a*T):thG(0,T,o)),color:'cold',width:2.5}],{vlines:[{x:t,color:'hot'}]});
+    S.out('a',o.a.toExponential(2)); S.out('d',(dpen*1000).toFixed(2)+' mm'); S.out('ts',thG(0,t,o).toFixed(4)); S.out('q',S.v.bc==='T'?(o.k/Math.sqrt(Math.PI*o.a*t)).toFixed(1)+' W/m²K':S.v.bc==='h'?(S.v.h*(1-thG(0,t,o))).toFixed(1)+' W/m²K':'= q₀');
+  }
+  S.on(draw); draw();
+  const A=H.anim(S.c.p,dt=>{ let t=S.v.t*(1+dt*1.2); if(t>3.6e4) t=0.1; S.set_t(t); draw(); }); A.pause(); S.playBtn(A);
+})();
+
+/* ===== Contact temperature ===== */
+(function(){
+  const opts=Object.entries(MATS5).map(([k,v])=>[k,v[0]]);
+  const S=H.sim('#sim-contact',{title:'Touch test: two semi-infinite bodies',tag:'Thermal effusivity',
+    canvases:[{id:'p'}],
+    controls:[{type:'select',id:'a',label:'Body A (left)',options:opts,value:'skin'},{id:'Ta',label:'T_A (°C)',min:-196,max:300,step:1,value:34},
+      {type:'select',id:'b',label:'Body B (right)',options:opts,value:'steel'},{id:'Tb',label:'T_B (°C)',min:-196,max:300,step:1,value:20},
+      {id:'t',label:'Time (s)',min:0.01,max:30,value:1,log:true,fmt:v=>v.toFixed(2)}],
+    readouts:[['ea','e_A'],['eb','e_B'],['tc','Contact temperature'],['feel','Body A feels']],
+    note:'Each side develops an erfc profile, but the interface temperature is fixed from the very first instant. Try skin against wood, then against steel, at the same 20 °C.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.42,xlabel:'position (mm), interface at 0',ylabel:'T (°C)'});
+  function draw(){
+    const A=MATS5[S.v.a], B=MATS5[S.v.b], ea=Math.sqrt(A[1]*A[2]*A[3]), eb=Math.sqrt(B[1]*B[2]*B[3]), aA=A[1]/(A[2]*A[3]), aB=B[1]/(B[2]*B[3]);
+    const Ta=S.v.Ta, Tb=S.v.Tb, Tc=(ea*Ta+eb*Tb)/(ea+eb), t=S.v.t, LA=5*Math.sqrt(aA*t), LB=5*Math.sqrt(aB*t), L=Math.max(LA,LB);
+    const xl=M.linspace(-L,0,120), xr=M.linspace(0,L,120);
+    pp.o.xmin=-L*1000; pp.o.xmax=L*1000; pp.o.ymin=Math.min(Ta,Tb)-5; pp.o.ymax=Math.max(Ta,Tb)+5;
+    pp.draw([{x:xl.map(x=>x*1000),y:xl.map(x=>Ta+(Tc-Ta)*M.erfc(-x/(2*Math.sqrt(aA*t)))),color:'hot',width:3,label:A[0]},{x:xr.map(x=>x*1000),y:xr.map(x=>Tb+(Tc-Tb)*M.erfc(x/(2*Math.sqrt(aB*t)))),color:'cold',width:3,label:B[0]}],
+      {hlines:[{y:Tc,color:'warn',label:'T_c = '+Tc.toFixed(1)+' °C'}],vlines:[{x:0,color:'muted',dash:[]}],bands:[{x0:-L*1000,x1:0,color:'hot',alpha:0.06},{x0:0,x1:L*1000,color:'cold',alpha:0.06}]});
+    S.out('ea',ea.toFixed(0)); S.out('eb',eb.toFixed(0)); S.out('tc',Tc.toFixed(1)+' °C'); S.out('feel',Tc<Ta-8?'cold':Tc<Ta-2?'cool':Tc>Ta+8?'hot':Tc>Ta+2?'warm':'neutral');
+  }
+  S.on(draw); draw();
+})();
+
+/* ===== Periodic surface temperature ===== */
+(function(){
+  const S=H.sim('#sim-periodic',{title:'Thermal waves in the ground',tag:'Damped, lagging penetration',
+    canvases:[{id:'f'},{id:'p'}],
+    controls:[{type:'select',id:'per',label:'Forcing period',options:[['day','Daily (24 h)'],['year','Annual (365 d)'],['hour','1 hour']],value:'year'},
+      {type:'select',id:'m',label:'Medium',options:Object.entries(MATS5).map(([k,v])=>[k,v[0]]),value:'soil'},
+      {id:'A',label:'Surface amplitude (K)',min:1,max:25,step:0.5,value:15},{id:'Tm',label:'Mean (°C)',min:-10,max:30,step:0.5,value:10}],
+    readouts:[['d','Damping depth d'],['d1','Depth for 1% amplitude'],['lag','Lag at depth 2 m'],['fr','Freezes below…']],
+    note:'Animated over one forcing period. The envelope (dashed) is T_m ± A e^(−x/d). Readouts give the depth where the swing falls to 1% and the frost line for the chosen mean and amplitude.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.18}), pp=new H.Plot(S.c.p,{aspect:0.4,xlabel:'depth (m)',ylabel:'T (°C)'});
+  let ph=0;
+  function draw(){
+    const [n,k,rho,c]=MATS5[S.v.m], a=k/(rho*c), P={day:86400,year:365*86400,hour:3600}[S.v.per], w=2*Math.PI/P, d=Math.sqrt(2*a/w), A=S.v.A, Tm=S.v.Tm, xmax=6*d, xs=M.linspace(0,xmax,200);
+    const T=x=>Tm+A*Math.exp(-x/d)*Math.cos(ph-x/d);
+    const nx=260, ny=24, D=new Float32Array(nx*ny); for(let i=0;i<nx;i++){ const v=T((i+0.5)/nx*xmax); for(let j=0;j<ny;j++) D[j*nx+i]=v; }
+    fld.draw(D,nx,ny,Tm-A,Tm+A,{cmap:'diverge'});
+    pp.o.xmax=xmax; pp.o.xmin=0; pp.o.ymin=Tm-A-1; pp.o.ymax=Tm+A+1;
+    pp.draw([{x:xs,y:xs.map(x=>Tm+A*Math.exp(-x/d)),color:'muted',dash:[4,3]},{x:xs,y:xs.map(x=>Tm-A*Math.exp(-x/d)),color:'muted',dash:[4,3]},{x:xs,y:xs.map(T),color:'hot',width:3}],{hlines:[{y:0,color:'cold',label:'0 °C'}]});
+    S.out('d',d<0.01?(d*1000).toFixed(2)+' mm':d.toFixed(3)+' m'); S.out('d1',(d*Math.log(100)).toFixed(3)+' m');
+    const lag=2/d/w; S.out('lag',lag>86400*2?(lag/86400).toFixed(0)+' days':(lag/3600).toFixed(1)+' h');
+    const fz=Tm-A<0?(Tm>0?d*Math.log(A/Tm):Infinity):0; S.out('fr',Tm-A>=0?'never freezes':!isFinite(fz)?'always frozen':fz.toFixed(2)+' m (frost line)');
+  }
+  S.on(draw); draw();
+  const A_=H.anim(S.c.p,dt=>{ ph+=dt*1.6; draw(); }); S.playBtn(A_);
+})();
+
+/* ===== Half-plane strip ===== */
+(function(){
+  const S=H.sim('#sim-halfplane',{title:'Heated strip on a half-plane',tag:'Steady 2D, Fourier integral',
+    canvases:[{id:'f',cbar:['0','','T₀']}],
+    controls:[{id:'a',label:'Strip half-width a',min:0.05,max:0.6,step:0.01,value:0.2,fmt:v=>v.toFixed(2)},{type:'check',id:'fl',label:'Show flux lines',value:true}],
+    readouts:[['c','T at depth a below centre'],['far','T at depth 5a']],
+    note:'Isotherms are circular arcs passing through the strip edges, because T is proportional to the angle the strip subtends. Flux lines (blue) leave the strip and re-enter the cold surface on either side.'});
+  if(!S) return;
+  const fld=new H.Field(S.c.f,{aspect:0.5});
+  const T=(x,y,a)=>(Math.atan((a-x)/y)+Math.atan((a+x)/y))/Math.PI;
+  function draw(){
+    const a=S.v.a, nx=220, ny=110, d=new Float32Array(nx*ny);
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){ const x=(i+0.5)/nx*2-1, y=(j+0.5)/ny*1; d[j*nx+i]=T(x,y,a); }
+    fld.draw(d,nx,ny,0,1,{contours:[0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9],overlay:(ctx,b)=>{
+      ctx.fillStyle=H.heat(1); ctx.fillRect(b.l+(1-a)/2*b.w,b.t,a*b.w,4);
+      if(S.v.fl){ // flux lines: conjugate harmonic ψ = (1/2π) ln(r1/r2) contours
+        ctx.strokeStyle='rgba(123,152,255,0.85)'; ctx.lineWidth=1.2;
+        for(let k=-6;k<=6;k++){ if(k===0) continue; const c=k*0.12; ctx.beginPath(); let pen=false;
+          for(let s=0;s<=400;s++){ // circle family: ln(r1/r2)=c  -> Apollonius circles with foci at ±a
+            const th=s/400*Math.PI*2, K=Math.exp(c), cx=a*(1+K*K)/(1-K*K), R=Math.abs(2*a*K/(1-K*K)), x=cx+R*Math.cos(th), y=R*Math.sin(th);
+            if(y<0||Math.abs(x)>1||y>1){pen=false;continue;} const X=b.l+(x+1)/2*b.w, Y=b.t+y*b.h; if(!pen){ctx.moveTo(X,Y);pen=true;} else ctx.lineTo(X,Y); }
+          ctx.stroke(); } }
+    }});
+    S.out('c',T(0,a,a).toFixed(4)); S.out('far',T(0,5*a,a).toFixed(4));
+  }
+  S.on(draw); draw();
+})();
+
+/* ===== Similarity collapse ===== */
+(function(){
+  const S=H.sim('#sim-similarity',{title:'Watch the profiles collapse onto one curve',tag:'η = x / 2√(αt)',
+    canvases:[{id:'p'}],
+    controls:[{id:'s',label:'Coordinate: x → η (morph)',min:0,max:1,step:0.01,value:0,fmt:v=>v<0.02?'physical x':v>0.98?'similarity η':'morphing'},
+      {type:'check',id:'num',label:'Use numerical solution (finite differences)',value:true}],
+    readouts:[['spread','Spread between curves']],
+    note:'Five profiles at t = 1, 4, 16, 64 and 256 s, computed by brute-force finite differences on a long domain. Slide the coordinate from x to η: they fall onto erfc(η), so the PDE really has a one-variable solution.'});
+  if(!S) return;
+  const pp=new H.Plot(S.c.p,{aspect:0.45,ylabel:'θ',ymin:0,ymax:1.05,xmin:0});
+  const a=1e-5, times=[1,4,16,64,256], Lx=0.3, N=601, dx=Lx/(N-1); let prof=null;
+  function compute(){ // explicit FD
+    let T=new Float64Array(N); T[0]=1; const dt=0.4*dx*dx/a; let t=0, k=0; prof=[];
+    while(k<times.length){ const Tn=T.slice(); for(let i=1;i<N-1;i++) Tn[i]=T[i]+a*dt/(dx*dx)*(T[i+1]-2*T[i]+T[i-1]); Tn[0]=1; T=Tn; t+=dt; if(t>=times[k]){ prof.push(Array.from(T)); k++; } }
+  }
+  compute();
+  function draw(){
+    const s=S.v.s, xs=M.linspace(0,Lx,N), ser=[]; let maxEta=3;
+    times.forEach((t,i)=>{ const xx=xs.map(x=>x*((1-s)*100+s*(1/(2*Math.sqrt(a*t))))); const y=S.v.num?prof[i]:xs.map(x=>M.erfc(x/(2*Math.sqrt(a*t)))); ser.push({x:xx,y,label:'t = '+t+' s',width:2}); });
+    if(s>0.98) ser.push({x:M.linspace(0,3,100),y:M.linspace(0,3,100).map(M.erfc),color:'ink',dash:[6,4],width:1.5,label:'erfc(η)'});
+    pp.o.xmax=(1-s)*20+s*maxEta; pp.o.xlabel=s<0.5?'x (cm)':'η';
+    pp.draw(ser);
+    // spread metric at θ = 0.5
+    const pos=prof.map((p,i)=>{ let j=0; while(j<N-1&&p[j]>0.5) j++; return xs[j]*((1-s)+s/(2*Math.sqrt(a*times[i]))); });
+    S.out('spread',(Math.max(...pos)/Math.min(...pos)).toFixed(3)+' ×');
+  }
+  S.on(draw); draw();
+  let dir=1; const A=H.anim(S.c.p,dt=>{ let v=S.v.s+dir*dt*0.35; if(v>1){v=1;dir=-1;} if(v<0){v=0;dir=1;} S.set_s(v); draw(); }); A.pause(); S.playBtn(A);
+})();
+</script>
+
+<script src="../assets/course-data.js"></script>
+<script src="../assets/shell.js"></script>
+</body></html>

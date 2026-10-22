@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://cryogenics-online.com/</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/progress.html</loc><lastmod>2026-10-22</lastmod></url>
 <url><loc>https://cryogenics-online.com/contact.html</loc><lastmod>2026-10-22</lastmod></url>
 <url><loc>https://cryogenics-online.com/lessons/what-is-cryogenics.html</loc><lastmod>2026-10-22</lastmod></url>
 <url><loc>https://cryogenics-online.com/lessons/cryogenic-fluids.html</loc><lastmod>2026-10-22</lastmod></url>
@@ -65,4 +66,18 @@
 <url><loc>https://cryogenics-online.com/lessons/lab-vacuum-and-leak-checking-in-practice.html</loc><lastmod>2026-10-22</lastmod></url>
 <url><loc>https://cryogenics-online.com/lessons/lab-cooling-down-safely.html</loc><lastmod>2026-10-22</lastmod></url>
 <url><loc>https://cryogenics-online.com/lessons/lab-calibrating-thermometers.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/cheatsheet.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m01.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m02.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m03.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m04.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m05.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m06.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m07.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m08.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m09.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m10.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m11.html</loc><lastmod>2026-10-22</lastmod></url>
+<url><loc>https://cryogenics-online.com/conduction/m12.html</loc><lastmod>2026-10-22</lastmod></url>
 </urlset>
