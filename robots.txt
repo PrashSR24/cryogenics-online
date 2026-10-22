@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://cryogenics-online.com/sitemap.xml
+Sitemap: https://prashsr24.github.io/cryogenics-online/sitemap.xml
