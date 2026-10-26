@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#06111c">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M03 Laminar Duct Flow</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Entrance lengths, Hagen–Poiseuille flow, hydraulic diameter, fully developed Nusselt numbers, the Graetz problem and optimal channel spacing.">
+<meta name="author" content="Prashanth S R">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,600&display=swap">
+<script>try{var t=localStorage.getItem("co-theme");if(t)document.documentElement.setAttribute("data-theme",JSON.parse(t))}catch(e){}</script>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="../assets/shell.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],macros:{dd:'\\mathrm{d}',pd:['\\frac{\\partial #1}{\\partial #2}',2]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script src="assets/core.js"></script>
+<script src="assets/conv.js"></script>
+
+</head>
+<body data-reading="1" data-course="cv" data-module="m03">
+<header class="sh"><div class="sh-in">
+<a class="sh-brand" href="../index.html" aria-label="Cryogenics Online home"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="coM" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b2740"/><stop offset="1" stop-color="#1f8fd0"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#coM)"/><g stroke="#e9f7ff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M16 6v20M7.3 11l17.4 10M7.3 21 24.7 11"/><path d="m13.5 7.8 2.5 2 2.5-2M13.5 24.2l2.5-2 2.5 2M8.2 14.3l3 .2-.5-3M23.8 17.7l-3-.2.5 3M8.2 17.7l3-.2-.5 3M23.8 14.3l-3 .2.5-3"/></g><circle cx="16" cy="16" r="2.2" fill="#ff8a4c"/></svg><b>Cryogenics Online</b></a>
+<nav class="sh-nav" aria-label="Main">
+<button class="sh-l" type="button" data-mega-btn aria-expanded="false">Courses <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+<a href="../conduction/index.html">Conduction</a>
+<a href="../convection/index.html" class="on">Convection</a>
+<a href="../index.html#paths">Learning paths</a>
+<a href="../progress.html">Progress</a>
+</nav>
+<span class="sh-sp"></span>
+<button class="sh-search" type="button" data-search aria-label="Search (Ctrl K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="lbl">Search lessons</span><kbd>Ctrl K</kbd></button>
+<a class="sh-ic sh-ring" href="../progress.html" data-sh-ring aria-label="Your progress"></a>
+<button class="sh-ic" type="button" data-theme-btn aria-label="Switch light or dark theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
+<button class="sh-ic sh-burger" type="button" data-burger aria-label="Open menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div>
+<div class="mega"><div class="mega-in"><h5>Cryogenics · 63 lessons in 15 modules</h5><a href="../lessons/what-is-cryogenics.html"><i>F</i><span>Foundations</span><small>7</small></a><a href="../lessons/cryogens-and-their-properties.html"><i>2</i><span>Cryogenic fluids</span><small>3</small></a><a href="../lessons/mechanical-properties-and-thermal-contraction.html"><i>3</i><span>Materials</span><small>3</small></a><a href="../lessons/conduction-in-solids-at-low-temperature.html"><i>HT</i><span>Heat transfer track</span><small>8</small></a><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html"><i>4</i><span>Liquefaction and refrigeration</span><small>9</small></a><a href="../lessons/gas-separation-and-ideal-work.html"><i>5</i><span>Gas separation</span><small>4</small></a><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html"><i>6</i><span>Cryocoolers</span><small>4</small></a><a href="../lessons/cryogenic-insulation.html"><i>7</i><span>Insulation</span><small>1</small></a><a href="../lessons/vacuum-technology.html"><i>8</i><span>Vacuum</span><small>1</small></a><a href="../lessons/cryogenic-instrumentation.html"><i>9</i><span>Instrumentation</span><small>2</small></a><a href="../lessons/safety-in-cryogenics.html"><i>10</i><span>Safety</span><small>1</small></a><a href="../lessons/cryogenic-storage-and-boil-off.html"><i>11</i><span>Systems and storage</span><small>9</small></a><a href="../lessons/liquid-argon-detectors-and-dune.html"><i>12</i><span>Science applications</span><small>3</small></a><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html"><i>13</i><span>Sub-kelvin cryogenics</span><small>4</small></a><a href="../lessons/lab-building-a-cryostat-step-by-step.html"><i>14</i><span>Experimental cryogenics</span><small>4</small></a><h5>Advanced Heat Conduction · 12 modules</h5><a class="hc" href="../conduction/m01.html"><i>M01</i><span>Foundations of Heat Conduction</span><small>6</small></a><a class="hc" href="../conduction/m02.html"><i>M02</i><span>Sturm–Liouville Theory &amp; Fourier Expansions</span><small>5</small></a><a class="hc" href="../conduction/m03.html"><i>M03</i><span>Steady Multidimensional Conduction</span><small>6</small></a><a class="hc" href="../conduction/m04.html"><i>M04</i><span>Transient Conduction by Separation of Variables</span><small>5</small></a><a class="hc" href="../conduction/m05.html"><i>M05</i><span>Semi-infinite &amp; Infinite Domains</span><small>5</small></a><a class="hc" href="../conduction/m06.html"><i>M06</i><span>Integral Transform Methods</span><small>5</small></a><a class="hc" href="../conduction/m07.html"><i>M07</i><span>Duhamel’s Theorem &amp; Green’s Functions</span><small>5</small></a><a class="hc" href="../conduction/m08.html"><i>M08</i><span>Conduction with Phase Change</span><small>4</small></a><a class="hc" href="../conduction/m09.html"><i>M09</i><span>Local &amp; Moving Heat Sources</span><small>4</small></a><a class="hc" href="../conduction/m10.html"><i>M10</i><span>Approximate &amp; Integral Methods</span><small>5</small></a><a class="hc" href="../conduction/m11.html"><i>M11</i><span>Porous Media &amp; Anisotropic Solids</span><small>4</small></a><a class="hc" href="../conduction/m12.html"><i>M12</i><span>Numerical Methods for Conduction</span><small>6</small></a><h5>Advanced Convection · 12 modules</h5><a class="cv" href="../convection/m01.html"><i>M01</i><span>Fundamental Principles of Convection</span><small>6</small></a><a class="cv" href="../convection/m02.html"><i>M02</i><span>Laminar Boundary Layers</span><small>6</small></a><a class="cv" href="../convection/m03.html"><i>M03</i><span>Laminar Duct Flow</span><small>6</small></a><a class="cv" href="../convection/m04.html"><i>M04</i><span>External Natural Convection</span><small>6</small></a><a class="cv" href="../convection/m05.html"><i>M05</i><span>Natural Convection in Enclosures</span><small>6</small></a><a class="cv" href="../convection/m06.html"><i>M06</i><span>Transition to Turbulence</span><small>4</small></a><a class="cv" href="../convection/m07.html"><i>M07</i><span>Turbulent Boundary Layers</span><small>6</small></a><a class="cv" href="../convection/m08.html"><i>M08</i><span>Turbulent Duct Flow</span><small>5</small></a><a class="cv" href="../convection/m09.html"><i>M09</i><span>Jets, Plumes and Wakes</span><small>4</small></a><a class="cv" href="../convection/m10.html"><i>M10</i><span>Boiling and Condensation</span><small>7</small></a><a class="cv" href="../convection/m11.html"><i>M11</i><span>Convective Mass Transfer</span><small>5</small></a><a class="cv" href="../convection/m12.html"><i>M12</i><span>Convection in Porous Media</span><small>7</small></a></div></div>
+<div class="readbar"></div>
+</header>
+<nav class="drawer" aria-label="Menu"><a href="../index.html"><span>Home</span></a><a href="../index.html#paths"><span>Learning paths</span></a><a href="../progress.html"><span>Your progress</span></a><a href="../contact.html"><span>Contact</span></a><h5>Cryogenics</h5><a href="../lessons/what-is-cryogenics.html"><span>Foundations</span><small>7 lessons</small></a><a href="../lessons/cryogens-and-their-properties.html"><span>Cryogenic fluids</span><small>3 lessons</small></a><a href="../lessons/mechanical-properties-and-thermal-contraction.html"><span>Materials</span><small>3 lessons</small></a><a href="../lessons/conduction-in-solids-at-low-temperature.html"><span>Heat transfer track</span><small>8 lessons</small></a><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html"><span>Liquefaction and refrigeration</span><small>9 lessons</small></a><a href="../lessons/gas-separation-and-ideal-work.html"><span>Gas separation</span><small>4 lessons</small></a><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html"><span>Cryocoolers</span><small>4 lessons</small></a><a href="../lessons/cryogenic-insulation.html"><span>Insulation</span><small>1 lessons</small></a><a href="../lessons/vacuum-technology.html"><span>Vacuum</span><small>1 lessons</small></a><a href="../lessons/cryogenic-instrumentation.html"><span>Instrumentation</span><small>2 lessons</small></a><a href="../lessons/safety-in-cryogenics.html"><span>Safety</span><small>1 lessons</small></a><a href="../lessons/cryogenic-storage-and-boil-off.html"><span>Systems and storage</span><small>9 lessons</small></a><a href="../lessons/liquid-argon-detectors-and-dune.html"><span>Science applications</span><small>3 lessons</small></a><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html"><span>Sub-kelvin cryogenics</span><small>4 lessons</small></a><a href="../lessons/lab-building-a-cryostat-step-by-step.html"><span>Experimental cryogenics</span><small>4 lessons</small></a><h5>Advanced Heat Conduction</h5><a href="../conduction/index.html"><span>Course home</span></a><a href="../conduction/m01.html"><span>Foundations of Heat Conduction</span><small>M01</small></a><a href="../conduction/m02.html"><span>Sturm–Liouville Theory &amp; Fourier Expansions</span><small>M02</small></a><a href="../conduction/m03.html"><span>Steady Multidimensional Conduction</span><small>M03</small></a><a href="../conduction/m04.html"><span>Transient Conduction by Separation of Variables</span><small>M04</small></a><a href="../conduction/m05.html"><span>Semi-infinite &amp; Infinite Domains</span><small>M05</small></a><a href="../conduction/m06.html"><span>Integral Transform Methods</span><small>M06</small></a><a href="../conduction/m07.html"><span>Duhamel’s Theorem &amp; Green’s Functions</span><small>M07</small></a><a href="../conduction/m08.html"><span>Conduction with Phase Change</span><small>M08</small></a><a href="../conduction/m09.html"><span>Local &amp; Moving Heat Sources</span><small>M09</small></a><a href="../conduction/m10.html"><span>Approximate &amp; Integral Methods</span><small>M10</small></a><a href="../conduction/m11.html"><span>Porous Media &amp; Anisotropic Solids</span><small>M11</small></a><a href="../conduction/m12.html"><span>Numerical Methods for Conduction</span><small>M12</small></a><h5>Advanced Convection</h5><a href="../convection/index.html"><span>Course home</span></a><a href="../convection/m01.html"><span>Fundamental Principles of Convection</span><small>M01</small></a><a href="../convection/m02.html"><span>Laminar Boundary Layers</span><small>M02</small></a><a href="../convection/m03.html"><span>Laminar Duct Flow</span><small>M03</small></a><a href="../convection/m04.html"><span>External Natural Convection</span><small>M04</small></a><a href="../convection/m05.html"><span>Natural Convection in Enclosures</span><small>M05</small></a><a href="../convection/m06.html"><span>Transition to Turbulence</span><small>M06</small></a><a href="../convection/m07.html"><span>Turbulent Boundary Layers</span><small>M07</small></a><a href="../convection/m08.html"><span>Turbulent Duct Flow</span><small>M08</small></a><a href="../convection/m09.html"><span>Jets, Plumes and Wakes</span><small>M09</small></a><a href="../convection/m10.html"><span>Boiling and Condensation</span><small>M10</small></a><a href="../convection/m11.html"><span>Convective Mass Transfer</span><small>M11</small></a><a href="../convection/m12.html"><span>Convection in Porous Media</span><small>M12</small></a></nav>
+<section class="mhero wrap"><div class="in">
+<div><div class="eyebrow">Module 03 · Week 3 · Lectures 13–18</div><h1>Laminar Duct Flow</h1><p class="lede">Entrance lengths, Hagen–Poiseuille flow, hydraulic diameter, fully developed Nusselt numbers, the Graetz problem and optimal channel spacing.</p>
+<div class="lec-chips"><a href="#l13">L13 Entrance length</a><a href="#l14">L14 Fully developed flow</a><a href="#l15">L15 Mean temperature</a><a href="#l16">L16 Fully developed temperature</a><a href="#l17">L17 Thermally developing flow</a><a href="#l18">L18 Optimal spacing</a></div></div>
+<canvas class="mhero-canvas" data-chero="duct" aria-label="Live convection animation"></canvas>
+</div></section>
+<div class="page wrap">
+<nav class="rail" aria-label="Lectures in this module"><div class="eyebrow">In this module</div><a href="#l13">L13 · Entrance length</a><a href="#l14">L14 · Fully developed flow</a><a href="#l15">L15 · Mean temperature</a><a href="#l16">L16 · Fully developed temperature</a><a href="#l17">L17 · Thermally developing flow</a><a href="#l18">L18 · Optimal spacing</a>
+<div class="prog"><div class="eyebrow" style="margin:0">Your progress</div><button class="btn" type="button" data-mark-done>Mark module complete</button></div></nav>
+<article>
+<section class="lec" id="l13" data-lec="13" data-title="Entrance length">
+<div class="lec-head"><span class="lec-num">Lecture 13</span><h2>The entrance region: boundary layers that run out of room</h2></div>
+<p>Fluid enters a tube with a nearly uniform velocity. Boundary layers start to grow on the wall exactly as on a flat plate, while the core, squeezed by the slowing fluid near the wall, accelerates to conserve mass. The layers grow as \(\delta\sim(\nu x/U)^{1/2}\) until they meet at the centreline. Beyond that point the profile stops changing: the flow is <strong>fully developed</strong>. Setting \(\delta\sim D/2\) gives the scale of the hydrodynamic entrance length,</p>
+<div class="eq">$$\frac{X}{D}\sim\mathrm{Re}_D\qquad\text{measured: }\frac{X}{D}\approx0.05\,\mathrm{Re}_D\quad(\text{laminar})$$</div>
+<p>At \(\mathrm{Re}_D = 2000\) the entrance region is 100 diameters long. In short laminar passages, such as micro-channels, plate heat exchangers and the fine tubes of cryocooler heat exchangers, it can be the whole passage. The temperature profile has its own entrance length. The thermal layer grows like \((\alpha x/U)^{1/2}\) in slug flow, or more slowly when the velocity profile is already parabolic, giving \(X_T/D\approx0.05\,\mathrm{Re}_D\mathrm{Pr}\). For oils (Pr ~ 1000) the thermal entrance can be kilometres long. For gases the two entrance lengths are similar.</p>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>In the entrance region the boundary layers are thin, so wall gradients and both friction and heat transfer are high. Once the layers fill the tube they can grow no further, so \(h\) and the friction factor settle to constant values. Fully developed flow is the most <em>inefficient</em> part of a duct: it is where heat must cross the whole radius.</p></div>
+</section>
+
+<section class="lec" id="l14" data-lec="14" data-title="Fully developed flow">
+<div class="lec-head"><span class="lec-num">Lecture 14</span><h2>Fully developed flow, hydraulic diameter and pressure drop</h2></div>
+<p>In fully developed flow \(v = 0\) and \(u = u(r)\), so the inertia terms vanish exactly. The momentum equation becomes a balance between the pressure gradient and friction alone:</p>
+<div class="eq">$$\frac{dP}{dx} = \mu\frac{1}{r}\frac{d}{dr}\left(r\frac{du}{dr}\right)\quad\Rightarrow\quad u = 2U\left(1 - \frac{r^2}{r_0^2}\right),\qquad U = \frac{r_0^2}{8\mu}\left(-\frac{dP}{dx}\right)$$</div>
+<p>This is Hagen–Poiseuille flow. The wall shear stress, made dimensionless with the dynamic pressure, is the friction factor. Two definitions are used and differ by a factor of four. The Fanning factor \(f = \tau_w/(\tfrac12\rho U^2)\) gives \(f = 16/\mathrm{Re}_D\). The Darcy factor \(f_D = 4f\) gives \(64/\mathrm{Re}_D\). The pressure drop over length \(L\) is \(\Delta P = f_D(L/D)\tfrac12\rho U^2\).</p>
+<h4>Non-circular ducts</h4>
+<p>A force balance on any fully developed duct section gives \(\tau_{w,avg}P_w = A(-dP/dx)\), where \(P_w\) is the wetted perimeter. This suggests the length scale \(D_h = 4A/P_w\), the <strong>hydraulic diameter</strong>. For a circle \(D_h = D\). For parallel plates spaced \(D\) apart, \(D_h = 2D\). Using \(D_h\), the product \(f\,\mathrm{Re}_{D_h}\) stays close to 16 for many shapes, but not exactly. Sharp corners hold slow fluid and lower it, flat shapes raise it:</p>
+<div class="tw"><table class="t"><tr><th>Cross-section</th><th>\(f\,\mathrm{Re}_{D_h}\) (Fanning)</th><th>\(\mathrm{Nu}_H\) (uniform flux)</th><th>\(\mathrm{Nu}_T\) (uniform wall T)</th></tr>
+<tr><td>Circle</td><td>16.00</td><td>4.364</td><td>3.657</td></tr>
+<tr><td>Equilateral triangle</td><td>13.33</td><td>3.111</td><td>2.47</td></tr>
+<tr><td>Square</td><td>14.23</td><td>3.61</td><td>2.98</td></tr>
+<tr><td>Rectangle, 2 : 1</td><td>15.55</td><td>4.12</td><td>3.39</td></tr>
+<tr><td>Rectangle, 4 : 1</td><td>18.23</td><td>5.33</td><td>4.44</td></tr>
+<tr><td>Rectangle, 8 : 1</td><td>20.59</td><td>6.49</td><td>5.60</td></tr>
+<tr><td>Parallel plates</td><td>24.00</td><td>8.235</td><td>7.541</td></tr></table></div>
+<p>You do not need to trust the table. The simulation below solves the two Poisson problems that define it, \(\nabla^2u = (1/\mu)\,dP/dx\) for the flow and \(\nabla^2T = (u/\alpha)\,dT_m/dx\) for the temperature, on a rectangle of any aspect ratio, live in your browser.</p>
+<div id="sim-rect"></div>
+</section>
+
+<section class="lec" id="l15" data-lec="15" data-title="Mean temperature">
+<div class="lec-head"><span class="lec-num">Lecture 15</span><h2>The mean temperature and the duct energy balance</h2></div>
+<p>In a duct there is no free-stream temperature to put in Newton's law. The natural reference is the temperature you would measure if you collected the fluid passing a section in a cup and mixed it: the <strong>mixed-mean</strong> or bulk temperature,</p>
+<div class="eq">$$T_m = \frac{\int_A\rho c_Pu\,T\,dA}{\int_A\rho c_Pu\,dA},\qquad q''_w = h\,(T_w - T_m),\qquad \dot mc_P\frac{dT_m}{dx} = q''_wP_w$$</div>
+<p>The last relation is an energy balance on a slice of duct. It gives \(T_m(x)\) without any knowledge of the profile details. Two classic cases:</p>
+<ul>
+<li><strong>Uniform heat flux</strong> (electric heating, nuclear fuel, an evenly irradiated solar receiver): \(T_m\) rises linearly. In fully developed flow \(T_w - T_m = q''_w/h\) is constant, so the wall runs parallel to the fluid, a fixed distance above it.</li>
+<li><strong>Uniform wall temperature</strong> (a tube in a boiling or condensing bath): \(dT_m/dx = (hP_w/\dot mc_P)(T_w - T_m)\), so the difference decays exponentially, \(\dfrac{T_w - T_m(x)}{T_w - T_{in}} = \exp\!\left(-\dfrac{\bar hP_wx}{\dot mc_P}\right)\).</li>
+</ul>
+<p>Integrating the second case over length \(L\) gives the total heat \(q = \bar hA_w\Delta T_{lm}\) with the log-mean temperature difference \(\Delta T_{lm} = (\Delta T_{in} - \Delta T_{out})/\ln(\Delta T_{in}/\Delta T_{out})\). The group \(\bar hA_w/\dot mc_P\) is the number of transfer units (NTU) of a heat exchanger with one side at constant temperature.</p>
+<p><strong>Worked example: a helium precooler.</strong> Helium gas at 1 bar, \(\dot m = 0.02\) g/s, enters a 2 mm copper tube immersed in liquid nitrogen at 77 K. How long must the tube be to cool the gas from 300 K to 80 K? Using properties at about 120 K (\(\mu = 1.1\times10^{-5}\) Pa s, \(k = 0.083\) W/mK, \(c_P = 5193\) J/kgK): \(\mathrm{Re}_D = 4\dot m/(\pi D\mu) = 1160\), laminar, with \(\mathrm{Pr} = 0.69\). Taking the fully developed \(\mathrm{Nu}_T = 3.66\) gives \(h = 152\) W/m²K. The required NTU is \(\ln(223/3) = 4.31\), so \(L = 4.31\,\dot mc_P/(h\pi D) = 0.47\) m. The thermal entrance length, \(0.05\,\mathrm{Re}\,\mathrm{Pr}\,D\approx8\) cm, is short compared with this, so the estimate is sound. The tube removes about 23 W from the gas. Strong property variation with temperature is the main source of error. A careful design marches along the tube with local properties, which is a good exercise with the code below.</p>
+</section>
+
+<section class="lec" id="l16" data-lec="16" data-title="Fully developed temperature">
+<div class="lec-head"><span class="lec-num">Lecture 16</span><h2>The fully developed temperature profile</h2></div>
+<p>The temperature keeps changing along a heated duct, so "fully developed" must mean something subtler than \(\partial T/\partial x = 0\). It means the <em>shape</em> of the profile stops changing:</p>
+<div class="eq">$$\frac{\partial}{\partial x}\left(\frac{T_w - T}{T_w - T_m}\right) = 0\quad\Rightarrow\quad h = \text{constant}$$</div>
+<p>For uniform heat flux, this gives \(\partial T/\partial x = dT_m/dx = dT_w/dx\), a constant, and the energy equation becomes an ODE in \(r\):</p>
+<div class="eq">$$\frac{1}{r}\frac{d}{dr}\left(r\frac{dT}{dr}\right) = \frac{2U}{\alpha}\frac{dT_m}{dx}\left(1 - \frac{r^2}{r_0^2}\right)\quad\Rightarrow\quad T - T_w = \frac{2Ur_0^2}{\alpha}\frac{dT_m}{dx}\left[\frac{r^2}{4r_0^2} - \frac{r^4}{16r_0^4} - \frac{3}{16}\right]$$</div>
+<p>Integrating for \(T_m\) with the parabolic weight and dividing the wall flux by \(T_w - T_m\) gives \(\mathrm{Nu}_D = 48/11 = 4.364\). For an isothermal wall the profile shape is an eigenfunction, and \(\mathrm{Nu}_D = 3.657\). That is about 16% lower, because the wall flux there is concentrated where the fluid is still hottest.</p>
+<div class="callout phys"><div class="t">Physical interpretation</div>
+<p>In laminar fully developed flow, \(h = \mathrm{Nu}\,k/D\) with Nu a pure number. Halve the diameter and you double \(h\), independent of the flow rate. This is why laminar micro-channel coolers reach heat transfer coefficients of \(10^4\)–\(10^5\) W/m²K without turbulence, and why the fine-bore Hampson-type heat exchangers of small cryocoolers are so effective.</p></div>
+</section>
+
+<section class="lec" id="l17" data-lec="17" data-title="Thermally developing flow">
+<div class="lec-head"><span class="lec-num">Lecture 17</span><h2>Thermally developing flow: the Graetz problem</h2></div>
+<p>Suppose the velocity is already parabolic when the wall temperature suddenly changes at \(x = 0\). This is the <strong>Graetz problem</strong>. Its natural axial coordinate is \(x^* = x/(D\,\mathrm{Re}_D\mathrm{Pr})\), the inverse of the Graetz number \(\mathrm{Gz} = D\,\mathrm{Re}\,\mathrm{Pr}/x\). Separation of variables gives an eigenfunction series. Close to the entrance many terms are needed, and Lévêque's alternative takes over: the thin thermal layer sees only the linear part of the velocity profile near the wall, which gives</p>
+<div class="eq">$$\mathrm{Nu}_x\approx1.077\,x^{*-1/3}\ (\text{isothermal wall}),\qquad \mathrm{Nu}_x\approx1.302\,x^{*-1/3}\ (\text{uniform flux}),\qquad x^*\lesssim10^{-3}$$</div>
+<p>The \(-1/3\) exponent is the Pr ≫ 1 boundary-layer law from Module 2, because near the wall the parabolic profile looks like a shear flow. By \(x^*\approx0.05\) the Nusselt number has settled to its fully developed value. The simulation marches the energy equation down the tube with an implicit finite-volume scheme and reproduces both limits.</p>
+<div id="sim-graetz"></div>
+<p>For design, the mean Nusselt number over a tube of length \(L\) with isothermal wall is well represented by Hausen's correlation, \(\overline{\mathrm{Nu}}_D = 3.66 + 0.0668\,\mathrm{Gz}/(1 + 0.04\,\mathrm{Gz}^{2/3})\) with \(\mathrm{Gz} = D\,\mathrm{Re}\,\mathrm{Pr}/L\). When velocity and temperature develop together (an unheated entry is absent), the thin velocity layer near the inlet raises \(h\) further. Liquids with strongly temperature-dependent viscosity also need a correction factor \((\mu_m/\mu_w)^{0.14}\).</p>
+<div class="code" data-file="graetz_march.py"><pre data-lang="python">import numpy as np
+from scipy.linalg import solve_banded
+
+def graetz(bc='T', N=300, nx=500, x0=1e-6, x1=2.0):
+    """March (1 - r^2) dθ/dx* = 2 (1/r) d/dr (r dθ/dr), x* = x/(D Re Pr), r = r/r0."""
+    dr = 1.0/N; r = np.arange(N + 1)*dr
+    rp = np.minimum(1, r + dr/2); rm = np.maximum(0, r - dr/2)
+    V = (rp**2 - rm**2)/4 - (rp**4 - rm**4)/8          # ∫(1 - r²) r dr over each control volume
+    th = np.ones(N + 1) if bc == 'T' else np.zeros(N + 1)
+    if bc == 'T': th[-1] = 0
+    xs = x0*(x1/x0)**np.linspace(0, 1, nx); x = 0.0; out = []
+    for xn in xs:
+        dx = xn - x; x = xn
+        ce = np.where(np.arange(N + 1) &lt; N, 2*rp/dr, 0.0); cw = np.where(np.arange(N + 1) &gt; 0, 2*rm/dr, 0.0)
+        diag = V/dx + ce + cw; rhs = V/dx*th
+        if bc == 'T': diag[-1], cw[-1], rhs[-1] = 1, 0, 0
+        else: rhs[-1] += 2.0                             # dθ/dr = 1 at the wall
+        ab = np.zeros((3, N + 1)); ab[0, 1:] = -ce[:-1]; ab[1] = diag; ab[2, :-1] = -cw[1:]
+        th = solve_banded((1, 1), ab, rhs)
+        tm = np.sum(V*th)/np.sum(V)
+        nu = 2*abs((3*th[-1] - 4*th[-2] + th[-3])/(2*dr))/tm if bc == 'T' else 2/(th[-1] - tm)
+        out.append(nu)
+    return xs, np.array(out)
+
+for bc in 'TH':
+    xs, nu = graetz(bc)
+    pick = lambda v: nu[np.searchsorted(xs, v)]
+    print(bc, [f"{pick(v):.3f}" for v in (1e-4, 1e-3, 1e-2, 0.5)])
+# expected: T → 3.657 far downstream, H → 4.364</pre><pre data-lang="js">// Same marching scheme, isothermal and uniform-flux walls
+function graetz(bc){ const N=200, dr=1/N, r=[...Array(N+1)].map((_,i)=&gt;i*dr);
+  const rp=r.map(x=&gt;Math.min(1,x+dr/2)), rm=r.map(x=&gt;Math.max(0,x-dr/2)), V=r.map((_,i)=&gt;(rp[i]**2-rm[i]**2)/4-(rp[i]**4-rm[i]**4)/8);
+  let th=r.map((_,i)=&gt;bc==='T'?(i&lt;N?1:0):0), x=0; const xs=[], nus=[];
+  for(let s=0;s&lt;400;s++){ const xn=1e-6*Math.pow(2e6,s/399), dx=xn-x; x=xn;
+    const a=[],b=[],c=[],d=[]; for(let i=0;i&lt;=N;i++){ const ce=i&lt;N?2*rp[i]/dr:0, cw=i&gt;0?2*rm[i]/dr:0; a.push(-cw); b.push(V[i]/dx+ce+cw); c.push(-ce); d.push(V[i]/dx*th[i]); }
+    if(bc==='T'){ a[N]=0; b[N]=1; c[N]=0; d[N]=0; } else d[N]+=2;
+    th=Array.from(M.tdma(a,b,c,d)); const tm=th.reduce((s,t,i)=&gt;s+V[i]*t,0)/V.reduce((s,v)=&gt;s+v,0);
+    xs.push(x); nus.push(bc==='T'?2*Math.abs((3*th[N]-4*th[N-1]+th[N-2])/(2*dr))/tm:2/(th[N]-tm)); }
+  return [xs,nus]; }
+const T=graetz('T'), Hf=graetz('H');
+plot([T[0],Hf[0]],[T[1],Hf[1]],{xlabel:'x* = x/(D Re Pr)',ylabel:'Nu_x',labels:['isothermal wall','uniform flux'],logx:true,logy:true});
+print('far downstream:', T[1][399].toFixed(4), Hf[1][399].toFixed(4));</pre></div>
+</section>
+
+<section class="lec" id="l18" data-lec="18" data-title="Optimal spacing">
+<div class="lec-head"><span class="lec-num">Lecture 18</span><h2>How close should heated plates be? The intersection of asymptotes</h2></div>
+<p>A stack of heat-generating plates (circuit boards, fins, the plates of a compact heat exchanger) fills a fixed volume of height \(H\) and length \(L\). Coolant is pushed through the channels by a fixed pressure difference \(\Delta P\). What plate spacing \(D\) removes the most heat? The two extremes are easy, and the trick is to analyse only them:</p>
+<ul>
+<li><strong>Very small \(D\):</strong> the channels are long and narrow, the flow is fully developed, and the coolant leaves at the plate temperature. The heat removed is \(\dot mc_P\Delta T\), and \(\dot m\) per channel falls like \(D^3\) while the number of channels grows like \(1/D\). Total: \(q'\approx\rho c_PHD^2\Delta P\,\Delta T/(12\mu L)\), which rises with \(D\).</li>
+<li><strong>Very large \(D\):</strong> each plate face carries its own thin boundary layer, the core coolant leaves almost unheated, and there are few plates. Total heat falls as \(D\) grows.</li>
+</ul>
+<p>The real curve must pass through a maximum somewhere between. Its location is estimated well by where the two asymptotes cross. Writing \(\mathrm{Be} = \Delta P\,L^2/(\mu\alpha)\) for the dimensionless pressure drop, intersecting the two estimates (with laminar boundary layers driven by the same \(\Delta P\)) gives</p>
+<div class="eq box"><span class="eq-tag">Optimal spacing (estimate)</span>$$\frac{D_{opt}}{L}\approx2.7\,\mathrm{Pr}^{-1/8}\,\mathrm{Be}^{-1/4}$$</div>
+<p>The intersection method gives the right scaling and a constant of order one without solving the full problem. Numerical and experimental optima confirm the \(\mathrm{Be}^{-1/4}\) law. The idea, that a design is best where two opposing trends balance, returns again and again, for example in Lecture 4's tube that minimises entropy generation.</p>
+<div id="sim-spacing"></div>
+<div class="quiz" data-title="Module 3 check"><script type="application/json">[{"q":"The laminar hydrodynamic entrance length in a tube is approximately…","o":["0.05 D","0.05 Re_D · D","10 D regardless of Re","0.05 Re_D Pr · D"],"a":1,"w":"X/D ≈ 0.05 Re_D. The thermal entrance length carries the extra factor Pr."},
+{"q":"The hydraulic diameter of a channel between two wide parallel plates spaced D apart is…","o":["D","D/2","2D","4D"],"a":2,"w":"D_h = 4A/P = 4(Dw)/(2w) = 2D for wide plates."},
+{"q":"In fully developed laminar flow with uniform wall temperature, Nu_D in a round tube is…","o":["4.364","3.657","8.235","Proportional to Re^0.8"],"a":1,"w":"3.657 for isothermal walls, 4.364 for uniform flux. Both are pure numbers, independent of Re and Pr."},
+{"q":"Halving the diameter of a laminar, fully developed tube flow (same fluid) makes h…","o":["Halve","Stay the same","Double","Quadruple"],"a":2,"w":"h = Nu·k/D with Nu constant, so h ∝ 1/D."},
+{"q":"Near the inlet of a thermally developing tube flow, Nu_x varies as…","o":["x*^(−1/2)","x*^(−1/3)","Constant","x*^(1/3)"],"a":1,"w":"Lévêque: the thin thermal layer sees a linear velocity profile, giving the Pr ≫ 1 boundary-layer law Nu ∝ x*^(−1/3)."}]</script></div>
+</section>
+
+
+<nav class="pager"><a href="m02.html"><small>← Module 02</small><b>Laminar Boundary Layers</b></a><a class="nx" href="m04.html"><small>Module 04 →</small><b>External Natural Convection</b></a></nav>
+</article>
+</div>
+<footer class="ft"><div class="ft-in">
+<div><a class="sh-brand" href="../index.html" style="margin-bottom:10px"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="coM" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b2740"/><stop offset="1" stop-color="#1f8fd0"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#coM)"/><g stroke="#e9f7ff" stroke-width="1.7" stroke-linecap="round" fill="none"><path d="M16 6v20M7.3 11l17.4 10M7.3 21 24.7 11"/><path d="m13.5 7.8 2.5 2 2.5-2M13.5 24.2l2.5-2 2.5 2M8.2 14.3l3 .2-.5-3M23.8 17.7l-3-.2.5 3M8.2 17.7l3-.2-.5 3M23.8 14.3l-3 .2.5-3"/></g><circle cx="16" cy="16" r="2.2" fill="#ff8a4c"/></svg><b>Cryogenics Online</b></a><p>Interactive lessons on the science and engineering of very low temperatures, with animated mechanisms, calculators and quizzes.</p><p>Written by <b style="color:var(--text)">Prashanth S R</b>.</p></div>
+<div><h6>Cryogenics</h6><a href="../lessons/what-is-cryogenics.html">Foundations</a><a href="../lessons/cryogens-and-their-properties.html">Cryogenic fluids</a><a href="../lessons/mechanical-properties-and-thermal-contraction.html">Materials</a><a href="../lessons/conduction-in-solids-at-low-temperature.html">Heat transfer track</a><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html">Liquefaction and refrigeration</a><a href="../lessons/gas-separation-and-ideal-work.html">Gas separation</a><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html">Cryocoolers</a></div>
+<div><h6>More modules</h6><a href="../lessons/cryogenic-insulation.html">Insulation</a><a href="../lessons/vacuum-technology.html">Vacuum</a><a href="../lessons/cryogenic-instrumentation.html">Instrumentation</a><a href="../lessons/safety-in-cryogenics.html">Safety</a><a href="../lessons/cryogenic-storage-and-boil-off.html">Systems and storage</a><a href="../lessons/liquid-argon-detectors-and-dune.html">Science applications</a><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html">Sub-kelvin cryogenics</a><a href="../lessons/lab-building-a-cryostat-step-by-step.html">Experimental cryogenics</a></div>
+<div><h6>Courses &amp; tools</h6><a href="../conduction/index.html">Advanced Heat Conduction</a><a href="../convection/index.html">Advanced Convection</a><a href="../conduction/cheatsheet.html">Conduction formula sheet</a><a href="../convection/cheatsheet.html">Convection formula sheet</a><a href="../index.html#paths">Learning paths</a><a href="../progress.html">Your progress</a><a href="../contact.html">Contact &amp; feedback</a><a class="mail" data-sub="Cryogenics Online: report an error" href="../contact.html">Report an error</a></div>
+</div>
+<div class="sf"><details><summary>All lessons</summary><div class="all"><h4>Foundations</h4><a href="../lessons/what-is-cryogenics.html">What is cryogenics?</a><a href="../lessons/cryogenic-fluids.html">Cryogenic fluids</a><a href="../lessons/refrigeration-and-liquefaction.html">Refrigeration and liquefaction</a><a href="../lessons/heat-transfer-and-insulation.html">Heat transfer and insulation</a><a href="../lessons/materials-at-low-temperature.html">Materials at low temperature</a><a href="../lessons/applications.html">Applications</a><a href="../lessons/safety.html">Safety</a><h4>Module 2 · Cryogenic fluids</h4><a href="../lessons/cryogens-and-their-properties.html">Cryogens and their properties</a><a href="../lessons/hydrogen-and-helium.html">Hydrogen and helium</a><a href="../lessons/superfluid-helium-he-ii.html">Superfluid helium (He II)</a><h4>Module 3 · Materials</h4><a href="../lessons/mechanical-properties-and-thermal-contraction.html">Mechanical properties and thermal contraction</a><a href="../lessons/specific-heat-and-thermal-conduction.html">Specific heat and thermal conduction</a><a href="../lessons/superconductivity.html">Superconductivity</a><h4>Heat transfer track</h4><a href="../lessons/conduction-in-solids-at-low-temperature.html">Conduction in solids at low temperature</a><a href="../lessons/thermal-resistance-joints-and-thermal-links.html">Thermal resistance, joints and thermal links</a><a href="../lessons/transient-conduction-and-cooldown.html">Transient conduction and cooldown</a><a href="../lessons/natural-convection-and-stable-stratification.html">Natural convection and stable stratification</a><a href="../lessons/convection-and-boiling-heat-transfer.html">Convection and boiling heat transfer</a><a href="../lessons/boiling-in-motion-bubbles-burnout-and-hysteresis.html">Boiling in motion: bubbles, burnout and hysteresis</a><a href="../lessons/gas-conduction-and-thermal-radiation.html">Gas conduction and thermal radiation</a><a href="../lessons/counterflow-heat-exchangers-in-motion.html">Counterflow heat exchangers in motion</a><h4>Module 4 · Liquefaction and refrigeration</h4><a href="../lessons/ideal-refrigerators-and-the-cost-of-cold.html">Ideal refrigerators and the cost of cold</a><a href="../lessons/the-joule-thomson-effect-in-motion.html">The Joule–Thomson effect in motion</a><a href="../lessons/linde-hampson-liquefier.html">Linde–Hampson liquefier</a><a href="../lessons/heat-exchanger-effectiveness.html">Heat exchanger effectiveness</a><a href="../lessons/precooled-and-dual-pressure-systems.html">Precooled and dual-pressure systems</a><a href="../lessons/claude-system.html">Claude system</a><a href="../lessons/claude-family-and-system-comparison.html">Claude family and system comparison</a><a href="../lessons/liquefier-cycles-in-motion.html">Liquefier cycles in motion</a><a href="../lessons/liquefaction-cycles-on-the-t-s-diagram.html">Liquefaction cycles on the T–s diagram</a><h4>Module 5 · Gas separation</h4><a href="../lessons/gas-separation-and-ideal-work.html">Gas separation and ideal work</a><a href="../lessons/mixtures-phase-diagrams-and-k-values.html">Mixtures, phase diagrams and K-values</a><a href="../lessons/rectification-columns-and-plate-calculations.html">Rectification columns and plate calculations</a><a href="../lessons/air-separation-and-distillation-in-motion.html">Air separation and distillation in motion</a><h4>Module 6 · Cryocoolers</h4><a href="../lessons/cryocooler-fundamentals-and-the-stirling-cycle.html">Cryocooler fundamentals and the Stirling cycle</a><a href="../lessons/gifford-mcmahon-and-pulse-tube-coolers.html">Gifford–McMahon and pulse tube coolers</a><a href="../lessons/cryocoolers-in-motion.html">Cryocoolers in motion</a><a href="../lessons/the-stirling-cryocooler-cycle-on-p-v-and-t-s-diagrams.html">The Stirling cryocooler cycle on p–V and T–s diagrams</a><h4>Module 7 · Insulation</h4><a href="../lessons/cryogenic-insulation.html">Cryogenic insulation</a><h4>Module 8 · Vacuum</h4><a href="../lessons/vacuum-technology.html">Vacuum technology</a><h4>Module 9 · Instrumentation</h4><a href="../lessons/cryogenic-instrumentation.html">Cryogenic instrumentation</a><a href="../lessons/measuring-flow-pressure-and-liquid-level.html">Measuring flow, pressure and liquid level</a><h4>Module 10 · Safety</h4><a href="../lessons/safety-in-cryogenics.html">Safety in cryogenics</a><h4>Module 11 · Systems and storage</h4><a href="../lessons/cryogenic-storage-and-boil-off.html">Cryogenic storage and boil-off</a><a href="../lessons/piping-valves-and-transfer-lines.html">Piping, valves and transfer lines</a><a href="../lessons/pressure-drop-fittings-and-two-phase-flow.html">Pressure drop, fittings and two-phase flow</a><a href="../lessons/cryostat-design.html">Cryostat design</a><a href="../lessons/designing-a-cryogenic-system.html">Designing a cryogenic system</a><a href="../lessons/pressure-relief-and-overpressure-safety.html">Pressure relief and overpressure safety</a><a href="../lessons/thermoacoustic-oscillations-in-cryogenic-systems.html">Thermoacoustic oscillations in cryogenic systems</a><a href="../lessons/helium-ii-cryogenic-systems.html">Helium II cryogenic systems</a><a href="../lessons/cryogenic-controls-and-plant-automation.html">Cryogenic controls and plant automation</a><h4>Module 12 · Science applications</h4><a href="../lessons/liquid-argon-detectors-and-dune.html">Liquid argon detectors and DUNE</a><a href="../lessons/superconducting-rf-cavities-for-accelerators.html">Superconducting RF cavities for accelerators</a><a href="../lessons/cryogenics-for-dark-matter-and-the-cosmic-microwave-background.html">Cryogenics for dark matter and the cosmic microwave background</a><h4>Module 13 · Sub-kelvin cryogenics</h4><a href="../lessons/below-1-kelvin-and-pumped-helium-refrigerators.html">Below 1 kelvin and pumped helium refrigerators</a><a href="../lessons/dilution-refrigerators.html">Dilution refrigerators</a><a href="../lessons/magnetic-cooling-adr-pomeranchuk-and-nuclear-demagnetisation.html">Magnetic cooling: ADR, Pomeranchuk and nuclear demagnetisation</a><a href="../lessons/materials-and-thermometry-below-1-kelvin.html">Materials and thermometry below 1 kelvin</a><h4>Module 14 · Experimental cryogenics</h4><a href="../lessons/lab-building-a-cryostat-step-by-step.html">Lab: Building a cryostat, step by step</a><a href="../lessons/lab-vacuum-and-leak-checking-in-practice.html">Lab: Vacuum and leak checking in practice</a><a href="../lessons/lab-cooling-down-safely.html">Lab: Cooling down safely</a><a href="../lessons/lab-calibrating-thermometers.html">Lab: Calibrating thermometers</a><h4>Advanced Heat Conduction</h4><a href="../conduction/m01.html">Foundations of Heat Conduction</a><a href="../conduction/m02.html">Sturm–Liouville Theory &amp; Fourier Expansions</a><a href="../conduction/m03.html">Steady Multidimensional Conduction</a><a href="../conduction/m04.html">Transient Conduction by Separation of Variables</a><a href="../conduction/m05.html">Semi-infinite &amp; Infinite Domains</a><a href="../conduction/m06.html">Integral Transform Methods</a><a href="../conduction/m07.html">Duhamel’s Theorem &amp; Green’s Functions</a><a href="../conduction/m08.html">Conduction with Phase Change</a><a href="../conduction/m09.html">Local &amp; Moving Heat Sources</a><a href="../conduction/m10.html">Approximate &amp; Integral Methods</a><a href="../conduction/m11.html">Porous Media &amp; Anisotropic Solids</a><a href="../conduction/m12.html">Numerical Methods for Conduction</a><h4>Advanced Convection</h4><a href="../convection/m01.html">Fundamental Principles of Convection</a><a href="../convection/m02.html">Laminar Boundary Layers</a><a href="../convection/m03.html">Laminar Duct Flow</a><a href="../convection/m04.html">External Natural Convection</a><a href="../convection/m05.html">Natural Convection in Enclosures</a><a href="../convection/m06.html">Transition to Turbulence</a><a href="../convection/m07.html">Turbulent Boundary Layers</a><a href="../convection/m08.html">Turbulent Duct Flow</a><a href="../convection/m09.html">Jets, Plumes and Wakes</a><a href="../convection/m10.html">Boiling and Condensation</a><a href="../convection/m11.html">Convective Mass Transfer</a><a href="../convection/m12.html">Convection in Porous Media</a></div></details></div>
+<div class="ft-b"><span>© 2026 Prashanth S R · Cryogenics Online</span><span>Press <b>Ctrl K</b> or <b>/</b> to search</span></div>
+</footer>
+
+<script>
+/* ---------- rectangular duct: live Poisson solutions ---------- */
+(function(){
+  function rectDuct(ar,n){ const ny=n, nx=Math.min(240,Math.round(n/ar)), a=1, b=ar, hx=a/nx, hy=b/ny, N=(nx+1)*(ny+1), id=(i,j)=>j*(nx+1)+i;
+    function poisson(src){ const f=new Float64Array(N), cx=1/(hx*hx), cy=1/(hy*hy), cc=2*(cx+cy), om=2/(1+Math.sin(Math.PI/Math.max(nx,ny)));
+      for(let it=0;it<20000;it++){ let mx=0; for(let j=1;j<ny;j++) for(let i=1;i<nx;i++){ const k=id(i,j), nv=(cx*(f[k-1]+f[k+1])+cy*(f[k-nx-1]+f[k+nx+1])+src(k))/cc, d=nv-f[k]; f[k]+=om*d; if(Math.abs(d)>mx) mx=Math.abs(d);} if(mx<1e-11) break; } return f; }
+    const integ=g=>{ let s=0; for(let j=0;j<=ny;j++) for(let i=0;i<=nx;i++){ s+=((i==0||i==nx)?0.5:1)*((j==0||j==ny)?0.5:1)*g(id(i,j)); } return s*hx*hy; };
+    const w=poisson(()=>1), A=a*b, wbar=integ(k=>w[k])/A, Dh=4*A/(2*(a+b)), phi=poisson(k=>-w[k]/wbar), phim=integ(k=>w[k]*phi[k])/integ(k=>w[k]);
+    return {fRe:Dh*Dh/(2*wbar), Nu:Dh*Dh/(4*Math.abs(phim)), w, phi, nx, ny, wmax:Math.max(...w)}; }
+  const S=H.sim('#sim-rect',{title:'Fully developed flow in a rectangular duct, solved live',canvases:[{id:'f',cbar:['0','','max']}],
+    controls:[{id:'ar',label:'aspect ratio (short side / long side)',min:0.05,max:1,value:0.5,step:0.01,fmt:v=>'1 : '+(1/v).toFixed(2)},{id:'show',label:'colour shows',type:'select',options:[['u','velocity u'],['t','temperature T − Tw (uniform flux)']],value:'u'}],
+    readouts:[['f','f·Re (Fanning), computed'],['fc','f·Re, series fit'],['n','Nu_H1, computed'],['nc','Nu_H1, series fit']],
+    note:'Successive over-relaxation on a 32-cell short side, with Richardson extrapolation from a 16-cell grid. The series fits are the classical polynomial correlations in the aspect ratio α.'});
+  const fld=new H.Field(S.c.f,{aspect:0.5});
+  S.on(v=>{ const r=rectDuct(v.ar,32), r2=rectDuct(v.ar,16), fRe=(4*r.fRe-r2.fRe)/3, Nu=(4*r.Nu-r2.Nu)/3, a=v.ar;
+    const fc=24*(1-1.3553*a+1.9467*a*a-1.7012*a**3+0.9564*a**4-0.2537*a**5), nc=8.235*(1-2.0421*a+3.0853*a*a-2.4765*a**3+1.0578*a**4-0.1861*a**5);
+    const W=240, Hh=120, d=new Float32Array(W*Hh).fill(NaN), src=v.show==='u'?r.w:r.phi, mx=Math.max(...Array.from(src).map(Math.abs));
+    const pw=W*0.9, ph=Math.min(Hh*0.9,pw*v.ar), ox=(W-pw)/2, oy=(Hh-ph)/2;
+    for(let j=0;j<Hh;j++) for(let i=0;i<W;i++){ const X=(i-ox)/pw, Y=(j-oy)/ph; if(X<0||X>1||Y<0||Y>1) continue; const ii=Math.round(X*r.nx), jj=Math.round(Y*r.ny); d[j*W+i]=Math.abs(src[jj*(r.nx+1)+ii])/mx; }
+    fld.draw(d,W,Hh,0,1,{contours:[0.2,0.4,0.6,0.8],contourColor:'rgba(255,255,255,0.45)'});
+    S.out('f',fRe.toFixed(3)); S.out('fc',fc.toFixed(3)); S.out('n',Nu.toFixed(3)); S.out('nc',nc.toFixed(3));
+  });
+  S.fns[0](S.v);
+})();
+
+/* ---------- Graetz problem ---------- */
+(function(){
+  function graetz(bc,prof){ const N=200, dr=1/N, r=[...Array(N+1)].map((_,i)=>i*dr), uu=x=>prof==='slug'?1:2*(1-x*x);
+    const V=r.map(ri=>{ const a=Math.max(0,ri-dr/2), b=Math.min(1,ri+dr/2); let s=0; for(let k=0;k<6;k++){ const rr=a+(k+0.5)*(b-a)/6; s+=uu(rr)/2*rr*(b-a)/6; } return s; });
+    let th=r.map((_,i)=>bc==='T'?(i<N?1:0):0), x=0; const xs=[], nus=[], prof2=[];
+    for(let s=0;s<360;s++){ const xn=1e-6*Math.pow(2e6,s/359), dx=xn-x; x=xn;
+      const a=[],b=[],c=[],d=[]; for(let i=0;i<=N;i++){ const rp=Math.min(1,r[i]+dr/2), rm=Math.max(0,r[i]-dr/2), ce=i<N?2*rp/dr:0, cw=i>0?2*rm/dr:0; a.push(-cw); b.push(V[i]/dx+ce+cw); c.push(-ce); d.push(V[i]/dx*th[i]); }
+      if(bc==='T'){ a[N]=0; b[N]=1; c[N]=0; d[N]=0; } else d[N]+=2;
+      th=Array.from(M.tdma(a,b,c,d)); const tm=th.reduce((q,t,i)=>q+V[i]*t,0)/V.reduce((q,v)=>q+v,0);
+      xs.push(x); nus.push(bc==='T'?2*Math.abs((3*th[N]-4*th[N-1]+th[N-2])/(2*dr))/tm:2/(th[N]-tm)); prof2.push(th.slice()); }
+    return {xs,nus,prof:prof2,r}; }
+  const S=H.sim('#sim-graetz',{title:'Thermal entrance region: the Graetz problem',canvases:[{id:'a',label:'local Nusselt number'},{id:'b',label:'temperature profile'}],
+    controls:[{id:'bc',label:'wall condition',type:'select',options:[['T','uniform wall temperature'],['H','uniform heat flux']],value:'T'},{id:'pf',label:'velocity profile',type:'select',options:[['para','parabolic (developed)'],['slug','uniform (slug flow)']],value:'para'},
+      {id:'x',label:'station x* = x/(D Re Pr)',min:1e-5,max:1,value:5e-3,log:true,fmt:v=>v.toExponential(1)}],
+    readouts:[['nu','Nu_x at the station'],['fd','fully developed limit'],['lv','short-distance estimate'],['L','thermal entry (Nu within 5%)']],
+    note:'Implicit finite-volume marching, 200 radial cells. Slug flow is the limit of a liquid metal (Pr → 0) whose velocity profile is flat compared with its thermal layer.'});
+  const pa=new H.Plot(S.c.a,{aspect:0.42,xlabel:'x* = x / (D Re Pr)',ylabel:'Nu_x',logx:true,logy:true,ymin:2,ymax:100});
+  const pb=new H.Plot(S.c.b,{aspect:0.36,xlabel:'r / r₀',ylabel:'θ',xmin:0,xmax:1});
+  let cache={};
+  S.on(v=>{ const key=v.bc+v.pf; const g=cache[key]||(cache[key]=graetz(v.bc,v.pf)); let i=g.xs.findIndex(x=>x>=v.x); if(i<0) i=g.xs.length-1;
+    const fd=g.nus[g.nus.length-1], est=x=>v.pf==='slug'?(v.bc==='T'?1/Math.sqrt(Math.PI*x):0.5*Math.sqrt(Math.PI/x)):(v.bc==='T'?1.077:1.302)*Math.pow(x,-1/3), lv=est(v.x);
+    let L=g.xs[g.xs.length-1]; for(let k=0;k<g.nus.length;k++) if(Math.abs(g.nus[k]-fd)/fd<0.05){ L=g.xs[k]; break; }
+    pa.draw([{x:g.xs,y:g.nus,label:'numerical',color:'hot',width:2.6},{x:g.xs,y:g.xs.map(est),label:v.pf==='slug'?'short-distance asymptote':'Lévêque',color:'cold',dash:[5,4]},{x:g.xs,y:g.xs.map(()=>fd),label:'fully developed',color:'muted',dash:[2,3]}],{vlines:[{x:v.x}],marks:[{x:g.xs[i],y:g.nus[i],color:'accent'}]});
+    const pr=g.prof[i]; pb.draw([{x:g.r,y:pr,color:'hot',width:2.4,fill:true,label:v.bc==='T'?'θ = (T − Tw)/(Tin − Tw)':'(T − Tin) k/(q″ r₀)'}]);
+    S.out('nu',g.nus[i].toFixed(3)); S.out('fd',fd.toFixed(3)); S.out('lv',lv.toFixed(2)); S.out('L','x* ≈ '+L.toExponential(1));
+  });
+  S.fns[0](S.v);
+})();
+
+/* ---------- optimal plate spacing ---------- */
+(function(){
+  const S=H.sim('#sim-spacing',{title:'Heat removed by a stack of plates versus spacing',canvases:[{id:'p'}],
+    controls:[{id:'be',label:'Be = ΔP L² / (μα)',min:1e5,max:1e11,value:1e8,log:true,fmt:v=>v.toExponential(0)},{id:'pr',label:'Prandtl number',min:0.7,max:10,value:0.7,log:true,fmt:v=>v.toFixed(2)}],
+    readouts:[['d','D_opt / L (intersection)'],['f','formula 2.7 Pr^(−1/8) Be^(−1/4)']],
+    note:'Heat removed from a stack of fixed height (relative units) according to the small-spacing (fully developed) and large-spacing (boundary layer) asymptotes. The true curve lies below both and peaks near their intersection.'});
+  const P=new H.Plot(S.c.p,{aspect:0.5,xlabel:'plate spacing D / L',ylabel:'heat removed (relative)',logx:true,logy:true});
+  S.on(v=>{ const Be=v.be, Pr=v.pr, qs=D=>D*D*Be/12;
+    // (lengths scaled by L, velocity by α/L, with ν = Pr α)
+    const ql2=D=>{ const U=Math.pow(Be*D/(1.328*Math.sqrt(Pr)),2/3), Re=U/Pr; return 2*0.664*Math.sqrt(Re)*Math.cbrt(Pr)/D; };
+    let lo=1e-5, hi=1; for(let k=0;k<80;k++){ const m=Math.sqrt(lo*hi); qs(m)>ql2(m)?hi=m:lo=m; } const Dopt=Math.sqrt(lo*hi);
+    const Ds=[]; for(let e=Math.log10(Dopt)-1.5;e<=Math.log10(Dopt)+1.5;e+=0.02) Ds.push(10**e);
+    const a=Ds.map(qs), b=Ds.map(ql2), c=Ds.map((D,i)=>1/Math.pow(Math.pow(a[i],-3)+Math.pow(b[i],-3),1/3));
+    P.draw([{x:Ds,y:a,label:'small-D asymptote',color:'cold',dash:[5,4]},{x:Ds,y:b,label:'large-D asymptote',color:'hot',dash:[5,4]},{x:Ds,y:c,label:'blended estimate',color:'ink',width:2.6}],{vlines:[{x:Dopt,label:'D_opt'}]});
+    S.out('d',Dopt.toPrecision(3)); S.out('f',(2.7*Math.pow(Pr,-0.125)*Math.pow(Be,-0.25)).toPrecision(3));
+  });
+  S.fns[0](S.v);
+})();
+</script>
+
+<script src="../assets/course-data.js"></script>
+<script src="../assets/shell.js"></script>
+</body></html>
